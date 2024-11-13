@@ -1,0 +1,38 @@
+# Excluir carpetas de cache y temporales
+pipeline.cache/
+pipeline.hw/
+pipeline.ip_user_files/
+pipeline.sim/
+
+# Excluir archivos de log y archivos temporales
+*.log
+*.jou
+*.str
+
+# Excluir archivos de resultados de simulación
+*.wdb
+*.wcfg
+*.xsim
+
+# Excluir archivos generados por el compilador
+*.d
+*.o
+*.bin
+*.elf
+
+# Excluir archivos específicos de Vivado
+*.runs/
+*.srcs/
+*.sdk/
+
+# Excluir archivos de proyecto Vivado
+*.xpr
+*.xsc
+*.xci
+*.xsa
+*.xpr.lock
+
+# Excluir cualquier otra carpeta o archivo temporal
+temp/
+.tmp/
+
