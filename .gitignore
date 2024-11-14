@@ -1,7 +1,6 @@
 # Excluir carpetas de cache y temporales
 pipeline.cache/
 pipeline.hw/
-pipeline.ip_user_files/
 pipeline.sim/
 
 # Excluir archivos de log y archivos temporales
@@ -22,7 +21,6 @@ pipeline.sim/
 
 # Excluir archivos específicos de Vivado
 *.runs/
-*.srcs/
 *.sdk/
 
 # Excluir archivos de proyecto Vivado
