@@ -10,7 +10,6 @@ pipeline.sim/
 
 # Excluir archivos de resultados de simulación
 *.wdb
-*.wcfg
 *.xsim
 
 # Excluir archivos generados por el compilador
