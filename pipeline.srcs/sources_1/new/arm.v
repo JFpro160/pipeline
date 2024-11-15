@@ -41,18 +41,18 @@ module arm (
 	datapath dp(
 		.clk(clk),
 		.reset(reset),
-		.RegSrc(RegSrc),
-		.RegWrite(RegWrite),
-		.ImmSrc(ImmSrc),
-		.ALUSrc(ALUSrc),
-		.ALUControl(ALUControl),
-		.MemtoReg(MemtoReg),
-		.PCSrc(PCSrc),
-		.ALUFlags(ALUFlags),
-		.PC(PC),
-		.Instr(Instr),
-		.ALUResult(ALUResult),
-		.WriteData(WriteData),
-		.ReadData(ReadData)
+		.RegSrcD(RegSrc),
+		.RegWriteW(RegWrite),
+		.ImmSrcD(ImmSrc),
+		.ALUSrcE(ALUSrc),
+		.ALUControlE(ALUControl),
+		.MemtoRegW(MemtoReg),
+		.PCSrcW(PCSrc),
+		.ALUFlagsE(ALUFlags),
+		.PCF(PC),
+		.InstrF(Instr),
+		.ALUOutM(ALUResult),
+		.WriteDataM(WriteData),
+		.ReadDataM(ReadData)
 	);
 endmodule
