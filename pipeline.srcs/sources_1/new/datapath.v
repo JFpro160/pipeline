@@ -13,7 +13,8 @@ module datapath (
 	Instr,
 	ALUResult,
 	WriteData,
-	ReadData
+	ReadData,
+	Mov
 );
 	input wire clk;
 	input wire reset;
@@ -30,6 +31,7 @@ module datapath (
 	output wire [31:0] ALUResult;
 	output wire [31:0] WriteData;
 	input wire [31:0] ReadData;
+	input wire Mov;
 	wire [31:0] PCNext;
 	wire [31:0] PCPlus4;
 	wire [31:0] PCPlus8;
@@ -39,6 +41,7 @@ module datapath (
 	wire [31:0] Result;
 	wire [3:0] RA1;
 	wire [3:0] RA2;
+	wire [31:0] SrcAReg;
 	mux2 #(32) pcmux(
 		.d0(PCPlus4),
 		.d1(Result),
@@ -81,7 +84,7 @@ module datapath (
 		.wa3(Instr[15:12]),
 		.wd3(Result),
 		.r15(PCPlus8),
-		.rd1(SrcA),
+		.rd1(SrcAReg),
 		.rd2(WriteData)
 	);
 	mux2 #(32) resmux(
@@ -101,6 +104,14 @@ module datapath (
 		.s(ALUSrc),
 		.y(SrcB)
 	);
+	
+	mux2 #(32) srcamux(
+	.d0(SrcAReg), //srca read from reg file
+	.d1(32'b0), //0 because add + 0 for mov
+	.s(Mov), // mov signal
+	.y(SrcA) //srcA that will be played with xd
+	);
+	
 	alu alu(
 		SrcA,
 		SrcB,

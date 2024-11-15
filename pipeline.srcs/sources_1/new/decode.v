@@ -10,7 +10,8 @@ module decode (
 	ALUSrc,
 	ImmSrc,
 	RegSrc,
-	ALUControl
+	ALUControl,
+	Mov
 );
 	input wire [1:0] Op;
 	input wire [5:0] Funct;
@@ -27,6 +28,7 @@ module decode (
 	reg [9:0] controls;
 	wire Branch;
 	wire ALUOp;
+	output reg Mov;
 	always @(*)
 		casex (Op)
 			2'b00:
@@ -45,19 +47,21 @@ module decode (
 	assign {RegSrc, ImmSrc, ALUSrc, MemtoReg, RegW, MemW, Branch, ALUOp} = controls;
 	always @(*)
 		if (ALUOp) begin
-			case (Funct[4:1])
-				4'b0100: ALUControl = 3'b000;
-				4'b0010: ALUControl = 3'b001;
-				4'b0000: ALUControl = 3'b010;
-				4'b1100: ALUControl = 3'b011;
-				4'b0001: ALUControl = 3'b100;
+			case (Funct[4:1]) //cmd
+				4'b0100: ALUControl = 3'b000; //add
+				4'b0010: ALUControl = 3'b001; //sub
+				4'b0000: ALUControl = 3'b010;//and
+				4'b1100: ALUControl = 3'b011;//orr
+				4'b0001: ALUControl = 3'b100;//eor
+				4'b1101: ALUControl = 3'b000; //mov = add srcb
 				default: ALUControl = 3'bxxx;
 			endcase
 			FlagW[1] = Funct[0];
 			FlagW[0] = Funct[0] & ((ALUControl == 2'b00) | (ALUControl == 2'b01));
+		    Mov = (Funct[4:1] == 4'b1101) & (Funct[5] == 1'b1);
 		end
 		else begin
-			ALUControl = 2'b00;
+			ALUControl = 3'b000;
 			FlagW = 2'b00;
 		end
 	assign PCS = ((Rd == 4'b1111) & RegW) | Branch;

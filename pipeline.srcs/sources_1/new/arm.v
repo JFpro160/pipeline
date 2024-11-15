@@ -24,6 +24,7 @@ module arm (
 	wire [1:0] RegSrc;
 	wire [1:0] ImmSrc;
 	wire [2:0] ALUControl;
+	wire Mov;
 	controller c(
 		.clk(clk),
 		.reset(reset),
@@ -36,7 +37,8 @@ module arm (
 		.ALUControl(ALUControl),
 		.MemWrite(MemWrite),
 		.MemtoReg(MemtoReg),
-		.PCSrc(PCSrc)
+		.PCSrc(PCSrc),
+		.Mov(Mov)
 	);
 	datapath dp(
 		.clk(clk),
@@ -53,6 +55,7 @@ module arm (
 		.Instr(Instr),
 		.ALUResult(ALUResult),
 		.WriteData(WriteData),
-		.ReadData(ReadData)
+		.ReadData(ReadData),
+		.Mov(Mov)
 	);
 endmodule
