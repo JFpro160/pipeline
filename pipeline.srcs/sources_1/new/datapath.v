@@ -147,7 +147,7 @@ module datapath (
 		SrcBE,
 		ALUControlE,
 		ALUResultE,
-		ALUFlags
+		ALUFlagsE
 	);
 	
 	// Reg
