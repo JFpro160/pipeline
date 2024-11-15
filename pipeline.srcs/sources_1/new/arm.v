@@ -39,7 +39,7 @@ module arm (
 		.MemtoReg(MemtoReg),
 		.PCSrc(PCSrc),
 		.Mov(Mov)
-	);
+        );
 	datapath dp(
 		.clk(clk),
 		.reset(reset),
@@ -57,5 +57,5 @@ module arm (
 		.WriteData(WriteData),
 		.ReadData(ReadData),
 		.Mov(Mov)
-	);
+    );
 endmodule

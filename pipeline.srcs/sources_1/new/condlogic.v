@@ -9,7 +9,8 @@ module condlogic (
 	MemW,
 	PCSrc,
 	RegWrite,
-	MemWrite
+	MemWrite,
+	NoWrite
 );
 	input wire clk;
 	input wire reset;
@@ -19,6 +20,7 @@ module condlogic (
 	input wire PCS;
 	input wire RegW;
 	input wire MemW;
+	input wire NoWrite;
 	output wire PCSrc;
 	output wire RegWrite;
 	output wire MemWrite;
@@ -45,7 +47,7 @@ module condlogic (
 		.CondEx(CondEx)
 	);
 	assign FlagWrite = FlagW & {2 {CondEx}};
-	assign RegWrite = RegW & CondEx;
+	assign RegWrite = RegW & CondEx & ~NoWrite;
 	assign MemWrite = MemW & CondEx;
 	assign PCSrc = PCS & CondEx;
 endmodule

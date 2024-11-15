@@ -11,7 +11,8 @@ module decode (
 	ImmSrc,
 	RegSrc,
 	ALUControl,
-	Mov
+	Mov,
+	NoWrite
 );
 	input wire [1:0] Op;
 	input wire [5:0] Funct;
@@ -25,6 +26,7 @@ module decode (
 	output wire [1:0] ImmSrc;
 	output wire [1:0] RegSrc;
 	output reg [2:0] ALUControl;
+	output reg NoWrite;
 	reg [9:0] controls;
 	wire Branch;
 	wire ALUOp;
@@ -54,11 +56,16 @@ module decode (
 				4'b1100: ALUControl = 3'b011;//orr
 				4'b0001: ALUControl = 3'b100;//eor
 				4'b1101: ALUControl = 3'b000; //mov = add srcb
+				4'b1010: ALUControl = 3'b001; //cmp subs no write
+				4'b1011: ALUControl = 3'b000; //cmn add no write
+				4'b1000: ALUControl = 3'b010; //TST and no write
+				4'b1001: ALUControl = 3'b100; //TEQ eor no write
 				default: ALUControl = 3'bxxx;
 			endcase
 			FlagW[1] = Funct[0];
 			FlagW[0] = Funct[0] & ((ALUControl == 2'b00) | (ALUControl == 2'b01));
 		    Mov = (Funct[4:1] == 4'b1101) & (Funct[5] == 1'b1);
+		    NoWrite = (Funct[4:3] == 2'b10);
 		end
 		else begin
 			ALUControl = 3'b000;

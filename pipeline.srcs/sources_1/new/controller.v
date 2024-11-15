@@ -26,6 +26,7 @@ module controller (
 	output wire MemtoReg;
 	output wire PCSrc;
 	output wire Mov;
+	wire NoWrite;
 	wire [1:0] FlagW;
 	wire PCS;
 	wire RegW;
@@ -43,7 +44,8 @@ module controller (
 		.ImmSrc(ImmSrc),
 		.RegSrc(RegSrc),
 		.ALUControl(ALUControl),
-		.Mov(Mov)
+		.Mov(Mov),
+		.NoWrite(NoWrite)
 	);
 	condlogic cl(
 		.clk(clk),
@@ -56,6 +58,7 @@ module controller (
 		.MemW(MemW),
 		.PCSrc(PCSrc),
 		.RegWrite(RegWrite),
-		.MemWrite(MemWrite)
+		.MemWrite(MemWrite),
+		.NoWrite(NoWrite)
 	);
 endmodule
