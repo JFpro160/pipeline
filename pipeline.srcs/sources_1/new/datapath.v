@@ -21,7 +21,7 @@ module datapath (
 	input wire RegWrite;
 	input wire [1:0] ImmSrc;
 	input wire ALUSrc;
-	input wire [1:0] ALUControl;
+	input wire [2:0] ALUControl;
 	input wire MemtoReg;
 	input wire PCSrc;
 	output wire [3:0] ALUFlags;

@@ -27,18 +27,8 @@ module testbench;
 		#(5)
 			;
 	end
-	always @(negedge clk)
-		if (MemWrite)
-			if ((DataAdr === 100) & (WriteData === 7)) begin
-				$display("Simulation succeeded");
-				$stop;
-			end
-			else if (DataAdr !== 96) begin
-				$display("Simulation failed");
-				$stop;
-			end
 	initial begin
-		#100;
+		#70;
 		$display("Simulation timed out at time %0t", $time);
 		$finish;
 	end

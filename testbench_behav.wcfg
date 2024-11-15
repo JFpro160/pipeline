@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="65.001 ns"></ZoomEndTime>
-      <Cursor1Time time="65.000 ns"></Cursor1Time>
+      <ZoomEndTime time="79.374 ns"></ZoomEndTime>
+      <Cursor1Time time="38.217 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="146"></NameColumnWidth>
-      <ValueColumnWidth column_width="128"></ValueColumnWidth>
+      <ValueColumnWidth column_width="124"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="30" />
    <wvobject type="logic" fp_name="/testbench/dut/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -79,5 +79,66 @@
    <wvobject type="array" fp_name="/testbench/dut/imem/RAM">
       <obj_property name="ElementShortName">RAM[63:0][31:0]</obj_property>
       <obj_property name="ObjectShortName">RAM[63:0][31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/Op">
+      <obj_property name="ElementShortName">Op[1:0]</obj_property>
+      <obj_property name="ObjectShortName">Op[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/Funct">
+      <obj_property name="ElementShortName">Funct[5:0]</obj_property>
+      <obj_property name="ObjectShortName">Funct[5:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/Rd">
+      <obj_property name="ElementShortName">Rd[3:0]</obj_property>
+      <obj_property name="ObjectShortName">Rd[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/FlagW">
+      <obj_property name="ElementShortName">FlagW[1:0]</obj_property>
+      <obj_property name="ObjectShortName">FlagW[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/PCS">
+      <obj_property name="ElementShortName">PCS</obj_property>
+      <obj_property name="ObjectShortName">PCS</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/RegW">
+      <obj_property name="ElementShortName">RegW</obj_property>
+      <obj_property name="ObjectShortName">RegW</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/MemW">
+      <obj_property name="ElementShortName">MemW</obj_property>
+      <obj_property name="ObjectShortName">MemW</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/MemtoReg">
+      <obj_property name="ElementShortName">MemtoReg</obj_property>
+      <obj_property name="ObjectShortName">MemtoReg</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/ALUSrc">
+      <obj_property name="ElementShortName">ALUSrc</obj_property>
+      <obj_property name="ObjectShortName">ALUSrc</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/ImmSrc">
+      <obj_property name="ElementShortName">ImmSrc[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ImmSrc[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/RegSrc">
+      <obj_property name="ElementShortName">RegSrc[1:0]</obj_property>
+      <obj_property name="ObjectShortName">RegSrc[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/ALUControl">
+      <obj_property name="ElementShortName">ALUControl[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ALUControl[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/controls">
+      <obj_property name="ElementShortName">controls[9:0]</obj_property>
+      <obj_property name="ObjectShortName">controls[9:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/Branch">
+      <obj_property name="ElementShortName">Branch</obj_property>
+      <obj_property name="ObjectShortName">Branch</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/ALUOp">
+      <obj_property name="ElementShortName">ALUOp</obj_property>
+      <obj_property name="ObjectShortName">ALUOp</obj_property>
    </wvobject>
 </wave_config>
