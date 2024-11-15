@@ -23,7 +23,7 @@ module decode (
 	output wire ALUSrc;
 	output wire [1:0] ImmSrc;
 	output wire [1:0] RegSrc;
-	output reg [1:0] ALUControl;
+	output reg [2:0] ALUControl;
 	reg [9:0] controls;
 	wire Branch;
 	wire ALUOp;
@@ -46,11 +46,12 @@ module decode (
 	always @(*)
 		if (ALUOp) begin
 			case (Funct[4:1])
-				4'b0100: ALUControl = 2'b00;
-				4'b0010: ALUControl = 2'b01;
-				4'b0000: ALUControl = 2'b10;
-				4'b1100: ALUControl = 2'b11;
-				default: ALUControl = 2'bxx;
+				4'b0100: ALUControl = 3'b000;
+				4'b0010: ALUControl = 3'b001;
+				4'b0000: ALUControl = 3'b010;
+				4'b1100: ALUControl = 3'b011;
+				4'b0001: ALUControl = 3'b100;
+				default: ALUControl = 3'bxxx;
 			endcase
 			FlagW[1] = Funct[0];
 			FlagW[0] = Funct[0] & ((ALUControl == 2'b00) | (ALUControl == 2'b01));
