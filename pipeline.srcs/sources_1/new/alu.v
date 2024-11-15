@@ -16,7 +16,7 @@ module alu (
 
     always @(*) begin
         casex (ALUControl[2:0])
-            3'b000?: Result = sum;
+            3'b00?: Result = sum;
             3'b010: Result = a & b;
             3'b011: Result = a | b;
             3'b100: Result = a ^ b;
