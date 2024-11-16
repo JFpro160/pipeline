@@ -15,6 +15,7 @@ verilog xil_defaultlib  \
 "../../../../../pipeline.srcs/sources_1/new/imem.v" \
 "../../../../../pipeline.srcs/sources_1/new/mux2.v" \
 "../../../../../pipeline.srcs/sources_1/new/regfile.v" \
+"../../../../pc2.srcs/sources_1/new/shift.v" \
 "../../../../../pipeline.srcs/sources_1/new/top.v" \
 "../../../../../pipeline.srcs/sources_1/new/testbench.v" \
 

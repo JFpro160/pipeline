@@ -25,6 +25,8 @@ module arm (
 	wire [1:0] ImmSrc;
 	wire [2:0] ALUControl;
 	wire MulOp;
+	wire Shift;
+	wire RegShift;
 	controller c(
 		.clk(clk),
 		.reset(reset),
@@ -39,7 +41,9 @@ module arm (
 		.MemtoReg(MemtoReg),
 		.PCSrc(PCSrc),
 		.MulOp(MulOp),
-		.MulCode(Instr[7:4])
+		.MulCode(Instr[7:4]),
+		.Shift(Shift),
+		.RegShift(RegShift)
 	);
 	datapath dp(
 		.clk(clk),
@@ -57,6 +61,11 @@ module arm (
 		.ALUResult(ALUResult),
 		.WriteData(WriteData),
 		.ReadData(ReadData),
-		.MulOp(MulOp)
+		.MulOp(MulOp),
+		.shamnt5(Instr[11:7]),
+		.Carry(ALUFlags[1]),
+		.Shift(Shift),
+		.ShiftControl(Instr[6:5]),
+		.RegShift(RegShift)
 	);
 endmodule

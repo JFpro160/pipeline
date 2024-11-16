@@ -22,6 +22,7 @@ module alu (
             3'b011: Result = a | b; //orr
             3'b100: Result = a * b; //mul
             3'b101: Result = a*b + c; //mla
+            default: Result = sum;
         endcase
     end
 

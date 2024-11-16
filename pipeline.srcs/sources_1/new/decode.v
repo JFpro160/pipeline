@@ -12,7 +12,9 @@ module decode (
 	RegSrc,
 	ALUControl,
 	MulOp,
-	MulCode
+	MulCode,
+	Shift,
+	RegShift
 );
 	input wire [1:0] Op;
 	input wire [5:0] Funct;
@@ -28,6 +30,8 @@ module decode (
 	output wire [1:0] RegSrc;
 	output reg [2:0] ALUControl;
 	output wire MulOp;
+	output wire Shift;
+	output wire RegShift;
 	reg [9:0] controls;
 	wire Branch;
 	wire ALUOp;
@@ -48,6 +52,8 @@ module decode (
 		endcase
 	assign {RegSrc, ImmSrc, ALUSrc, MemtoReg, RegW, MemW, Branch, ALUOp} = controls;
 	assign MulOp = ((Funct[5:4] == 2'b00) & (MulCode == 4'b1001));
+	assign Shift = (Funct[4:1] == 4'b1101);
+	assign RegShift = (MulCode[3] == 1'b0 & MulCode[0] == 1'b1 & Funct[5] == 1'b0);
 	always @(*)
 		if (ALUOp) begin
 			case (Funct[4:1])
@@ -55,6 +61,7 @@ module decode (
 				4'b0010: ALUControl = 3'b001;
 				4'b0000: ALUControl = 3'b010;
 				4'b1100: ALUControl = 3'b011;
+				4'b1101: ALUControl = 3'b000;
 				default: ALUControl = 3'bxxx;
 			endcase
 			if(MulOp)

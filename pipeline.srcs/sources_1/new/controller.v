@@ -12,7 +12,9 @@ module controller (
 	MemtoReg,
 	PCSrc,
 	MulOp,
-	MulCode
+	MulCode,
+	Shift,
+	RegShift
 );
 	input wire clk;
 	input wire reset;
@@ -28,6 +30,8 @@ module controller (
 	output wire PCSrc;
 	output wire MulOp;
 	input wire [3:0] MulCode;
+	output wire Shift;
+	output wire RegShift;
 	wire [1:0] FlagW;
 	wire PCS;
 	wire RegW;
@@ -46,7 +50,9 @@ module controller (
 		.RegSrc(RegSrc),
 		.ALUControl(ALUControl),
 		.MulOp(MulOp),
-		.MulCode(MulCode)
+		.MulCode(MulCode),
+		.Shift(Shift),
+		.RegShift(RegShift)
 	);
 	condlogic cl(
 		.clk(clk),

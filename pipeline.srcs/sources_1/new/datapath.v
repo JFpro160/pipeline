@@ -14,7 +14,12 @@ module datapath (
 	ALUResult,
 	WriteData,
 	ReadData,
-	MulOp
+	MulOp,
+	shamnt5,
+	Carry,
+	Shift,
+	ShiftControl,
+	RegShift
 );
 	input wire clk;
 	input wire reset;
@@ -31,6 +36,7 @@ module datapath (
 	output wire [31:0] ALUResult;
 	output wire [31:0] WriteData;
 	input wire [31:0] ReadData;
+	wire [31:0] SrcBWire;
 	wire [31:0] PCNext;
 	wire [31:0] PCPlus4;
 	wire [31:0] PCPlus8;
@@ -43,7 +49,15 @@ module datapath (
 	wire [3:0] RA1Wire;
 	wire [3:0] RA2;
 	wire [3:0] WA3;
+	wire [3:0] RA3;
+	input wire Shift;
 	input wire MulOp;
+	input wire Carry;
+	wire [4:0] Rot;
+	input wire [4:0] shamnt5;
+	input wire [1:0] ShiftControl;
+	input wire RegShift;
+	wire [31:0] ShiftedSrcB;
 	
 	
 	mux2 #(32) pcmux(
@@ -74,6 +88,7 @@ module datapath (
 	.s(MulOp),
 	.y(RA1Wire)
 	);
+	
 	mux2 #(4) ra1mux(
 		.d0(RA1Wire),
 		.d1(4'b1111),
@@ -87,6 +102,13 @@ module datapath (
 		.s(RegSrc[1]),
 		.y(RA2)
 	);
+	
+	mux2 #(4) ra3mux(
+	   .d0(Instr[11:8]),
+	   .d1(Instr[15:12]),
+	   .s(MulOp),
+	   .y(RA3)
+	);
 	mux2 #(4) rwa3mux(
 	   .d0(Instr[15:12]),
 	   .d1(Instr[19:16]),
@@ -98,7 +120,7 @@ module datapath (
 		.we3(RegWrite),
 		.ra1(RA1),
 		.ra2(RA2),
-		.ra3(Instr[15:12]),
+		.ra3(RA3),
 		.wa3(WA3),
 		.wd3(Result),
 		.r15(PCPlus8),
@@ -117,8 +139,30 @@ module datapath (
 		.ImmSrc(ImmSrc),
 		.ExtImm(ExtImm)
 	);
+	
+	mux2 #(32) rotmux(
+	   .d0(shamnt5),
+	   .d1(SrcC),
+	   .s(RegShift),
+	   .y(Rot)
+	);
+	
+	shift sh(
+	   .a(WriteData),
+	   .b(Rot),
+	   .d(ShiftControl),
+	   .carry_in(Carry),
+	   .y(ShiftedSrcB)
+	);
+	
+	mux2 #(32) shiftmux(
+	   .d0(WriteData),
+	   .d1(ShiftedSrcB),
+	   .s(Shift),
+	   .y(SrcBWire)
+	);
 	mux2 #(32) srcbmux(
-		.d0(WriteData),
+		.d0(SrcBWire),
 		.d1(ExtImm),
 		.s(ALUSrc),
 		.y(SrcB)
