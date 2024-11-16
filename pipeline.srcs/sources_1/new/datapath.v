@@ -13,7 +13,8 @@ module datapath (
 	Instr,
 	ALUResult,
 	WriteData,
-	ReadData
+	ReadData,
+	MulOp
 );
 	input wire clk;
 	input wire reset;
@@ -21,7 +22,7 @@ module datapath (
 	input wire RegWrite;
 	input wire [1:0] ImmSrc;
 	input wire ALUSrc;
-	input wire [1:0] ALUControl;
+	input wire [2:0] ALUControl;
 	input wire MemtoReg;
 	input wire PCSrc;
 	output wire [3:0] ALUFlags;
@@ -36,9 +37,15 @@ module datapath (
 	wire [31:0] ExtImm;
 	wire [31:0] SrcA;
 	wire [31:0] SrcB;
+	wire [31:0] SrcC;
 	wire [31:0] Result;
 	wire [3:0] RA1;
+	wire [3:0] RA1Wire;
 	wire [3:0] RA2;
+	wire [3:0] WA3;
+	input wire MulOp;
+	
+	
 	mux2 #(32) pcmux(
 		.d0(PCPlus4),
 		.d1(Result),
@@ -61,28 +68,43 @@ module datapath (
 		.b(32'b100),
 		.y(PCPlus8)
 	);
+    mux2 #(4) mulra1mux(
+	.d0(Instr[19:16]),
+	.d1(Instr[11:8]),
+	.s(MulOp),
+	.y(RA1Wire)
+	);
 	mux2 #(4) ra1mux(
-		.d0(Instr[19:16]),
+		.d0(RA1Wire),
 		.d1(4'b1111),
 		.s(RegSrc[0]),
 		.y(RA1)
 	);
+
 	mux2 #(4) ra2mux(
 		.d0(Instr[3:0]),
 		.d1(Instr[15:12]),
 		.s(RegSrc[1]),
 		.y(RA2)
 	);
+	mux2 #(4) rwa3mux(
+	   .d0(Instr[15:12]),
+	   .d1(Instr[19:16]),
+	   .s(MulOp),
+	   .y(WA3)
+	); 
 	regfile rf(
 		.clk(clk),
 		.we3(RegWrite),
 		.ra1(RA1),
 		.ra2(RA2),
-		.wa3(Instr[15:12]),
+		.ra3(Instr[15:12]),
+		.wa3(WA3),
 		.wd3(Result),
 		.r15(PCPlus8),
 		.rd1(SrcA),
-		.rd2(WriteData)
+		.rd2(WriteData),
+		.rd3(SrcC)
 	);
 	mux2 #(32) resmux(
 		.d0(ALUResult),
@@ -104,6 +126,7 @@ module datapath (
 	alu alu(
 		SrcA,
 		SrcB,
+		SrcC,
 		ALUControl,
 		ALUResult,
 		ALUFlags
