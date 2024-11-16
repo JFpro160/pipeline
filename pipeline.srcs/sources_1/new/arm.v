@@ -21,6 +21,7 @@ module arm (
 	wire ALUSrc;
 	wire MemtoReg;
 	wire PCSrc;
+	wire MulOp; // new
 	wire [1:0] RegSrc;
 	wire [1:0] ImmSrc;
 	wire [2:0] ALUControl;
@@ -28,6 +29,7 @@ module arm (
 		.clk(clk),
 		.reset(reset),
 		.Instr(Instr[31:12]),
+		.Mult(Instr[7:4]), // new
 		.ALUFlags(ALUFlags),
 		.RegSrc(RegSrc),
 		.RegWrite(RegWrite),
@@ -36,7 +38,8 @@ module arm (
 		.ALUControl(ALUControl),
 		.MemWrite(MemWrite),
 		.MemtoReg(MemtoReg),
-		.PCSrc(PCSrc)
+		.PCSrc(PCSrc),
+		.MulOp(MulOp) // new
 	);
 	datapath dp(
 		.clk(clk),
@@ -53,6 +56,7 @@ module arm (
 		.Instr(Instr),
 		.ALUResult(ALUResult),
 		.WriteData(WriteData),
-		.ReadData(ReadData)
+		.ReadData(ReadData),
+		.MulOp(MulOp) // new
 	);
 endmodule

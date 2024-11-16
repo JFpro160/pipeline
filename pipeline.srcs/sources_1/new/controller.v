@@ -2,6 +2,7 @@ module controller (
 	clk,
 	reset,
 	Instr,
+	Mult, // new
 	ALUFlags,
 	RegSrc,
 	RegWrite,
@@ -10,11 +11,13 @@ module controller (
 	ALUControl,
 	MemWrite,
 	MemtoReg,
-	PCSrc
+	PCSrc,
+	MulOp // new
 );
 	input wire clk;
 	input wire reset;
 	input wire [31:12] Instr;
+	input wire [3:0] Mult; // new
 	input wire [3:0] ALUFlags;
 	output wire [1:0] RegSrc;
 	output wire RegWrite;
@@ -24,14 +27,19 @@ module controller (
 	output wire MemWrite;
 	output wire MemtoReg;
 	output wire PCSrc;
+	output wire MulOp; // new
 	wire [1:0] FlagW;
 	wire PCS;
 	wire RegW;
 	wire MemW;
+	
+	assign MulOp = ~Instr[27:24] & Mult == 4'b1001; // new
+	
 	decode dec(
 		.Op(Instr[27:26]),
 		.Funct(Instr[25:20]),
-		.Rd(Instr[15:12]),
+		.MulOp(MulOp), // new
+		.Rd(MulOp ? Instr[19:16] : Instr[15:12]), // ch
 		.FlagW(FlagW),
 		.PCS(PCS),
 		.RegW(RegW),

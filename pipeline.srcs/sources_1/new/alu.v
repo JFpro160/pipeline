@@ -2,6 +2,7 @@
 module alu (
     input wire [31:0] a,
     input wire [31:0] b,
+    input wire [31:0] c,
     input wire [2:0] ALUControl,
     output reg [31:0] Result,
     output wire [3:0] ALUFlags
@@ -20,6 +21,9 @@ module alu (
             3'b010: Result = a & b;
             3'b011: Result = a | b;
             3'b100: Result = b;
+            3'b111: Result = - b - 1; // new
+            3'b101: Result = a * b; // new
+            3'b110: Result = a * b + c; // new
         endcase
     end
 
