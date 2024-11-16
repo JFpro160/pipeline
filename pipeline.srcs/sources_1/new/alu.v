@@ -17,11 +17,11 @@ module alu (
 
     always @(*) begin
         casex (ALUControl[2:0])
-            3'b00?: Result = sum;
-            3'b010: Result = a & b;
-            3'b011: Result = a | b;
-            3'b100: Result = a * b;
-            3'b101: Result = a*b + c;
+            3'b00?: Result = sum; //add and sub
+            3'b010: Result = a & b; //and
+            3'b011: Result = a | b; //orr
+            3'b100: Result = a * b; //mul
+            3'b101: Result = a*b + c; //mla
         endcase
     end
 
