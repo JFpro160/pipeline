@@ -25,7 +25,7 @@ module decode (
 	output wire ALUSrc;
 	output wire [1:0] ImmSrc;
 	output wire [1:0] RegSrc;
-	output reg [2:0] ALUControl;
+	output reg [2:0] ALUControl; // ch
 	reg [9:0] controls;
 	wire Branch;
 	wire ALUOp;
@@ -49,8 +49,10 @@ module decode (
 	always @(*)
 	    if (MulOp) begin // new
 	       case (Funct[3:1])
-				3'b000: ALUControl = 3'b101;
-				3'b001: ALUControl = 3'b110;
+				3'b000: ALUControl = 3'b101; // mul
+				3'b001: ALUControl = 3'b110; // mla
+				3'b010: ALUControl = 3'b100; // sdiv
+				3'b011: ALUControl = 3'b111; // udiv
 				default: ALUControl = 3'bxxx;
 			endcase
 			FlagW[1] = Funct[0]; // NZ
@@ -62,15 +64,13 @@ module decode (
 				4'b0010: ALUControl = 3'b001;
 				4'b0000: ALUControl = 3'b010;
 				4'b1100: ALUControl = 3'b011;
-				4'b1101: ALUControl = 3'b100; // MOV o BYPASS 
-				4'b1111: ALUControl = 3'b111; // MOV N 
 				default: ALUControl = 3'bxxx;
 			endcase
 			FlagW[1] = Funct[0];
-			FlagW[0] = Funct[0] & ((ALUControl == 3'b000) | (ALUControl == 3'b001));
+			FlagW[0] = Funct[0] & ((ALUControl == 3'b000) | (ALUControl == 3'b001)); // ch
 		end
 		else begin
-			ALUControl = 3'b000;
+			ALUControl = 3'b000; // ch
 			FlagW = 2'b00;
 		end
 	assign PCS = ((Rd == 4'b1111) & RegW) | Branch;

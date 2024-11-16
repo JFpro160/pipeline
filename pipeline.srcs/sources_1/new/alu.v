@@ -11,7 +11,9 @@ module alu (
     wire neg, zero, carry, overflow;
     wire [31:0] condinvb;
     wire [32:0] sum;
-
+    wire signed [31:0] sb = b; // new
+    wire signed [31:0] sa = a; //new
+    
     assign condinvb = ALUControl[0] ? ~b : b;
     assign sum = a + condinvb + ALUControl[0];
 
@@ -20,10 +22,10 @@ module alu (
             3'b00?: Result = sum;
             3'b010: Result = a & b;
             3'b011: Result = a | b;
-            3'b100: Result = b;
-            3'b111: Result = - b - 1; // new
-            3'b101: Result = a * b; // new
-            3'b110: Result = a * b + c; // new
+            3'b101: Result = b * a; // new  todas las operaciones de mul son b / a porque se inivirtio en el regfile xdxd
+            3'b110: Result = b * a + c; // new
+            3'b100: Result = sb / sa; // new
+            3'b111: Result = b / a; // new
         endcase
     end
 
