@@ -58,6 +58,7 @@ module datapath (
 	input wire [1:0] ShiftControl;
 	input wire RegShift;
 	wire [31:0] ShiftedSrcB;
+	//wire [31:0] PreResult;
 	
 	
 	mux2 #(32) pcmux(
@@ -175,4 +176,10 @@ module datapath (
 		ALUResult,
 		ALUFlags
 	);
+//	mux2 #(32) resultmux(    
+//	   .d0(PreResult),       
+//	   .d1(ShiftedSrcB),     
+//	   .s(Shift),            
+//	   .y(ALUResult)         
+//	);                       
 endmodule

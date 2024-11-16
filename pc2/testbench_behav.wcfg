@@ -13,13 +13,16 @@
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
       <ZoomEndTime time="150.001 ns"></ZoomEndTime>
-      <Cursor1Time time="65.724 ns"></Cursor1Time>
+      <Cursor1Time time="74.763 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="136"></NameColumnWidth>
+      <NameColumnWidth column_width="128"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="94" />
+   <WVObjectSize size="95" />
+   <wave_markers>
+      <marker time="0" label="" />
+   </wave_markers>
    <wvobject fp_name="/testbench/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -225,9 +228,9 @@
       <obj_property name="ElementShortName">RegShift</obj_property>
       <obj_property name="ObjectShortName">RegShift</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/dut/arm/dp/ShiftedSrcB" type="logic">
-      <obj_property name="ElementShortName">ShiftedSrcB</obj_property>
-      <obj_property name="ObjectShortName">ShiftedSrcB</obj_property>
+   <wvobject fp_name="/testbench/dut/arm/dp/ShiftedSrcB" type="array">
+      <obj_property name="ElementShortName">ShiftedSrcB[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ShiftedSrcB[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/dut/arm/dp/sh/b" type="array">
       <obj_property name="ElementShortName">b[4:0]</obj_property>
@@ -393,8 +396,12 @@
       <obj_property name="ElementShortName">RegShift</obj_property>
       <obj_property name="ObjectShortName">RegShift</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/dut/arm/dp/ShiftedSrcB" type="logic">
-      <obj_property name="ElementShortName">ShiftedSrcB</obj_property>
-      <obj_property name="ObjectShortName">ShiftedSrcB</obj_property>
+   <wvobject fp_name="/testbench/dut/arm/dp/ShiftedSrcB" type="array">
+      <obj_property name="ElementShortName">ShiftedSrcB[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ShiftedSrcB[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut/arm/dp/PreResult" type="array">
+      <obj_property name="ElementShortName">PreResult[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PreResult[31:0]</obj_property>
    </wvobject>
 </wave_config>
