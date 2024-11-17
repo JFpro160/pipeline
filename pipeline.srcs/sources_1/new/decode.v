@@ -61,7 +61,7 @@ module decode (
 				4'b0010: ALUControl = 3'b001;
 				4'b0000: ALUControl = 3'b010;
 				4'b1100: ALUControl = 3'b011;
-				4'b1101: ALUControl = 3'b000; //shift mov
+//				4'b1101: ALUControl = 3'b000; //shift mov
 				default: ALUControl = 3'bxxx;
 			endcase
 			if(MulOp)

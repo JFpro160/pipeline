@@ -58,7 +58,7 @@ module datapath (
 	input wire [1:0] ShiftControl;
 	input wire RegShift;
 	wire [31:0] ShiftedSrcB;
-	//wire [31:0] PreResult;
+	wire [31:0] PreResult;
 	
 	
 	mux2 #(32) pcmux(
@@ -129,12 +129,6 @@ module datapath (
 		.rd2(WriteData),
 		.rd3(SrcC)
 	);
-	mux2 #(32) resmux(
-		.d0(ALUResult),
-		.d1(ReadData),
-		.s(MemtoReg),
-		.y(Result)
-	);
 	extend ext(
 		.Instr(Instr[23:0]),
 		.ImmSrc(ImmSrc),
@@ -156,30 +150,37 @@ module datapath (
 	   .y(ShiftedSrcB)
 	);
 	
-	mux2 #(32) shiftmux(
-	   .d0(WriteData),
-	   .d1(ShiftedSrcB),
-	   .s(Shift),
-	   .y(SrcBWire)
-	);
+//	mux2 #(32) shiftmux(
+//	   .d0(WriteData),
+//	   .d1(ShiftedSrcB),
+//	   .s(Shift),
+//	   .y(SrcBWire)
+//	);
+
 	mux2 #(32) srcbmux(
-		.d0(SrcBWire),
+		.d0(ShiftedSrcB),
 		.d1(ExtImm),
 		.s(ALUSrc),
 		.y(SrcB)
 	);
 	alu alu(
-		SrcA,
-		SrcB,
-		SrcC,
-		ALUControl,
-		ALUResult,
-		ALUFlags
+		.a(SrcA),
+		.b(SrcB),
+		.c(SrcC),
+		.ALUControl(ALUControl),
+		.Result(PreResult),
+		.ALUFlags(ALUFlags)
 	);
-//	mux2 #(32) resultmux(    
-//	   .d0(PreResult),       
-//	   .d1(ShiftedSrcB),     
-//	   .s(Shift),            
-//	   .y(ALUResult)         
-//	);                       
+	mux2 #(32) resultmux(    
+	   .d0(PreResult),       
+	   .d1(ShiftedSrcB),     
+	   .s(Shift),            
+	   .y(ALUResult)         
+	);                   
+	mux2 #(32) resmux( 
+	.d0(ALUResult),   
+	.d1(ReadData),    
+	.s(MemtoReg),     
+	.y(Result)        
+    );                     
 endmodule
