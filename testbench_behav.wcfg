@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="150.000 ns"></ZoomEndTime>
-      <Cursor1Time time="120.000 ns"></Cursor1Time>
+      <ZoomStartTime time="175.924 ns"></ZoomStartTime>
+      <ZoomEndTime time="270.398 ns"></ZoomEndTime>
+      <Cursor1Time time="98.161 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="146"></NameColumnWidth>
-      <ValueColumnWidth column_width="112"></ValueColumnWidth>
+      <ValueColumnWidth column_width="100"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="57" />
+   <WVObjectSize size="73" />
    <wvobject type="logic" fp_name="/testbench/dut/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -59,6 +59,7 @@
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/rf">
       <obj_property name="ElementShortName">rf[14:0][31:0]</obj_property>
       <obj_property name="ObjectShortName">rf[14:0][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/a">
       <obj_property name="ElementShortName">a[31:0]</obj_property>
@@ -155,6 +156,7 @@
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/ALUControl">
       <obj_property name="ElementShortName">ALUControl[3:0]</obj_property>
       <obj_property name="ObjectShortName">ALUControl[3:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/Result">
       <obj_property name="ElementShortName">Result[31:0]</obj_property>
@@ -195,11 +197,6 @@
    <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/Cond">
       <obj_property name="ElementShortName">Cond[3:0]</obj_property>
       <obj_property name="ObjectShortName">Cond[3:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/ALUFlags">
-      <obj_property name="ElementShortName">ALUFlags[3:0]</obj_property>
-      <obj_property name="ObjectShortName">ALUFlags[3:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/FlagW">
       <obj_property name="ElementShortName">FlagW[1:0]</obj_property>
@@ -248,5 +245,73 @@
    <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/CondEx">
       <obj_property name="ElementShortName">CondEx</obj_property>
       <obj_property name="ObjectShortName">CondEx</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg1/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg1/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg1/en">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg1/d">
+      <obj_property name="ElementShortName">d[1:0]</obj_property>
+      <obj_property name="ObjectShortName">d[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg1/q">
+      <obj_property name="ElementShortName">q[1:0]</obj_property>
+      <obj_property name="ObjectShortName">q[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg1/WIDTH">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg0/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg0/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg0/en">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg0/d">
+      <obj_property name="ElementShortName">d[1:0]</obj_property>
+      <obj_property name="ObjectShortName">d[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg0/q">
+      <obj_property name="ElementShortName">q[1:0]</obj_property>
+      <obj_property name="ObjectShortName">q[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg0/WIDTH">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/aluresultmux/d0">
+      <obj_property name="ElementShortName">d0[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d0[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/aluresultmux/d1">
+      <obj_property name="ElementShortName">d1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/aluresultmux/s">
+      <obj_property name="ElementShortName">s</obj_property>
+      <obj_property name="ObjectShortName">s</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/aluresultmux/y">
+      <obj_property name="ElementShortName">y[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/aluresultmux/WIDTH">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
    </wvobject>
 </wave_config>
