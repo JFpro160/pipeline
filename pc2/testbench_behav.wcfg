@@ -12,16 +12,16 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="150.001 ns"></ZoomEndTime>
-      <Cursor1Time time="74.763 ns"></Cursor1Time>
+      <ZoomEndTime time="356.698 ns"></ZoomEndTime>
+      <Cursor1Time time="238.318 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="128"></NameColumnWidth>
-      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+      <NameColumnWidth column_width="158"></NameColumnWidth>
+      <ValueColumnWidth column_width="74"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="95" />
+   <WVObjectSize size="93" />
    <wave_markers>
-      <marker time="0" label="" />
+      <marker time="69315" label="" />
    </wave_markers>
    <wvobject fp_name="/testbench/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
@@ -143,10 +143,6 @@
    <wvobject fp_name="/testbench/dut/arm/dp/ReadData" type="array">
       <obj_property name="ElementShortName">ReadData[31:0]</obj_property>
       <obj_property name="ObjectShortName">ReadData[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench/dut/arm/dp/SrcBWire" type="array">
-      <obj_property name="ElementShortName">SrcBWire[31:0]</obj_property>
-      <obj_property name="ObjectShortName">SrcBWire[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/dut/arm/dp/PCNext" type="array">
       <obj_property name="ElementShortName">PCNext[31:0]</obj_property>
@@ -311,10 +307,6 @@
    <wvobject fp_name="/testbench/dut/arm/dp/ReadData" type="array">
       <obj_property name="ElementShortName">ReadData[31:0]</obj_property>
       <obj_property name="ObjectShortName">ReadData[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/testbench/dut/arm/dp/SrcBWire" type="array">
-      <obj_property name="ElementShortName">SrcBWire[31:0]</obj_property>
-      <obj_property name="ObjectShortName">SrcBWire[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/dut/arm/dp/PCNext" type="array">
       <obj_property name="ElementShortName">PCNext[31:0]</obj_property>

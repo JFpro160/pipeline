@@ -150,15 +150,15 @@ module datapath (
 	   .y(ShiftedSrcB)
 	);
 	
-//	mux2 #(32) shiftmux(
-//	   .d0(WriteData),
-//	   .d1(ShiftedSrcB),
-//	   .s(Shift),
-//	   .y(SrcBWire)
-//	);
+	mux2 #(32) shiftmux(
+	   .d0(ShiftedSrcB),
+	   .d1(WriteData),
+	   .s(MulOp),
+	   .y(SrcBWire)
+	);
 
 	mux2 #(32) srcbmux(
-		.d0(ShiftedSrcB),
+		.d0(SrcBWire),
 		.d1(ExtImm),
 		.s(ALUSrc),
 		.y(SrcB)
