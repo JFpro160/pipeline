@@ -8,9 +8,9 @@ module extend (
 	output reg [31:0] ExtImm;
 	always @(*)
 		case (ImmSrc)
-			2'b00: ExtImm = {24'b000000000000000000000000, Instr[7:0]};
-			2'b01: ExtImm = {20'b00000000000000000000, Instr[11:0]};
-			2'b10: ExtImm = {{6 {Instr[23]}}, Instr[23:0], 2'b00};
+			2'b00: ExtImm = {24'b000000000000000000000000, Instr[7:0]}; // 8-bit unsigned
+			2'b01: ExtImm = {20'b00000000000000000000, Instr[11:0]}; // 12-bit unsigned
+			2'b10: ExtImm = {{6 {Instr[23]}}, Instr[23:0], 2'b00}; // 24-bit two's complement shifted branch
 			default: ExtImm = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
 		endcase
 endmodule

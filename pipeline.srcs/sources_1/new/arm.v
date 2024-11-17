@@ -22,9 +22,12 @@ module arm (
 	wire MemtoReg;
 	wire PCSrc;
 	wire MulOp; // new
+	wire Carry; // new
+	wire Shift; // new
 	wire [1:0] RegSrc;
 	wire [1:0] ImmSrc;
-	wire [2:0] ALUControl;
+	wire [3:0] ALUControl; // ch
+	wire CarrySh; // new
 	controller c(
 		.clk(clk),
 		.reset(reset),
@@ -39,7 +42,10 @@ module arm (
 		.MemWrite(MemWrite),
 		.MemtoReg(MemtoReg),
 		.PCSrc(PCSrc),
-		.MulOp(MulOp) // new
+		.MulOp(MulOp), // new
+		//.Carry((~Instr[27:26] & ) ? CarrySh : Carry), // new
+		.Carry(Carry),
+		.Shift(Shift) // new
 	);
 	datapath dp(
 		.clk(clk),
@@ -54,9 +60,12 @@ module arm (
 		.ALUFlags(ALUFlags),
 		.PC(PC),
 		.Instr(Instr),
-		.ALUResult(ALUResult),
+		.ALUResultOut(ALUResult), // ch
 		.WriteData(WriteData),
 		.ReadData(ReadData),
-		.MulOp(MulOp) // new
+		.MulOp(MulOp), // new
+		.Carry(Carry), // new
+		.Shift(Shift), // new
+		.CarryOut(CarryOut) // new
 	);
 endmodule
