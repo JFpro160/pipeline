@@ -7,13 +7,15 @@ module controller (
 	RegWriteW,
 	ImmSrcD,
 	ALUSrcE,
-	BranchTakenD,
 	ALUControlE,
 	MemWriteM,
+	MemtoRegE,
+	PCSrcW,
+	BranchTakenE,
 	MemtoRegW,
-	PCSrcW
 	RegWriteM,
-	MemtoRegE
+	PCWrPendingF,
+	FlushE
 );
 	input wire clk;
 	input wire reset;
@@ -24,9 +26,14 @@ module controller (
 	output wire [1:0] ImmSrcD;
 	output wire ALUSrcE;
 	output wire [1:0] ALUControlE;
-	output wire MemWrite;
-	output wire MemtoReg;
-	output wire PCSrc;
+	output wire MemWriteM;
+	output wire MemtoRegE;
+	output wire PCSrcW;
+	output wire BranchTakenE;
+	output wire MemtoRegW;
+	output wire RegWriteM;
+	output wire PCWrPendingF;
+	input wire FlushE;
 	wire [1:0] FlagW;
 	wire PCS;
 	wire RegW;
@@ -58,4 +65,7 @@ module controller (
 		.RegWriteD(RegWriteD),
 		.MemWriteD(MemWriteD)
 	);
+	
+	
+	// flip flop
 endmodule

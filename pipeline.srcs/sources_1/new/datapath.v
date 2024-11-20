@@ -159,45 +159,51 @@ module datapath (
 	
 	// reg
 	
-	flopr #(32) rd1Reg(
+	floprc #(32) rd1Reg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(RD1D),
-	   .q(RD1E)
+	   .q(RD1E),
+	   .clr(FlushE)
 	);
 	
-	flopr #(32) rd2Reg(
+	floprc #(32) rd2Reg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(RD2D),
-	   .q(RD2E)
+	   .q(RD2E),
+	   .clr(FlushE)
 	);
 	
-	flopr #(32) ExtImmReg(
+	floprc #(32) ExtImmReg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(ExtImmD),
-	   .q(ExtImmE)
+	   .q(ExtImmE),
+	   .clr(FlushE)
 	);
 	
-	flopr #(4) wa3eReg(
+	floprc #(4) wa3eReg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(InstrD[15:12]),
-	   .q(WA3E)
+	   .q(WA3E),
+	   .clr(FlushE)
 	);
 	
-	flopr #(4) Ra1Reg(
+	floprc #(4) Ra1Reg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(RA1D),
-	   .q(RA1E)
+	   .q(RA1E),
+	   .clr(FlushE)
 	);
-	flopr #(4) Ra2Reg(
+	floprc #(4) Ra2Reg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(RA2D),
-	   .q(RA2E)
+	   .q(RA2E),
+	   .clr(FlushE)
 	);
 	
 	

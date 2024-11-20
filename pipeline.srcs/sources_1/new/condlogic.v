@@ -11,20 +11,6 @@ module condlogic (
 	RegWriteD,
 	MemWriteD
 );
-
-
-
-		.clk(clk),
-		.reset(reset),
-		.Cond(Instr[31:28]),
-		.ALUFlags(ALUFlags),
-		.FlagW(FlagW),
-		.PCS(PCS),
-		.RegW(RegW),
-		.MemW(MemW),
-		.PCSrc(PCSrc),
-		.RegWrite(RegWrite),
-		.MemWrite(MemWrite)
 	input wire clk;
 	input wire reset;
 	input wire [3:0] Cond;
