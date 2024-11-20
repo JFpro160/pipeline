@@ -60,16 +60,15 @@ module datapath (
 	wire [31:0] PCnextF;
 	wire [31:0] PCPlus4F;
 	wire [31:0] PCPlus8D;
-	wire [31:0] ExtImm;
+	wire [31:0] ExtImmD;
+	wire [31:0] ExtImmE;
 	wire [31:0] SrcA;
 	wire [31:0] SrcB;
 	wire [31:0] Result;
 	wire [3:0] RA1;
 	wire [3:0] RA2;
 	wire [3:0] InstrD;
-	
-	//Fetch
-	
+		
 	mux2 #(32) pcnextmux(
 		.d0(PCPlus4F),
 		.d1(ResultW),
@@ -77,7 +76,7 @@ module datapath (
 		.y(PCnext1F)
 	);
 	
-	mux2 #(32) breanchmux(
+	mux2 #(32) branchmux(
 		.d0(PCnext1F),
 		.d1(ALUResultE),
 		.s(PCSrcW),
@@ -95,18 +94,7 @@ module datapath (
 		.b(32'b100),
 		.y(PCPlus4F)
 	);
-	
-	//Reg
-	
-	flopr #(32) InstrReg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(InstrF),
-	   .q(InstrD)
-	);
-
-	//Decode
-	
+    	
 	assign PCPlus8D = PCPlus4F;
 	
 	mux2 #(4) ra1mux(
@@ -137,42 +125,10 @@ module datapath (
 		.ImmSrc(ImmSrcD),
 		.ExtImm(ExtImmD)
 	);
-	
-	// reg
-	
-	flopr #(32) rd1Reg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(RD1D),
-	   .q(RD1E)
-	);
-	
-	flopr #(32) rd2Reg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(RD2D),
-	   .q(WriteDataE)
-	);
-	
-	flopr #(32) ExtImmReg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(ExtImmD),
-	   .q(ExtImmE)
-	);
-	
-	flopr #(32) wa3eReg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(InstrD[15:12]),
-	   .q(WA3E)
-	);
-	
-	// Execute
-	
+		
 	mux2 #(32) srcbmux(
 		.d0(WriteDataE),
-		.d1(ExtImmEE),
+		.d1(ExtImmE),
 		.s(ALUSrcE),
 		.y(SrcBE)
 	);
@@ -183,55 +139,6 @@ module datapath (
 		ALUControlE,
 		ALUResultE,
 		ALUFlagsE
-	);
-	
-	// Reg
-	
-	
-	flopr #(32) aluResReg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(ALUResultE),
-	   .q(ALUOutM)
-	);
-	
-	flopr #(32) wdReg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(WriteDataE),
-	   .q(WriteDataM)
-	);
-	
-	flopr #(32) wa3mReg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(WA3E),
-	   .q(WA3M)
-	);
-	
-	// Memory (output input)
-	
-	// Reg
-	
-	flopr #(32) aluoutReg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(ALUOutM),
-	   .q(ALUOutW)
-	);
-	
-	flopr #(32) rdReg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(ReadDataM),
-	   .q(ReadDataW)
-	);
-	
-	flopr #(32) wa3wReg(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(WA3M),
-	   .q(WA3W)
 	);
 	
 	
