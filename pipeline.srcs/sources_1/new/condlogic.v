@@ -7,10 +7,24 @@ module condlogic (
 	PCS,
 	RegW,
 	MemW,
-	PCSrc,
-	RegWrite,
-	MemWrite
+	PCSrcD,
+	RegWriteD,
+	MemWriteD
 );
+
+
+
+		.clk(clk),
+		.reset(reset),
+		.Cond(Instr[31:28]),
+		.ALUFlags(ALUFlags),
+		.FlagW(FlagW),
+		.PCS(PCS),
+		.RegW(RegW),
+		.MemW(MemW),
+		.PCSrc(PCSrc),
+		.RegWrite(RegWrite),
+		.MemWrite(MemWrite)
 	input wire clk;
 	input wire reset;
 	input wire [3:0] Cond;
@@ -19,9 +33,9 @@ module condlogic (
 	input wire PCS;
 	input wire RegW;
 	input wire MemW;
-	output wire PCSrc;
-	output wire RegWrite;
-	output wire MemWrite;
+	output wire PCSrcD;
+	output wire RegWriteD;
+	output wire MemWriteD;
 	wire [1:0] FlagWrite;
 	wire [3:0] Flags;
 	wire CondEx;
@@ -46,6 +60,6 @@ module condlogic (
 	);
 	assign FlagWrite = FlagW & {2 {CondEx}};
 	assign RegWrite = RegW & CondEx;
-	assign MemWrite = MemW & CondEx;
-	assign PCSrc = PCS & CondEx;
+	assign MemWriteD = MemW & CondEx;
+	assign PCSrcD = PCS & CondEx;
 endmodule

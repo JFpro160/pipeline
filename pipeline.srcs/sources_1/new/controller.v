@@ -1,26 +1,29 @@
 module controller (
 	clk,
 	reset,
-	Instr,
-	ALUFlags,
-	RegSrc,
-	RegWrite,
-	ImmSrc,
-	ALUSrc,
-	ALUControl,
-	MemWrite,
-	MemtoReg,
-	PCSrc
+	InstrD,
+	ALUFlagsE,
+	RegSrcD,
+	RegWriteW,
+	ImmSrcD,
+	ALUSrcE,
+	BranchTakenD,
+	ALUControlE,
+	MemWriteM,
+	MemtoRegW,
+	PCSrcW
+	RegWriteM,
+	MemtoRegE
 );
 	input wire clk;
 	input wire reset;
-	input wire [31:12] Instr;
-	input wire [3:0] ALUFlags;
-	output wire [1:0] RegSrc;
-	output wire RegWrite;
-	output wire [1:0] ImmSrc;
-	output wire ALUSrc;
-	output wire [1:0] ALUControl;
+	input wire [31:12] InstrD;
+	input wire [3:0] ALUFlagsE;
+	output wire [1:0] RegSrcD;
+	output wire RegWriteW;
+	output wire [1:0] ImmSrcD;
+	output wire ALUSrcE;
+	output wire [1:0] ALUControlE;
 	output wire MemWrite;
 	output wire MemtoReg;
 	output wire PCSrc;
@@ -51,8 +54,8 @@ module controller (
 		.PCS(PCS),
 		.RegW(RegW),
 		.MemW(MemW),
-		.PCSrc(PCSrc),
-		.RegWrite(RegWrite),
-		.MemWrite(MemWrite)
+		.PCSrcD(PCSrcD),
+		.RegWriteD(RegWriteD),
+		.MemWriteD(MemWriteD)
 	);
 endmodule

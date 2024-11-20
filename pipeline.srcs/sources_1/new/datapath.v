@@ -58,15 +58,31 @@ module datapath (
 	
 	
 	wire [31:0] PCnextF;
+	wire [31:0] PCnext1F;
 	wire [31:0] PCPlus4F;
 	wire [31:0] PCPlus8D;
-	wire [31:0] ExtImm;
-	wire [31:0] SrcA;
-	wire [31:0] SrcB;
-	wire [31:0] Result;
-	wire [3:0] RA1;
-	wire [3:0] RA2;
-	wire [3:0] InstrD;
+	wire [31:0] rd1D;
+	wire [31:0] rd2D;
+	wire [31:0] rd1E;
+	wire [31:0] rd2E;
+	wire [31:0] ExtImmD;
+	wire [31:0] ExtImmE;
+	wire [31:0] SrcAE;
+	wire [31:0] SrcBE;
+	wire [31:0] WriteDataE;
+	wire [31:0] ALUresultE;
+	wire [31:0] ReadDataW;
+	wire [31:0] ALUOutW;
+	wire [31:0] ResultW;
+	wire [3:0] RA1D;
+	wire [3:0] RA2D;
+	wire [3:0] RA1E;
+	wire [3:0] RA2E;
+	wire [3:0] WA3E;
+	wire [3:0] WA3M;
+	wire [3:0] WA3W;
+	wire Match_1D_E;
+	wire Match_2D_E;
 	
 	//Fetch
 	
@@ -80,15 +96,16 @@ module datapath (
 	mux2 #(32) breanchmux(
 		.d0(PCnext1F),
 		.d1(ALUResultE),
-		.s(PCSrcW),
+		.s(BranchTakenE),
 		.y(PCnextF)
 	);
 	
-	flopr #(32) pcreg(
+	flopenr #(32) pcreg( // falta definir
 		.clk(clk),
 		.reset(reset),
 		.d(PCnextF),
-		.q(PCF)
+		.q(PCF),
+		.en(~StallF)
 	);
 	adder #(32) pcadd1(
 		.a(PCF),
@@ -98,11 +115,13 @@ module datapath (
 	
 	//Reg
 	
-	flopr #(32) InstrReg(
+	flopenrc #(32) InstrReg( // falta implementar
 	   .clk(clk),
 	   .reset(reset),
 	   .d(InstrF),
-	   .q(InstrD)
+	   .q(InstrD),
+	   .en(~stallD),
+	   .clr(FlushD)
 	);
 
 	//Decode
@@ -151,7 +170,7 @@ module datapath (
 	   .clk(clk),
 	   .reset(reset),
 	   .d(RD2D),
-	   .q(WriteDataE)
+	   .q(RD2E)
 	);
 	
 	flopr #(32) ExtImmReg(
@@ -161,14 +180,47 @@ module datapath (
 	   .q(ExtImmE)
 	);
 	
-	flopr #(32) wa3eReg(
+	flopr #(4) wa3eReg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(InstrD[15:12]),
 	   .q(WA3E)
 	);
 	
+	flopr #(4) Ra1Reg(
+	   .clk(clk),
+	   .reset(reset),
+	   .d(RA1D),
+	   .q(RA1E)
+	);
+	flopr #(4) Ra2Reg(
+	   .clk(clk),
+	   .reset(reset),
+	   .d(RA2D),
+	   .q(RA2E)
+	);
+	
+	
+	
 	// Execute
+	
+	
+	mux3 #(32) byp1mux( // falta implementar
+		.d0(RD1E),
+		.d1(ResultW),
+		.d2(ALUOutM),
+		.s(ForwardAE),
+		.y(SrcAE)
+	);
+	
+	mux3 #(32) byp2mux( // falta implementar
+		.d0(RD2E),
+		.d1(ResultW),
+		.d2(ALUOutM),
+		.s(ForwardAE),
+		.y(WriteDataE)
+	);
+	
 	
 	mux2 #(32) srcbmux(
 		.d0(WriteDataE),
@@ -202,7 +254,7 @@ module datapath (
 	   .q(WriteDataM)
 	);
 	
-	flopr #(32) wa3mReg(
+	flopr #(4) wa3mReg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(WA3E),
@@ -210,6 +262,7 @@ module datapath (
 	);
 	
 	// Memory (output input)
+	
 	
 	// Reg
 	
@@ -227,7 +280,7 @@ module datapath (
 	   .q(ReadDataW)
 	);
 	
-	flopr #(32) wa3wReg(
+	flopr #(4) wa3wReg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(WA3M),
@@ -241,4 +294,6 @@ module datapath (
 		.s(MemtoRegW),
 		.y(ResultW)
 	);
+	
+	// falta los match
 endmodule
