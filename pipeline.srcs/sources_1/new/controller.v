@@ -39,9 +39,9 @@ module controller (
 	wire RegW;
 	wire MemW;
 	decode dec(
-		.Op(Instr[27:26]),
-		.Funct(Instr[25:20]),
-		.Rd(Instr[15:12]),
+		.Op(InstrD[27:26]),
+		.Funct(InstrD[25:20]),
+		.Rd(InstrD[15:12]),
 		.FlagW(FlagW),
 		.PCS(PCS),
 		.RegW(RegW),
@@ -52,19 +52,18 @@ module controller (
 		.RegSrc(RegSrc),
 		.ALUControl(ALUControl)
 	);
+	
 	condlogic cl(
 		.clk(clk),
 		.reset(reset),
-		.Cond(Instr[31:28]),
-		.ALUFlags(ALUFlags),
-		.FlagW(FlagW),
-		.PCS(PCS),
-		.RegW(RegW),
-		.MemW(MemW),
-		.PCSrcD(PCSrcD),
-		.RegWriteD(RegWriteD),
-		.MemWriteD(MemWriteD)
+		.Flags(Flags),
+		.CondE(CondE),
+		.FlagsE(FlagsE),
+		.FlagsWrite(FlagsWrite),
+		.CondExE(CondExE),
+		.ALUFlags(ALUFlags)
 	);
+	
 	
 	
 	// flip flop

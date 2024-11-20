@@ -1,51 +1,27 @@
 module condlogic (
 	clk,
 	reset,
-	Cond,
-	ALUFlags,
-	FlagW,
-	PCS,
-	RegW,
-	MemW,
-	PCSrcD,
-	RegWriteD,
-	MemWriteD
+	Flags,
+	CondE,
+	FlagsE,
+	FlagsWrite,
+	CondExE,
+	ALUFlags
 );
 	input wire clk;
 	input wire reset;
-	input wire [3:0] Cond;
 	input wire [3:0] ALUFlags;
-	input wire [1:0] FlagW;
-	input wire PCS;
-	input wire RegW;
-	input wire MemW;
-	output wire PCSrcD;
-	output wire RegWriteD;
-	output wire MemWriteD;
-	wire [1:0] FlagWrite;
-	wire [3:0] Flags;
-	wire CondEx;
-	flopenr #(2) flagreg1(
-		.clk(clk),
-		.reset(reset),
-		.en(FlagWrite[1]),
-		.d(ALUFlags[3:2]),
-		.q(Flags[3:2])
-	);
-	flopenr #(2) flagreg0(
-		.clk(clk),
-		.reset(reset),
-		.en(FlagWrite[0]),
-		.d(ALUFlags[1:0]),
-		.q(Flags[1:0])
-	);
+	output wire CondExE;
+	output wire [3:0] Flags;
+	input wire [3:0] FlagsE;
+	input wire CondE;
+	input wire [1:0] FlagsWrite;
 	condcheck cc(
-		.Cond(Cond),
-		.Flags(Flags),
-		.CondEx(CondEx)
+		.Cond(CondE),
+		.Flags(FlagsE),
+		.CondEx(CondExE)
 	);
-	assign FlagWrite = FlagW & {2 {CondEx}};
-	assign RegWrite = RegW & CondEx;
-	assign MemWriteD = MemW & CondEx;
-	assign PCSrcD = PCS & CondEx;
+	
+	assign Flags = {(FlagsWrite[1])?ALUFlags[3:2]:FlagsE[3:2],
+	                (FlagsWrite[0])?ALUFlags[1:0]:FlagsE[1:0]};
 endmodule
