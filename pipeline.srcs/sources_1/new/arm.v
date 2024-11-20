@@ -87,8 +87,7 @@ module arm (
 		.ForwardBE(ForwardBE),
 		.StallF(StallF),
 		.StallD(StallD),
-		.FlushD(FlushD),
-		.FlushE(FlushE)
+		.FlushD(FlushD)
 	);
 	
 	hazard h(
@@ -111,9 +110,5 @@ module arm (
 		.RegWriteM(RegWriteM),
 		.MemtoRegE(MemtoRegE),
 		.PCSrcW(PCSrcW)
-    );
-		
-	    
-	    
-	    
+    );  
 endmodule

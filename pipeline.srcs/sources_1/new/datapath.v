@@ -13,7 +13,20 @@ module datapath (
 	InstrF,
 	ALUOutM,
 	WriteDataM,
-	ReadDataM
+	ReadDataM,
+	BranchTakenE,
+	InstrD,
+	Match_1E_M,
+	Match_1E_W,
+	Match_2E_M,
+	Match_2E_W,
+	Match_12D_E,
+	ForwardAE,
+	ForwardBE,
+	StallF,
+	StallD,
+	FlushD
+	
 );
 	input wire clk;
 	input wire reset;
@@ -30,6 +43,20 @@ module datapath (
 	output wire [31:0] ALUOutM;
 	output wire [31:0] WriteDataM;
 	input wire [31:0] ReadDataM;
+	output wire [31:0] InstrD;
+	input wire BranchTakenE;
+	output wire Match_1E_M;
+	output wire Match_1E_W;
+	output wire Match_2E_M;
+	output wire Match_2E_W;
+	output wire Match_12D_E;
+	input wire [1:0] ForwardAE;
+	input wire [1:0] ForwardBE;
+	input wire StallF;
+	input wire StallD;
+	input wire FlushD;
+	
+	
 	wire [31:0] PCnextF;
 	wire [31:0] PCPlus4F;
 	wire [31:0] PCPlus8D;
@@ -43,12 +70,20 @@ module datapath (
 	
 	//Fetch
 	
-	mux2 #(32) pcmux(
+	mux2 #(32) pcnextmux(
 		.d0(PCPlus4F),
 		.d1(ResultW),
 		.s(PCSrcW),
+		.y(PCnext1F)
+	);
+	
+	mux2 #(32) breanchmux(
+		.d0(PCnext1F),
+		.d1(ALUResultE),
+		.s(PCSrcW),
 		.y(PCnextF)
 	);
+	
 	flopr #(32) pcreg(
 		.clk(clk),
 		.reset(reset),

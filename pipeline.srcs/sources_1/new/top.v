@@ -16,10 +16,10 @@ module top (
 	arm arm(
 		.clk(clk),
 		.reset(reset),
-		.PC(PCF),
-		.Instr(InstrF),
-		.MemWrite(MemWriteM),
-		.ALUResult(DataAdrM),
+		.PCF(PCF),
+		.InstrF(InstrF),
+		.MemWriteM(MemWriteM),
+		.ALUResultM(DataAdrM),
 		.WriteData(WriteDataM),
 		.ReadData(ReadDataM)
 	);
