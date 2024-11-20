@@ -11,306 +11,204 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="175.924 ns"></ZoomStartTime>
-      <ZoomEndTime time="270.398 ns"></ZoomEndTime>
-      <Cursor1Time time="98.161 ns"></Cursor1Time>
+      <ZoomStartTime time="259,994 ps"></ZoomStartTime>
+      <ZoomEndTime time="260,002 ps"></ZoomEndTime>
+      <Cursor1Time time="260,000 ps"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="146"></NameColumnWidth>
-      <ValueColumnWidth column_width="100"></ValueColumnWidth>
+      <ValueColumnWidth column_width="92"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="73" />
-   <wvobject type="logic" fp_name="/testbench/dut/clk">
+   <WVObjectSize size="48" />
+   <wvobject type="logic" fp_name="/testbench/dut/arm/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/reset">
+   <wvobject type="logic" fp_name="/testbench/dut/arm/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/WriteData">
-      <obj_property name="ElementShortName">WriteData[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WriteData[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/DataAdr">
-      <obj_property name="ElementShortName">DataAdr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">DataAdr[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/MemWrite">
-      <obj_property name="ElementShortName">MemWrite</obj_property>
-      <obj_property name="ObjectShortName">MemWrite</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/PC">
+   <wvobject type="array" fp_name="/testbench/dut/arm/PC">
       <obj_property name="ElementShortName">PC[31:0]</obj_property>
       <obj_property name="ObjectShortName">PC[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/Instr">
+   <wvobject type="array" fp_name="/testbench/dut/arm/Instr">
       <obj_property name="ElementShortName">Instr[31:0]</obj_property>
       <obj_property name="ObjectShortName">Instr[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/ReadData">
+   <wvobject type="logic" fp_name="/testbench/dut/arm/MemWrite">
+      <obj_property name="ElementShortName">MemWrite</obj_property>
+      <obj_property name="ObjectShortName">MemWrite</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/ALUResult">
+      <obj_property name="ElementShortName">ALUResult[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ALUResult[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/WriteData">
+      <obj_property name="ElementShortName">WriteData[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WriteData[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/ReadData">
       <obj_property name="ElementShortName">ReadData[31:0]</obj_property>
       <obj_property name="ObjectShortName">ReadData[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/r15">
-      <obj_property name="ElementShortName">r15[31:0]</obj_property>
-      <obj_property name="ObjectShortName">r15[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/rf">
-      <obj_property name="ElementShortName">rf[14:0][31:0]</obj_property>
-      <obj_property name="ObjectShortName">rf[14:0][31:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/a">
-      <obj_property name="ElementShortName">a[31:0]</obj_property>
-      <obj_property name="ObjectShortName">a[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/b">
-      <obj_property name="ElementShortName">b[31:0]</obj_property>
-      <obj_property name="ObjectShortName">b[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/Result">
-      <obj_property name="ElementShortName">Result[31:0]</obj_property>
-      <obj_property name="ObjectShortName">Result[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/ALUFlags">
+   <wvobject type="array" fp_name="/testbench/dut/arm/ALUFlags">
       <obj_property name="ElementShortName">ALUFlags[3:0]</obj_property>
       <obj_property name="ObjectShortName">ALUFlags[3:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/imem/RAM">
-      <obj_property name="ElementShortName">RAM[63:0][31:0]</obj_property>
-      <obj_property name="ObjectShortName">RAM[63:0][31:0]</obj_property>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/RegWrite">
+      <obj_property name="ElementShortName">RegWrite</obj_property>
+      <obj_property name="ObjectShortName">RegWrite</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/Op">
-      <obj_property name="ElementShortName">Op[1:0]</obj_property>
-      <obj_property name="ObjectShortName">Op[1:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/Funct">
-      <obj_property name="ElementShortName">Funct[5:0]</obj_property>
-      <obj_property name="ObjectShortName">Funct[5:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/Rd">
-      <obj_property name="ElementShortName">Rd[3:0]</obj_property>
-      <obj_property name="ObjectShortName">Rd[3:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/FlagW">
-      <obj_property name="ElementShortName">FlagW[1:0]</obj_property>
-      <obj_property name="ObjectShortName">FlagW[1:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/PCS">
-      <obj_property name="ElementShortName">PCS</obj_property>
-      <obj_property name="ObjectShortName">PCS</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/RegW">
-      <obj_property name="ElementShortName">RegW</obj_property>
-      <obj_property name="ObjectShortName">RegW</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/MemW">
-      <obj_property name="ElementShortName">MemW</obj_property>
-      <obj_property name="ObjectShortName">MemW</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/MemtoReg">
-      <obj_property name="ElementShortName">MemtoReg</obj_property>
-      <obj_property name="ObjectShortName">MemtoReg</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/ALUSrc">
+   <wvobject type="logic" fp_name="/testbench/dut/arm/ALUSrc">
       <obj_property name="ElementShortName">ALUSrc</obj_property>
       <obj_property name="ObjectShortName">ALUSrc</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/ImmSrc">
-      <obj_property name="ElementShortName">ImmSrc[1:0]</obj_property>
-      <obj_property name="ObjectShortName">ImmSrc[1:0]</obj_property>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/MemtoReg">
+      <obj_property name="ElementShortName">MemtoReg</obj_property>
+      <obj_property name="ObjectShortName">MemtoReg</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/RegSrc">
+   <wvobject type="logic" fp_name="/testbench/dut/arm/PCSrc">
+      <obj_property name="ElementShortName">PCSrc</obj_property>
+      <obj_property name="ObjectShortName">PCSrc</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/MulOp">
+      <obj_property name="ElementShortName">MulOp</obj_property>
+      <obj_property name="ObjectShortName">MulOp</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/Carry">
+      <obj_property name="ElementShortName">Carry</obj_property>
+      <obj_property name="ObjectShortName">Carry</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/Shift">
+      <obj_property name="ElementShortName">Shift</obj_property>
+      <obj_property name="ObjectShortName">Shift</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/RegSrc">
       <obj_property name="ElementShortName">RegSrc[1:0]</obj_property>
       <obj_property name="ObjectShortName">RegSrc[1:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/ALUControl">
+   <wvobject type="array" fp_name="/testbench/dut/arm/ImmSrc">
+      <obj_property name="ElementShortName">ImmSrc[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ImmSrc[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/ALUControl">
       <obj_property name="ElementShortName">ALUControl[3:0]</obj_property>
       <obj_property name="ObjectShortName">ALUControl[3:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/dec/controls">
-      <obj_property name="ElementShortName">controls[9:0]</obj_property>
-      <obj_property name="ObjectShortName">controls[9:0]</obj_property>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/CarrySh">
+      <obj_property name="ElementShortName">CarrySh</obj_property>
+      <obj_property name="ObjectShortName">CarrySh</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/Branch">
-      <obj_property name="ElementShortName">Branch</obj_property>
-      <obj_property name="ObjectShortName">Branch</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/dec/ALUOp">
-      <obj_property name="ElementShortName">ALUOp</obj_property>
-      <obj_property name="ObjectShortName">ALUOp</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/a">
-      <obj_property name="ElementShortName">a[31:0]</obj_property>
-      <obj_property name="ObjectShortName">a[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/b">
-      <obj_property name="ElementShortName">b[31:0]</obj_property>
-      <obj_property name="ObjectShortName">b[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/c">
-      <obj_property name="ElementShortName">c[31:0]</obj_property>
-      <obj_property name="ObjectShortName">c[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/ALUControl">
-      <obj_property name="ElementShortName">ALUControl[3:0]</obj_property>
-      <obj_property name="ObjectShortName">ALUControl[3:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/Result">
-      <obj_property name="ElementShortName">Result[31:0]</obj_property>
-      <obj_property name="ObjectShortName">Result[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/condinvb">
-      <obj_property name="ElementShortName">condinvb[31:0]</obj_property>
-      <obj_property name="ObjectShortName">condinvb[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/sum">
-      <obj_property name="ElementShortName">sum[32:0]</obj_property>
-      <obj_property name="ObjectShortName">sum[32:0]</obj_property>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/CarryOut">
+      <obj_property name="ElementShortName">CarryOut</obj_property>
+      <obj_property name="ObjectShortName">CarryOut</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/sh/a">
       <obj_property name="ElementShortName">a[31:0]</obj_property>
       <obj_property name="ObjectShortName">a[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/sh/rot">
-      <obj_property name="ElementShortName">rot[31:0]</obj_property>
-      <obj_property name="ObjectShortName">rot[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/sh/shtype">
-      <obj_property name="ElementShortName">shtype[1:0]</obj_property>
-      <obj_property name="ObjectShortName">shtype[1:0]</obj_property>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/sh/carry_in">
+      <obj_property name="ElementShortName">carry_in</obj_property>
+      <obj_property name="ObjectShortName">carry_in</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/sh/y">
       <obj_property name="ElementShortName">y[31:0]</obj_property>
       <obj_property name="ObjectShortName">y[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/clk">
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/sh/carry_out">
+      <obj_property name="ElementShortName">carry_out</obj_property>
+      <obj_property name="ObjectShortName">carry_out</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/rf/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/reset">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/rf/we3">
+      <obj_property name="ElementShortName">we3</obj_property>
+      <obj_property name="ObjectShortName">we3</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/Cond">
-      <obj_property name="ElementShortName">Cond[3:0]</obj_property>
-      <obj_property name="ObjectShortName">Cond[3:0]</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/ra1">
+      <obj_property name="ElementShortName">ra1[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ra1[3:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/FlagW">
-      <obj_property name="ElementShortName">FlagW[1:0]</obj_property>
-      <obj_property name="ObjectShortName">FlagW[1:0]</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/ra2">
+      <obj_property name="ElementShortName">ra2[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ra2[3:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/PCS">
-      <obj_property name="ElementShortName">PCS</obj_property>
-      <obj_property name="ObjectShortName">PCS</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/ra3">
+      <obj_property name="ElementShortName">ra3[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ra3[3:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/RegW">
-      <obj_property name="ElementShortName">RegW</obj_property>
-      <obj_property name="ObjectShortName">RegW</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/wa3">
+      <obj_property name="ElementShortName">wa3[3:0]</obj_property>
+      <obj_property name="ObjectShortName">wa3[3:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/MemW">
-      <obj_property name="ElementShortName">MemW</obj_property>
-      <obj_property name="ObjectShortName">MemW</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/wd3">
+      <obj_property name="ElementShortName">wd3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wd3[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/PCSrc">
-      <obj_property name="ElementShortName">PCSrc</obj_property>
-      <obj_property name="ObjectShortName">PCSrc</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/r15">
+      <obj_property name="ElementShortName">r15[31:0]</obj_property>
+      <obj_property name="ObjectShortName">r15[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/RegWrite">
-      <obj_property name="ElementShortName">RegWrite</obj_property>
-      <obj_property name="ObjectShortName">RegWrite</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/rd1">
+      <obj_property name="ElementShortName">rd1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rd1[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/MemWrite">
-      <obj_property name="ElementShortName">MemWrite</obj_property>
-      <obj_property name="ObjectShortName">MemWrite</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/rd2">
+      <obj_property name="ElementShortName">rd2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rd2[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/Carry">
-      <obj_property name="ElementShortName">Carry</obj_property>
-      <obj_property name="ObjectShortName">Carry</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/rd3">
+      <obj_property name="ElementShortName">rd3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rd3[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/NoWrite">
-      <obj_property name="ElementShortName">NoWrite</obj_property>
-      <obj_property name="ObjectShortName">NoWrite</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/rf">
+      <obj_property name="ElementShortName">rf[14:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">rf[14:0][31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/FlagWrite">
-      <obj_property name="ElementShortName">FlagWrite[1:0]</obj_property>
-      <obj_property name="ObjectShortName">FlagWrite[1:0]</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/sh/a">
+      <obj_property name="ElementShortName">a[31:0]</obj_property>
+      <obj_property name="ObjectShortName">a[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/Flags">
-      <obj_property name="ElementShortName">Flags[3:0]</obj_property>
-      <obj_property name="ObjectShortName">Flags[3:0]</obj_property>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/sh/b">
+      <obj_property name="ElementShortName">b[4:0]</obj_property>
+      <obj_property name="ObjectShortName">b[4:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/CondEx">
-      <obj_property name="ElementShortName">CondEx</obj_property>
-      <obj_property name="ObjectShortName">CondEx</obj_property>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/sh/carry_in">
+      <obj_property name="ElementShortName">carry_in</obj_property>
+      <obj_property name="ObjectShortName">carry_in</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg1/clk">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg1/reset">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg1/en">
-      <obj_property name="ElementShortName">en</obj_property>
-      <obj_property name="ObjectShortName">en</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg1/d">
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/sh/d">
       <obj_property name="ElementShortName">d[1:0]</obj_property>
       <obj_property name="ObjectShortName">d[1:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg1/q">
-      <obj_property name="ElementShortName">q[1:0]</obj_property>
-      <obj_property name="ObjectShortName">q[1:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg1/WIDTH">
-      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg0/clk">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg0/reset">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/c/cl/flagreg0/en">
-      <obj_property name="ElementShortName">en</obj_property>
-      <obj_property name="ObjectShortName">en</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg0/d">
-      <obj_property name="ElementShortName">d[1:0]</obj_property>
-      <obj_property name="ObjectShortName">d[1:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg0/q">
-      <obj_property name="ElementShortName">q[1:0]</obj_property>
-      <obj_property name="ObjectShortName">q[1:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/cl/flagreg0/WIDTH">
-      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/aluresultmux/d0">
-      <obj_property name="ElementShortName">d0[31:0]</obj_property>
-      <obj_property name="ObjectShortName">d0[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/aluresultmux/d1">
-      <obj_property name="ElementShortName">d1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">d1[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/aluresultmux/s">
-      <obj_property name="ElementShortName">s</obj_property>
-      <obj_property name="ObjectShortName">s</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/aluresultmux/y">
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/sh/y">
       <obj_property name="ElementShortName">y[31:0]</obj_property>
       <obj_property name="ObjectShortName">y[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/aluresultmux/WIDTH">
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/sh/carry_out">
+      <obj_property name="ElementShortName">carry_out</obj_property>
+      <obj_property name="ObjectShortName">carry_out</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rotmux/d0">
+      <obj_property name="ElementShortName">d0[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d0[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rotmux/d1">
+      <obj_property name="ElementShortName">d1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/rotmux/s">
+      <obj_property name="ElementShortName">s</obj_property>
+      <obj_property name="ObjectShortName">s</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rotmux/y">
+      <obj_property name="ElementShortName">y[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rotmux/WIDTH">
       <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
       <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
    </wvobject>

@@ -1,6 +1,6 @@
 module shifter(
     input wire [31:0] a,       
-    input wire [31:0] rot,     
+    input wire [4:0] rot,     
     input wire carry_in,       
     input wire [1:0] shtype,   
     output reg [31:0] y,       

@@ -53,7 +53,7 @@ module datapath (
 	wire [3:0] A3; // new
 	wire [31:0] SrcBsh, ALUResult; // new lsl
 	wire [31:0] SrcB0; // new
-	wire [31:0] rotamm; // new
+	wire [4:0] rotamm; // new
 	
 	//next PC logic
 	mux2 #(32) pcmux( 
@@ -142,8 +142,8 @@ module datapath (
 	
 	// ALU logic
 	mux2 #(32) rotmux( // new
-		.d0({27'b000000000000000000000000000, Instr[11:7]}),
-		.d1(SrcC),
+		.d0({Instr[11:7]}),
+		.d1(SrcC[4:0]),
 		.s(~Instr[7] & Instr[4]),
 		.y(rotamm)
 	);
