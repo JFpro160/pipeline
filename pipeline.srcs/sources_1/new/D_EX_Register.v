@@ -23,6 +23,7 @@ module D_EX_Register (
     output reg MemtoRegE,
     output reg RegWriteE,
     output reg [3:0] ALUControlE,
+    output reg [3:0] FlagsE,
     output reg BranchE,
     output reg FlagWriteE,
     output reg ALUSrcE,
@@ -68,6 +69,7 @@ module D_EX_Register (
             RA2E        <= RA2D;
             WA3E        <= WA3D;
             ExtImmE     <= ExtImmD;
+            FlagsE <= Flags_;
         end
     end
 

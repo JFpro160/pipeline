@@ -18,10 +18,10 @@ module top (
 		.reset(reset),
 		.PCF(PCF),
 		.InstrF(InstrF),
-		.MemWriteM(MemWriteM),
-		.ALUResultM(DataAdrM),
-		.WriteDataM(WriteDataM),
-		.ReadDataM(ReadDataM)
+		.MemWrite(MemWriteM),
+		.ALUResult(DataAdrM),
+		.WriteData(WriteDataM),
+		.ReadData(ReadDataM)
 	);
 	imem imem(
 		.a(PCF),

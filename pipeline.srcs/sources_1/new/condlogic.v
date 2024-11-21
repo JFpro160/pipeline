@@ -9,7 +9,8 @@ module condlogic (
 	MemW,
 	PCSrc,
 	RegWrite,
-	MemWrite
+	MemWrite,
+	FlagWrite
 );
 	input wire clk;
 	input wire reset;
@@ -22,7 +23,7 @@ module condlogic (
 	output wire PCSrc;
 	output wire RegWrite;
 	output wire MemWrite;
-	wire [1:0] FlagWrite;
+	output wire [1:0] FlagWrite;
 	wire [3:0] Flags;
 	wire CondEx;
 	flopenr #(2) flagreg1(

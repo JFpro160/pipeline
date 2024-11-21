@@ -3,10 +3,10 @@ module arm (
     reset,
     PCF,
     InstrF,
-    MemWriteM,
-    ALUResultM,
-    WriteDataM,
-    ReadDataM
+    MemWrite,
+    ALUResult,
+    WriteData,
+    ReadData
 );
 
     // Inputs and Outputs
@@ -14,10 +14,10 @@ module arm (
     input wire reset;
     output wire [31:0] PCF;
     input wire [31:0] InstrF;
-    output wire MemWriteM;
-    output wire [31:0] ALUResultM;
-    output wire [31:0] WriteDataM;
-    input wire [31:0] ReadDataM;
+    output wire MemWrite;
+    output wire [31:0] ALUResult;
+    output wire [31:0] WriteData;
+    input wire [31:0] ReadData;
 
     // Internal Wires
     wire [31:0] InstrD;
@@ -64,7 +64,7 @@ module arm (
     wire [3:0] CondE;
     wire RegWriteE;
     wire BranchE;
-    wire FlagWriteE;
+    wire [1:0] FlagWriteE;
     wire [31:0] RD1E, RD2E;
     wire [3:0] RA1E, RA2E, WA3E;
     wire [31:0] ExtImmE;
@@ -79,6 +79,7 @@ module arm (
     wire PCSrcM;
     wire MemtoRegM;
     wire [3:0] WA3M;
+    wire [31:0] ExtImmD;
 
     // Memory-WriteBack Register Wires
     wire MemtoRegM;
@@ -89,20 +90,15 @@ module arm (
         .clk(clk),
         .reset(reset),
         .InstrD(InstrD[31:12]),
-        .ALUFlagsE(ALUFlagsE),
-        .RegSrcD(RegSrcD),
-        .RegWriteW(RegWriteW),
-        .ImmSrcD(ImmSrcD),
-        .ALUSrcE(ALUSrcE),
-        .ALUControlE(ALUControlE),
-        .MemWriteM(MemWriteM),
-        .MemtoRegE(MemtoRegE),
-        .PCSrcW(PCSrcW),
-        .BranchTakenE(BranchTakenE),
-        .MemtoRegW(MemtoRegW),
-        .RegWriteM(RegWriteM),
-        .PCWrPendingF(PCWrPendingF),
-        .FlushE(FlushE)
+        .PCSrcD(PCSrcD),
+        .RegWriteD(RegWriteD),
+        .MemtoRegD(MemtoRegD),
+        .MemWriteD(MemWriteD),
+        .ALUControlD(ALUControlD),
+        .BranchD(BranchD),
+        .ALUSrcD(ALUSrcD),
+        .FlagWriteD(FlagWriteD),
+        .ImmSrcD(ImmSrcD)
     );
 
     F_D_Register FetchDecode(
@@ -112,7 +108,30 @@ module arm (
         .InstrF(InstrF),
         .InstrD(InstrD)
     );
-
+    
+    flopenr #(2) flagreg1(
+		.clk(clk),
+		.reset(reset),
+		.en(FlagWriteE[1]),
+		.d(ALUFlagsE[3:2]),
+		.q(Flags_[3:2])
+	);
+	flopenr #(2) flagreg0(
+		.clk(clk),
+		.reset(reset),
+		.en(FlagWriteE[0]),
+		.d(ALUFlagsE[1:0]),
+		.q(Flags_[1:0])
+	);
+	condcheck cc(
+		.Cond(CondE),
+		.Flags(FlagsE),
+		.CondEx(CondEx)
+	);
+	assign BranchE_ = BranchE & CondEx;
+	assign PCSrcE_ = (PCSrcE & CondEx) | BranchE_;       
+	assign RegWriteE_ = RegWriteE & CondEx;
+	assign MemWriteE_ = MemWriteE & CondEx; 
     D_EX_Register DecodeExecute(
         .clk(clk),
         .reset(reset),
@@ -123,13 +142,13 @@ module arm (
         .BranchD(BranchD),
         .ALUSrcD(ALUSrcD),
         .FlagWriteD(FlagWriteD),
-        .CondD(ConD),
+        .CondD(InstrD[31:28]),
         .Flags_(Flags_),
         .RD1D(RD1D),
         .RD2D(RD2D),
         .RA1D(RA1D),
         .RA2D(RA2D),
-        .WA3D(WA3D),
+        .WA3D(InstrD[15:12]),
         .ExtImmD(ExtImmD),
         .PCSrcE(PCSrcE),
         .MemWriteE(MemWriteE),
@@ -139,6 +158,7 @@ module arm (
         .ALUControlE(ALUControlE),
         .BranchE(BranchE),
         .FlagWriteE(FlagWriteE),
+        .FlagsE(FlagsE),
         .ALUSrcE(ALUSrcE),
         .RD1E(RD1E),
         .RD2E(RD2E),
@@ -179,8 +199,13 @@ module arm (
     datapath dp(
         .clk(clk),
         .reset(reset),
+        .RA1D(RA1D),
+        .RA2D(RA2D),
+        .RD1D(RD1D),
+        .RD2D(RD2D),
         .RegSrcD(RegSrcD),
         .RegWriteW(RegWriteW),
+        .ExtImmD(ExtImmD),
         .ImmSrcD(ImmSrcD),
         .ALUSrcE(ALUSrcE),
         .ALUControlE(ALUControlE),
