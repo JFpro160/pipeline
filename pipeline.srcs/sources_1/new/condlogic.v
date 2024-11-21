@@ -22,6 +22,6 @@ module condlogic (
 		.CondEx(CondExE)
 	);
 	
-	assign Flags = {(FlagsWrite[1])?ALUFlags[3:2]:FlagsE[3:2],
-	                (FlagsWrite[0])?ALUFlags[1:0]:FlagsE[1:0]};
+	assign Flags = {(FlagsWrite[1] & CondExE)?ALUFlags[3:2]:FlagsE[3:2],
+	                (FlagsWrite[0] & CondExE)?ALUFlags[1:0]:FlagsE[1:0]};
 endmodule
