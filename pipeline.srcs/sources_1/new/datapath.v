@@ -93,7 +93,7 @@ module datapath (
 		.y(PCnext1F)
 	);
 	
-	mux2 #(32) breanchmux(
+	mux2 #(32) branchmux( //branch no breanch
 		.d0(PCnext1F),
 		.d1(ALUResultE),
 		.s(BranchTakenE),
@@ -301,5 +301,12 @@ module datapath (
 		.y(ResultW)
 	);
 	
-	// falta los match
+	// comparaciones para el hazard
+	eqcmp #(4) m0(WA3M, RA1E, Match_1E_M);
+    eqcmp #(4) m1(WA3W, RA1E, Match_1E_W);
+    eqcmp #(4) m2(WA3M, RA2E, Match_2E_M);
+    eqcmp #(4) m3(WA3W, RA2E, Match_2E_W);
+    eqcmp #(4) m4a(WA3E, RA1D, Match_1D_E);
+    eqcmp #(4) m4b(WA3E, RA2D, Match_2D_E);
+    assign Match_12D_E = Match_1D_E | Match_2D_E;
 endmodule

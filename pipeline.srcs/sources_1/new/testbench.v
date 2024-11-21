@@ -9,9 +9,9 @@ module testbench;
 	top dut(
 		.clk(clk),
 		.reset(reset),
-		.WriteData(WriteData),
-		.DataAdr(DataAdr),
-		.MemWrite(MemWrite)
+		.WriteDataM(WriteData),
+		.DataAdrM(DataAdr),
+		.MemWriteM(MemWrite)
 	);
 	initial begin
 		reset <= 1;

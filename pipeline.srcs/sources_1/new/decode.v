@@ -62,5 +62,5 @@ module decode (
 			ALUControlD = 2'b00;
 			FlagWriteD = 2'b00;
 		end
-	assign PCS = ((Rd == 4'b1111) & RegWriteD) | BranchD;
+	assign PCSrcD = ((Rd == 4'b1111) & RegWriteD) | BranchD;
 endmodule

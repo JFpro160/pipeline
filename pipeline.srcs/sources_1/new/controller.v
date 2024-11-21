@@ -35,22 +35,19 @@ module controller (
 	output wire PCWrPendingF;
 	input wire FlushE;
 	wire [1:0] FlagW;
-	wire PCS;
-	wire RegW;
-	wire MemW;
 	decode dec(
 		.Op(InstrD[27:26]),
 		.Funct(InstrD[25:20]),
 		.Rd(InstrD[15:12]),
-		.FlagW(FlagW),
-		.PCS(PCS),
-		.RegW(RegW),
-		.MemW(MemW),
-		.MemtoReg(MemtoReg),
-		.ALUSrc(ALUSrc),
-		.ImmSrc(ImmSrc),
-		.RegSrc(RegSrc),
-		.ALUControl(ALUControl)
+		.FlagWriteD(FlagW),
+		.PCSrcD(PCSrcW),
+		.RegWriteD(RegWriteM),
+		.MemWriteD(MemWriteM),
+		.MemtoRegD(MemtoRegW),
+		.ALUSrcD(ALUSrcE),
+		.ImmSrcD(ImmSrcD),
+		.RegSrcD(RegSrcD),
+		.ALUControlD(ALUControlE)
 	);
 	
 	condlogic cl(
