@@ -22,7 +22,7 @@ module top (
 		.ALUResult(DataAdrM),
 		.WriteData(WriteDataM),
 		.ReadData(ReadDataM)
-	);
+        );
 	imem imem(
 		.a(PCF),
 		.rd(InstrF)

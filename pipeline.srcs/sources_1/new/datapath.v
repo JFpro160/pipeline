@@ -171,7 +171,6 @@ module datapath (
 		ALUFlagsE
 	);
 	
-	
 	mux2 #(32) resmux(
 		.d0(ALUOutW),
 		.d1(ReadDataW),

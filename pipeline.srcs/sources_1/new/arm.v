@@ -104,7 +104,7 @@ module arm (
     F_D_Register FetchDecode(
         .clk(clk),
         .reset(reset),
-        .stall(StallF),
+        .en(~StallD),
         .InstrF(InstrF),
         .InstrD(InstrD)
     );
@@ -134,7 +134,7 @@ module arm (
 	assign MemWriteE_ = MemWriteE & CondEx; 
     D_EX_Register DecodeExecute(
         .clk(clk),
-        .reset(reset),
+        .reset(FlushE),
         .PCSrcD(PCSrcD),
         .MemWriteD(MemWriteD),
         .MemtoRegD(MemtoRegD),
@@ -188,6 +188,8 @@ module arm (
     );
 
     MEM_WB_Register MemoryWriteBack(
+        .clk(clk),
+        .reset(reset),
         .PCSrcM(PCSrcM),
         .RegWriteM(RegWriteM),
         .MemtoRegM(MemtoRegM),
@@ -234,13 +236,16 @@ module arm (
     hazard h(
         .clk(clk),
         .reset(reset),
-        .Match_1E_M(Match_1E_M),
-        .Match_1E_W(Match_1E_W),
-        .Match_2E_M(Match_2E_M),
-        .Match_2E_W(Match_2E_W),
+        .Match_1E_M( (RA1E == WA3M) ),
+        .Match_1E_W( (RA1E == WA3W) ),
+        .Match_2E_M( (RA2E == WA3M) ),
+        .Match_2E_W( (RA1E == WA3W) ),
         .Match_12D_E(Match_12D_E),
         .ForwardAE(ForwardAE),
         .ForwardBE(ForwardBE),
+        .RA1D(RA1D),
+        .RA2D(RA2D),
+        .WA3E(WA3E),
         .StallF(StallF),
         .StallD(StallD),
         .FlushD(FlushD),
