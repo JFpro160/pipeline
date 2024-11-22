@@ -16,7 +16,7 @@ module top (
     wire [31:0] InstrF;
     wire [31:0] ReadDataM;
 
-    // Instantiate processor and memories
+    // Instantiate processor
     arm arm(
         .clk(clk),
         .reset(reset),
@@ -28,11 +28,13 @@ module top (
         .ReadDataM(ReadDataM)
     );
 
+    // Instruction memory
     imem imem(
         .a(PCF),
         .rd(InstrF)
     );
 
+    // Data memory
     dmem dmem(
         .clk(clk),
         .we(MemWriteM),

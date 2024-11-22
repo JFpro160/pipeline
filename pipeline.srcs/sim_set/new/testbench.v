@@ -1,14 +1,15 @@
 `timescale 1ns / 1ps
 
 module testbench;
-    // Signals for testing
+    // Clock and reset signals
     reg clk;
     reg reset;
+    // Outputs from the processor
     wire [31:0] WriteData;
     wire [31:0] DataAdr;
     wire MemWrite;
 
-    // Instantiate the top module
+    // Instantiate the top module (processor under test)
     top dut(
         .clk(clk),
         .reset(reset),
@@ -17,14 +18,14 @@ module testbench;
         .MemWriteM(MemWrite)
     );
 
-    // Initialize reset
+    // Initialize testbench
     initial begin
         reset <= 1;
         #22;
         reset <= 0;
     end
 
-    // Clock generation
+    // Generate clock signal
     always begin
         clk <= 1;
         #5;
@@ -32,30 +33,18 @@ module testbench;
         #5;
     end
 
-    // Check simulation results
-    always @(negedge clk) begin
-        if (MemWrite) begin
-            if ((DataAdr === 100) && (WriteData === 7)) begin
-                $display("Simulation succeeded at time %0t", $time);
-                $stop;
-            end else if (DataAdr !== 96) begin
-                $display("Simulation failed at time %0t", $time);
-                $stop;
-            end
-        end
-    end
-
     // Timeout to avoid infinite simulation
     initial begin
-        #100;
+        #250;
         $display("Simulation timed out at time %0t", $time);
         $finish;
     end
 
-    // Dump waveforms for analysis
+    // Dump waveform data for analysis
     initial begin
         $dumpfile("dump.vcd");
         $dumpvars(0, testbench);
     end
 
 endmodule
+

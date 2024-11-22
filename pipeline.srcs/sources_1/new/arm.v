@@ -17,18 +17,18 @@ module arm (
     output wire [31:0] WriteDataM;
     input wire [31:0] ReadDataM;
 
-    // Internal wires
-    wire [31:0] InstrD;
-    wire [3:0] ALUFlagsE;
-    wire RegWriteM;
-    wire ALUSrcE;
-    wire MemtoRegW;
-    wire PCSrcW;
-    wire BranchTakenE;
-    wire RegWriteW;
+    // Internal signals
     wire [1:0] RegSrcD;
     wire [1:0] ImmSrcD;
     wire [1:0] ALUControlE;
+    wire ALUSrcE;
+    wire BranchTakenE;
+    wire MemtoRegW;
+    wire PCSrcW;
+    wire RegWriteW;
+    wire [3:0] ALUFlagsE;
+    wire [31:0] InstrD;
+    wire RegWriteM;
     wire MemtoRegE;
     wire PCWrPendingF;
     wire [1:0] ForwardAE;
@@ -43,28 +43,28 @@ module arm (
     wire Match_2E_W;
     wire Match_12D_E;
 
-    // Controller instantiation
+    // Instantiate controller
     controller c(
         .clk(clk),
         .reset(reset),
         .InstrD(InstrD[31:12]),
         .ALUFlagsE(ALUFlagsE),
         .RegSrcD(RegSrcD),
-        .RegWriteW(RegWriteW),
         .ImmSrcD(ImmSrcD),
         .ALUSrcE(ALUSrcE),
+        .BranchTakenE(BranchTakenE),
         .ALUControlE(ALUControlE),
         .MemWriteM(MemWriteM),
-        .MemtoRegE(MemtoRegE),
-        .PCSrcW(PCSrcW),
-        .BranchTakenE(BranchTakenE),
         .MemtoRegW(MemtoRegW),
+        .PCSrcW(PCSrcW),
+        .RegWriteW(RegWriteW),
         .RegWriteM(RegWriteM),
+        .MemtoRegE(MemtoRegE),
         .PCWrPendingF(PCWrPendingF),
         .FlushE(FlushE)
     );
 
-    // Datapath instantiation
+    // Instantiate datapath
     datapath dp(
         .clk(clk),
         .reset(reset),
@@ -72,17 +72,17 @@ module arm (
         .RegWriteW(RegWriteW),
         .ImmSrcD(ImmSrcD),
         .ALUSrcE(ALUSrcE),
+        .BranchTakenE(BranchTakenE),
         .ALUControlE(ALUControlE),
         .MemtoRegW(MemtoRegW),
         .PCSrcW(PCSrcW),
         .ALUFlagsE(ALUFlagsE),
         .PCF(PCF),
         .InstrF(InstrF),
+        .InstrD(InstrD),
         .ALUOutM(ALUOutM),
         .WriteDataM(WriteDataM),
         .ReadDataM(ReadDataM),
-        .BranchTakenE(BranchTakenE),
-        .InstrD(InstrD),
         .Match_1E_M(Match_1E_M),
         .Match_1E_W(Match_1E_W),
         .Match_2E_M(Match_2E_M),
@@ -95,7 +95,7 @@ module arm (
         .FlushD(FlushD)
     );
 
-    // Hazard unit instantiation
+    // Instantiate hazard unit
     hazard h(
         .clk(clk),
         .reset(reset),
@@ -104,18 +104,18 @@ module arm (
         .Match_2E_M(Match_2E_M),
         .Match_2E_W(Match_2E_W),
         .Match_12D_E(Match_12D_E),
+        .RegWriteM(RegWriteM),
+        .RegWriteW(RegWriteW),
+        .BranchTakenE(BranchTakenE),
+        .MemtoRegE(MemtoRegE),
+        .PCWrPendingF(PCWrPendingF),
+        .PCSrcW(PCSrcW),
         .ForwardAE(ForwardAE),
         .ForwardBE(ForwardBE),
         .StallF(StallF),
         .StallD(StallD),
         .FlushD(FlushD),
-        .FlushE(FlushE),
-        .BranchTakenE(BranchTakenE),
-        .PCWrPendingF(PCWrPendingF),
-        .RegWriteW(RegWriteW),
-        .RegWriteM(RegWriteM),
-        .MemtoRegE(MemtoRegE),
-        .PCSrcW(PCSrcW)
+        .FlushE(FlushE)
     );
 
 endmodule

@@ -1,20 +1,25 @@
 module flopenrc (
 	clk,
 	reset,
-	clr,
 	en,
+	clear,
 	d,
 	q
 );
 	parameter WIDTH = 8;
 	input wire clk;
-	input wire reset, clr;
+	input wire reset;
 	input wire en;
+	input wire clear;
 	input wire [WIDTH - 1:0] d;
 	output reg [WIDTH - 1:0] q;
-	always @(posedge clk, posedge reset)
-        if (reset) q <= 0;
-        else if (en)
-                if (clr) q <= 0;
-                else q <= d;
+
+	always @(posedge clk or posedge reset)
+		if (reset)
+			q <= 0;
+		else if (en)
+			if (clear)
+				q <= 0;
+			else
+				q <= d;
 endmodule
