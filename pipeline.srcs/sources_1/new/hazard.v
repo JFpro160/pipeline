@@ -23,7 +23,10 @@ module hazard(
 		PCSrcW,
 		RA1D,
 		RA2D,
-		WA3E
+		WA3E,
+		PCSrcD,
+		PCSrcE,
+		PCSrcM
     );
     input wire clk;
 	input wire reset;
@@ -37,16 +40,20 @@ module hazard(
 	input wire [3:0] WA3E;
 	output wire [1:0] ForwardAE;
 	output wire	[1:0] ForwardBE;
-	input wire	StallF;
-	input wire	StallD;
-	input wire	FlushD;
-	input wire	FlushE;
-	input wire	BranchTakenE;
+	output wire	StallF;
+	output wire	StallD;
+	output wire	FlushD;
+	output wire	FlushE;
+	output wire	BranchTakenE;
 	input wire	PCWrPendingF;
 	input wire	RegWriteW;
 	input wire	RegWriteM;
 	input wire	MemtoRegE;
 	input wire	PCSrcW;
+	input wire PCSrcD;
+	input wire PCSrcE;
+	input wire PCSrcM;
+	
 	assign ForwardAE = Match_1E_M & RegWriteM ? 2'b10 : 
 	                   Match_1E_W & RegWriteW ? 2'b01 : 
 	                   2'b00;
@@ -61,4 +68,8 @@ module hazard(
     assign StallD = LDRstall;
     assign FlushE = LDRstall;
     assign FlushD = LDRstall;
+    assign PCWrPendingF = PCSrcD | PCSrcE | PCSrcM;
+    assign StallF = LDRstall | PCWrPendingF;
+    assign FlushE = LDRstall | BranchTakenE;
+    assign FlushD = PCWrPendingF | PCSrcW | BranchTakenE;
 endmodule

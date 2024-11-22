@@ -15,15 +15,15 @@ module testbench;
 	);
 	initial begin
 		reset <= 1;
-		#(22)
+		#(1)
 			;
 		reset <= 0;
 	end
 	always begin
-		clk <= 0;
+		clk <= 1;
 		#(5)
 			;
-		clk <= 1;
+		clk <= 0;
 		#(5)
 			;
 	end
@@ -38,7 +38,7 @@ module testbench;
 				$stop;
 			end
 	initial begin
-		#150;
+		#200;
 		$display("Simulation timed out at time %0t", $time);
 		$finish;
 	end

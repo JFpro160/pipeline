@@ -5,22 +5,19 @@ module datapath (
 	RegWriteW,
 	ImmSrcD,
 	ALUSrcE,
+	ALUResultW,
 	ALUControlE,
 	MemtoRegW,
 	PCSrcW,
 	ALUFlagsE,
 	PCF,
 	InstrF,
-	ALUOutM,
-	WriteDataM,
-	ReadDataM,
 	BranchTakenE,
 	InstrD,
 	Match_1E_M,
 	Match_1E_W,
 	Match_2E_M,
 	Match_2E_W,
-	Match_12D_E,
 	ForwardAE,
 	ForwardBE,
 	StallF,
@@ -30,52 +27,61 @@ module datapath (
 	RA1D,
 	RA2D,
 	RD1D,
-	RD2D
+	RD2D,
+	RD1E,
+	RD2E,
+	WA3W,
+	ExtImmE,
+	ALUResultM,
+	ALUResultE
 	);
+	
 	input wire clk;
 	input wire reset;
 	input wire [1:0] RegSrcD;
+	wire [31:0] ResultW; 
 	input wire RegWriteW;
 	input wire [1:0] ImmSrcD;
 	input wire ALUSrcE;
 	input wire [1:0] ALUControlE;
+	input wire [31:0] ALUResultW;
 	input wire MemtoRegW;
 	input wire PCSrcW;
 	output wire [3:0] ALUFlagsE;
 	output wire [31:0] PCF;
 	input wire [31:0] InstrF;
-	output wire [31:0] ALUOutM;
-	output wire [31:0] WriteDataM;
-	input wire [31:0] ReadDataM;
 	output wire [31:0] InstrD;
 	input wire BranchTakenE;
 	output wire Match_1E_M;
 	output wire Match_1E_W;
 	output wire Match_2E_M;
 	output wire Match_2E_W;
-	output wire Match_12D_E;
 	input wire [1:0] ForwardAE;
 	input wire [1:0] ForwardBE;
 	input wire StallF;
 	input wire StallD;
 	input wire FlushD;
+	input wire [3:0] WA3W;
 	
-	
+	output wire [31:0] ALUResultE;
 	wire [31:0] PCnextF1;
 	wire [31:0] PCnextF;
 	wire [31:0] PCPlus4F;
 	wire [31:0] PCPlus8D;
 	output wire [31:0] ExtImmD;
-	wire [31:0] ExtImmE;
-	wire [31:0] SrcA;
-	wire [31:0] SrcB;
-	wire [31:0] Result;
+	input wire [31:0] ExtImmE;
+	input wire [31:0] ALUResultM;
+//	wire [31:0] Result;
+	wire [31:0] SrcAE;
+	wire [31:0] SrcBE;
+	wire [31:0] WriteDataE;
 	output wire [3:0] RA1D;
 	output wire [3:0] RA2D;
+	input wire [31:0] RD1E;
+	input wire [31:0] RD2E;
 	output wire [31:0] RD1D;
 	output wire [31:0] RD2D;
 	wire [3:0] InstrD;
-	wire [31:0] ForwardB;
 		
 	mux2 #(32) pcnextmux(
 		.d0(PCPlus4F),
@@ -87,7 +93,7 @@ module datapath (
 	mux2 #(32) branchmux(
 		.d0(PCnextF1),
 		.d1(ALUResultE),
-		.s(BranchE_),
+		.s(BranchTakenE),
 		.y(PCnextF)
 	);
 	
@@ -143,7 +149,7 @@ module datapath (
 	mux3 #(32) forwardSrcA(
 	   .d0(RD1E),
 	   .d1(ResultW),
-	   .d2(ALUResultD),
+	   .d2(ALUResultM),
 	   .s(ForwardAE),
 	   .y(SrcAE)
 	);
@@ -151,7 +157,7 @@ module datapath (
 	mux3 #(32) forwardSrcB(
 	   .d0(RD2E),
 	   .d1(ResultW),
-	   .d2(ALUResultD),
+	   .d2(ALUResultM),
 	   .s(ForwardBE),
 	   .y(WriteDataE)
 	);
@@ -164,17 +170,18 @@ module datapath (
 	);
 	
 	alu alu(
-		SrcAE,
-		SrcBE,
-		ALUControlE,
-		ALUResultE,
-		ALUFlagsE
+		.a(SrcAE),
+		.b(SrcBE),
+		.ALUControl(ALUControlE),
+		.Result(ALUResultE),
+		.ALUFlags(ALUFlagsE)
 	);
 	
 	mux2 #(32) resmux(
-		.d0(ALUOutW),
+		.d0(ALUResultW),
 		.d1(ReadDataW),
 		.s(MemtoRegW),
 		.y(ResultW)
 	);
+
 endmodule

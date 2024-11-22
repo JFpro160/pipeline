@@ -5,16 +5,16 @@ module EX_MEM_Register (
     input wire RegWriteE_,
     input wire MemWriteE_,
     input wire MemtoRegE,
-    input wire ALUResultE,
-    input wire WriteDataE,
-    input wire WA3E,
+    input wire [31:0] ALUResultE,
+    input wire [31:0] WriteDataE,
+    input wire [3:0] WA3E,
     output reg PCSrcM,
     output reg MemWriteM,
     output reg MemtoRegM,
     output reg RegWriteM,
-    output reg ALUResultM,
-    output reg WriteDataM,
-    output reg WA3M
+    output reg [31:0] ALUResultM,
+    output reg [31:0] WriteDataM,
+    output reg [3:0] WA3M
 );
 
 
