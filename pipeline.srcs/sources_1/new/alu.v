@@ -1,4 +1,3 @@
-// 32-bit ALU for ARM processor
 module alu (
     input wire [31:0] a,
     input wire [31:0] b,

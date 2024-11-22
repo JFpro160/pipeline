@@ -87,7 +87,8 @@ module arm (
 		.ForwardBE(ForwardBE),
 		.StallF(StallF),
 		.StallD(StallD),
-		.FlushD(FlushD)
+		.FlushD(FlushD),
+		.FlushE(FlushE)
 	);
 	
 	hazard h(

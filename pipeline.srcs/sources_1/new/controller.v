@@ -41,25 +41,20 @@ module controller (
 	wire [1:0] ALUControlD;
 	wire BranchD;
 	wire ALUSrcD;
-	reg [1:0] FlagWriteD;
+	wire [1:0] FlagWriteD;
+	wire [1:0] FlagWriteE;
 	wire PCSrcE;
 	wire RegWriteE;
-	wire MemtoRegE;
 	wire MemWriteE;
-	wire [2:0] ALUControlE;
 	wire BranchE;
-	reg [1:0] FlagsWriteE;
-	wire [1:0] CondE;
+	wire [3:0] CondE;
 	wire [3:0] FlagsE;
 	wire [3:0] Flags;
 	wire PCSrcAndCondExE;
-	wire PCSrcAndCondExEOrBranchEAndCondExE;
 	wire RegWriteEAndCondExe;
 	wire MemWriteEAndCondExE;
-	wire BranchEAndCondExE;
-	wire [3:0] CondExE;
+	wire CondExE;
 	wire PCSrcM;
-	wire RegWriteM;
 	wire MemtoRegM;
 
 
@@ -82,84 +77,104 @@ module controller (
 		.RegSrcD(RegSrcD)
 	);
 	
-	// reg Decode  a Execute
-	floprc #(1) RegPCSrc(
+	// reg Decode  a Execute(todos son flop clear en flushE)
+	flop #(1) RegPCSrc( 
 		.clk(clk),
 		.reset(reset),
 		.d(PCSrcD),
-		.q(PCSrcE)
+		.q(PCSrcE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
-	floprc #(1) RegRegWrite(
+	flop #(1) RegRegWrite(
 		.clk(clk),
 		.reset(reset),
 		.d(RegWriteD),
-		.q(RegWriteE)
+		.q(RegWriteE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
-	floprc #(1) RegMemtoReg(
+	flop #(1) RegMemtoReg(
 		.clk(clk),
 		.reset(reset),
 		.d(MemtoRegD),
-		.q(MemtoRegE)
+		.q(MemtoRegE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
-	floprc #(1) RegMemWrite(
+	flop #(1) RegMemWrite(
 		.clk(clk),
 		.reset(reset),
 		.d(MemWriteD),
-		.q(MemWriteE)
+		.q(MemWriteE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
-	floprc #(2) RegALUControl(
+	flop #(2) RegALUControl(
 		.clk(clk),
 		.reset(reset),
 		.d(ALUControlD),
-		.q(ALUControlE)
+		.q(ALUControlE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
-	floprc #(1) RegBranch(
+	flop #(1) RegBranch(
 		.clk(clk),
 		.reset(reset),
 		.d(BranchD),
-		.q(BranchE)
+		.q(BranchE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
-	floprc #(1) RegALUSrc(
+	flop #(1) RegALUSrc(
 		.clk(clk),
 		.reset(reset),
 		.d(ALUSrcD),
-		.q(ALUSrcE)
+		.q(ALUSrcE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
-	floprc #(2) RegFlagWrite(
+	flop #(2) RegFlagWrite(
 		.clk(clk),
 		.reset(reset),
 		.d(FlagWriteD),
-		.q(FlagWriteE)
+		.q(FlagWriteE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
-	floprc #(2) RegCond(
+	flop #(4) RegCond(
 		.clk(clk),
 		.reset(reset),
 		.d(InstrD[31:28]),
-		.q(CondE)
+		.q(CondE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
-	floprc #(4) RegFlags(
+	flop #(4) RegFlags(
 		.clk(clk),
 		.reset(reset),
 		.d(Flags),
-		.q(FlagsE)
+		.q(FlagsE),
+		.en(1'b1),
+		.clr(FlushE)
 	);
 
 	//condlogic 
 
 	assign PCSrcAndCondExE = PCSrcE & CondExE;
-	assign PCSrcAndCondExEOrBranchEAndCondExE = PCSrcAndCondExE | BranchEAndCondExE;
+	assign PCSrcAndCondExEOrBranchEAndCondExE = PCSrcAndCondExE | BranchTakenE;
 	assign RegWriteEAndCondExe = RegWriteE & CondExE;
 	assign MemWriteEAndCondExE = MemWriteE & CondExE;
-	assign BranchEAndCondExE = BranchE & CondExE;
+	assign BranchTakenE = BranchE & CondExE;
 	
 	condlogic cl(
 		.clk(clk),
@@ -167,71 +182,79 @@ module controller (
 		.Flags(Flags),
 		.CondE(CondE),
 		.FlagsE(FlagsE),
-		.FlagsWrite(FlagsWrite),
+		.FlagsWrite(FlagWriteE),
 		.CondExE(CondExE),
-		.ALUFlags(ALUFlags)
+		.ALUFlags(ALUFlagsE)
 	);
 
-	// reg Execute to Memory
+	// reg Execute to Memory todos normales
 
-	flopr #(1) RegPCSrcE(
+	flop #(1) RegPCSrcE(
 		.clk(clk),
 		.reset(reset),
 		.d(PCSrcAndCondExEOrBranchEAndCondExE),
-		.q(PCSrcM)
+		.q(PCSrcM),
+		.en(1'b1),
+		.clr(1'b0)
 	);
 
-	floprc #(1) RegRegWriteE(
+	flop #(1) RegRegWriteE(
 		.clk(clk),
 		.reset(reset),
 		.d(RegWriteEAndCondExe),
-		.q(RegWriteM)
+		.q(RegWriteM),
+		.en(1'b1),
+		.clr(1'b0)
 	);
 
-	floprc #(1) RegMemtoRegE(
+	flop #(1) RegMemtoRegE(
 		.clk(clk),
 		.reset(reset),
 		.d(MemtoRegE),
-		.q(MemtoRegM)
+		.q(MemtoRegM),
+		.en(1'b1),
+		.clr(1'b0)
 	);
 
-	floprc #(1) RegMemWriteE(
+	flop #(1) RegMemWriteE(
 		.clk(clk),
 		.reset(reset),
 		.d(MemWriteEAndCondExE),
-		.q(MemWriteM)
+		.q(MemWriteM),
+		.en(1'b1),
+		.clr(1'b0)
 	);
 
 	// reg Memory to Writeback
 
-	flopr #(1) RegPCSrcM(
+	flop #(1) RegPCSrcM(
 		.clk(clk),
 		.reset(reset),
 		.d(PCSrcM),
-		.q(PCSrcW)
+		.q(PCSrcW),
+		.en(1'b1),
+		.clr(1'b0)
 	);
 
-	flopr #(1) RegRegWriteM(
+	flop #(1) RegRegWriteM(
 		.clk(clk),
 		.reset(reset),
 		.d(RegWriteM),
-		.q(RegWriteW)
+		.q(RegWriteW),
+		.en(1'b1),
+		.clr(1'b0)
 	);
 
-	flopr #(1) RegMemtoRegM(
+	flop #(1) RegMemtoRegM(
 		.clk(clk),
 		.reset(reset),
 		.d(MemtoRegM),
-		.q(MemtoRegW)
+		.q(MemtoRegW),
+		.en(1'b1),
+		.clr(1'b0)
 	);
-
-
-
-	
-
 	
 	assign PCWrPendingF = PCSrcD | PCSrcE | PCSrcM;
 	
-	
-	// flip flop
+
 endmodule

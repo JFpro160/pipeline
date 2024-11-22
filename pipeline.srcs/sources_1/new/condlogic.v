@@ -14,7 +14,7 @@ module condlogic (
 	output wire CondExE;
 	output wire [3:0] Flags;
 	input wire [3:0] FlagsE;
-	input wire CondE;
+	input wire [3:0] CondE;
 	input wire [1:0] FlagsWrite;
 	condcheck cc(
 		.Cond(CondE),
