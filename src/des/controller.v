@@ -1,51 +1,20 @@
 module controller (
-    clk,
-    reset,
-    InstrD,
-    ALUFlagsE,
-    RegSrcD,
-    ImmSrcD,
-    ALUSrcE,
-    BranchTakenE,
-    ALUControlE,
-    MemWriteM,
-    MemtoRegW,
-    PCSrcW,
-    RegWriteW,
-    RegWriteM,
-    MemtoRegE,
-    PCWrPendingF,
-    FlushE
+    input wire clk, reset, FlushE,
+    input wire [3:0] ALUFlagsE,
+    input wire [31:12] InstrD,
+    output wire [1:0] RegSrcD, ImmSrcD, ALUControlE, 
+    output wire MemtoRegE, ALUSrcE, BranchTakenE, 
+                RegWriteM, MemWriteM, PCSrcW, RegWriteW, MemtoRegW, PCWrPendingF
 );
-    input wire clk;
-    input wire reset;
-    input wire [31:12] InstrD;
-    input wire [3:0] ALUFlagsE;
-    output wire [1:0] RegSrcD;
-    output wire [1:0] ImmSrcD;
-    output wire ALUSrcE;
-    output wire BranchTakenE;
-    output wire [1:0] ALUControlE;
-    output wire MemWriteM;
-    output wire MemtoRegW;
-    output wire PCSrcW;
-    output wire RegWriteW;
-    output wire RegWriteM;
-    output wire MemtoRegE;
-    output wire PCWrPendingF;
-    input wire FlushE;
-
     // Internal signals
+    reg [1:0] ALUControlD, FlagWriteD;
     reg [9:0] controlsD;
-    reg [1:0] FlagWriteD; 
+    wire [3:0] FlagsNextE, CondE, FlagsE;
     wire [1:0] FlagWriteE; // wire porque entra como wire en cond
-    wire ALUOpD, BranchD, BranchE;
-    wire MemWriteD, MemWriteE, MemWriteGatedE;
-    wire MemtoRegD, MemtoRegM, RegWriteD, RegWriteE, RegWriteGatedE;
-    reg [1:0] ALUControlD;
-    wire PCSrcD, PCSrcE, PCSrcM;
-    wire [3:0] FlagsE, FlagsNextE, CondE;
-    wire CondExE;
+    wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUOpD,
+         PCSrcE, RegWriteE, MemWriteE, BranchE, 
+         CondExE, RegWriteGatedE, MemWriteGatedE, 
+         PCSrcMwire, MemtoRegM; 
 
     // Decode stage
     always @(*) begin

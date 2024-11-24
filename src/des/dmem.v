@@ -1,16 +1,8 @@
 module dmem (
-    clk,
-    we,
-    a,
-    wd,
-    rd
+    input wire clk, we,
+    input wire [31:0] a, wd,
+    output wire [31:0] rd
 );
-    input wire clk;
-    input wire we;
-    input wire [31:0] a;
-    input wire [31:0] wd;
-    output wire [31:0] rd;
-
     // Memory array
     reg [31:0] RAM [63:0];
 

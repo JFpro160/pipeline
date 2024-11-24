@@ -1,87 +1,18 @@
-module datapath (
-	clk,
-	reset,
-	RegSrcD,
-	RegWriteW,
-	ImmSrcD,
-	ALUSrcE,
-	BranchTakenE,
-	ALUControlE,
-	MemtoRegW,
-	PCSrcW,
-	ALUFlagsE,
-	PCF,
-	InstrF,
-	InstrD,
-	ALUOutM,
-	WriteDataM,
-	ReadDataM,
-	Match_1E_M,
-	Match_1E_W,
-	Match_2E_M,
-	Match_2E_W,
-	Match_12D_E,
-	ForwardAE,
-	ForwardBE,
-	StallF,
-	StallD,
-	FlushD
-);
-	input wire clk;
-	input wire reset;
-	input wire [1:0] RegSrcD;
-	input wire RegWriteW;
-	input wire [1:0] ImmSrcD;
-	input wire ALUSrcE;
-	input wire BranchTakenE;
-	input wire [1:0] ALUControlE;
-	input wire MemtoRegW;
-	input wire PCSrcW;
-	output wire [3:0] ALUFlagsE;
-	output wire [31:0] PCF;
-	input wire [31:0] InstrF;
-	output wire [31:0] InstrD;
-	output wire [31:0] ALUOutM;
-	output wire [31:0] WriteDataM;
-	input wire [31:0] ReadDataM;
-	output wire Match_1E_M;
-	output wire Match_1E_W;
-	output wire Match_2E_M;
-	output wire Match_2E_W;
-	output wire Match_12D_E;
-	input wire [1:0] ForwardAE;
-	input wire [1:0] ForwardBE;
-	input wire StallF;
-	input wire StallD;
-	input wire FlushD;
-
-	// Internal wires
-	wire [31:0] PCPlus4F;
-	wire [31:0] PCnext1F;
-	wire [31:0] PCnextF;
-	wire [31:0] PCPlus8D;
-	wire [31:0] ExtImmD;
-	wire [31:0] SrcAE;
-	wire [31:0] SrcBE;
-	wire [31:0] WriteDataE;
-	wire [31:0] ALUResultE;
-	wire [31:0] ReadDataW;
-	wire [31:0] ALUOutW;
-	wire [31:0] ResultW;
-	wire [31:0] rd1D;
-	wire [31:0] rd2D;
-	wire [31:0] rd1E;
-	wire [31:0] rd2E;
-	wire [31:0] ExtImmE;
-	wire [3:0] RA1D;
-	wire [3:0] RA2D;
-	wire [3:0] RA1E;
-	wire [3:0] RA2E;
-	wire [3:0] WA3E;
-	wire [3:0] WA3M;
-	wire [3:0] WA3W;
-	wire Match_1D_E;
-	wire Match_2D_E;
+module datapath ( 
+	input wire clk, reset, ALUSrcE, BranchTakenE, PCSrcW, RegWriteW, MemtoRegW, 
+	           StallF, StallD, FlushD, 
+	input wire [1:0] RegSrcD, ImmSrcD, ALUControlE, ForwardAE, ForwardBE, 
+	input wire [31:0] InstrF, ReadDataM, 
+	output wire [31:0] PCF, InstrD, ALUOutM, WriteDataM, 
+	output wire [3:0] ALUFlagsE, 
+	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E 
+); 
+	// Internal wires 
+	wire [31:0] PCnext1F, PCnextF, PCPlus4F, PCPlus8D, rd1D, rd2D, ExtImmD, 
+	            rd1E, rd2E, ExtImmE, WriteDataE, SrcAE, SrcBE, ALUResultE, 
+	            ReadDataW, ALUOutW, ResultW; 
+	wire [3:0] RA1D, RA2D, RA1E, RA2E, WA3E, WA3M, WA3W; 
+	wire Match_1D_E, Match_2D_E; 
 
 	// Fetch Stage
 	mux2 #(32) pcnextmux(

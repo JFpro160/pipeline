@@ -1,11 +1,8 @@
 module extend (
-    Instr,
-    ImmSrc,
-    ExtImm
+    input wire [23:0] Instr,
+    input wire [1:0] ImmSrc,
+    output reg [31:0] ExtImm
 );
-    input wire [23:0] Instr;
-    input wire [1:0] ImmSrc;
-    output reg [31:0] ExtImm;
 
     always @(*)
         case (ImmSrc)

@@ -1,8 +1,7 @@
 // 32-bit ALU for ARM processor
 module alu (
-    input wire [31:0] a,
-    input wire [31:0] b,
     input wire [1:0] ALUControl,
+    input wire [31:0] a, b,
     output reg [31:0] Result,
     output wire [3:0] Flags
 );
@@ -32,7 +31,7 @@ module alu (
     assign carry = (ALUControl[1] == 1'b0) & sum[32];     // Carry flag
     assign overflow = (ALUControl[1] == 1'b0) & 
                       ~(a[31] ^ b[31] ^ ALUControl[0]) & 
-                      (a[31] ^ sum[31]);                 // Overflow flag
+                       (a[31] ^ sum[31]);                 // Overflow flag
 
     // Assign flags to output
     assign Flags = {neg, zero, carry, overflow};

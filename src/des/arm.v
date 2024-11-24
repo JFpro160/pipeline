@@ -1,47 +1,17 @@
-module arm (
-    clk,
-    reset,
-    PCF,
-    InstrF,
-    MemWriteM,
-    ALUOutM,
-    WriteDataM,
-    ReadDataM
-);
-    input wire clk;
-    input wire reset;
-    output wire [31:0] PCF;
-    input wire [31:0] InstrF;
-    output wire MemWriteM;
-    output wire [31:0] ALUOutM;
-    output wire [31:0] WriteDataM;
-    input wire [31:0] ReadDataM;
-
-    // Internal signals
-    wire [1:0] RegSrcD;
-    wire [1:0] ImmSrcD;
-    wire [1:0] ALUControlE;
-    wire ALUSrcE;
-    wire BranchTakenE;
-    wire MemtoRegW;
-    wire PCSrcW;
-    wire RegWriteW;
-    wire [3:0] ALUFlagsE;
-    wire [31:0] InstrD;
-    wire RegWriteM;
-    wire MemtoRegE;
-    wire PCWrPendingF;
-    wire [1:0] ForwardAE;
-    wire [1:0] ForwardBE;
-    wire StallF;
-    wire StallD;
-    wire FlushD;
-    wire FlushE;
-    wire Match_1E_M;
-    wire Match_1E_W;
-    wire Match_2E_M;
-    wire Match_2E_W;
-    wire Match_12D_E;
+module arm ( 
+    input wire clk, reset, 
+    input wire [31:0] InstrF, ReadDataM,
+    output wire [31:0] PCF, ALUOutM, WriteDataM, 
+    output wire MemWriteM 
+); 
+    // Internal signals 
+    wire ALUSrcE, MemtoRegE, BranchTakenE, 
+         RegWriteM, PCSrcW, RegWriteW, MemtoRegW, 
+         PCWrPendingF, StallF, StallD, FlushD, FlushE, 
+         Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E; 
+    wire [1:0] RegSrcD, ImmSrcD, ALUControlE, ForwardAE, ForwardBE; 
+    wire [3:0] ALUFlagsE; 
+    wire [31:0] InstrD; 
 
     // Instantiate controller
     controller c(
@@ -56,7 +26,7 @@ module arm (
         .ALUControlE(ALUControlE),
         .MemWriteM(MemWriteM),
         .MemtoRegW(MemtoRegW),
-        .PCSrcW(PCSrcW),
+        .PCSrcW(PCSrcW), 
         .RegWriteW(RegWriteW),
         .RegWriteM(RegWriteM),
         .MemtoRegE(MemtoRegE),
@@ -75,7 +45,7 @@ module arm (
         .BranchTakenE(BranchTakenE),
         .ALUControlE(ALUControlE),
         .MemtoRegW(MemtoRegW),
-        .PCSrcW(PCSrcW),
+        .PCSrcW(PCSrcW), 
         .ALUFlagsE(ALUFlagsE),
         .PCF(PCF),
         .InstrF(InstrF),
@@ -109,7 +79,7 @@ module arm (
         .BranchTakenE(BranchTakenE),
         .MemtoRegE(MemtoRegE),
         .PCWrPendingF(PCWrPendingF),
-        .PCSrcW(PCSrcW),
+        .PCSrcW(PCSrcW), 
         .ForwardAE(ForwardAE),
         .ForwardBE(ForwardBE),
         .StallF(StallF),

@@ -2,11 +2,9 @@
 
 module testbench;
     // Clock and reset signals
-    reg clk;
-    reg reset;
+    reg clk, reset;
     // Outputs from the processor
-    wire [31:0] WriteData;
-    wire [31:0] DataAdr;
+    wire [31:0] WriteData, DataAdr;
     wire MemWrite;
 
     // Instantiate the top module (processor under test)

@@ -1,20 +1,10 @@
 module top (
-    clk,
-    reset,
-    WriteDataM,
-    DataAdrM,
-    MemWriteM
+    input wire clk, reset,
+    output wire [31:0] WriteDataM, DataAdrM,
+    output wire MemWriteM
 );
-    input wire clk;
-    input wire reset;
-    output wire [31:0] WriteDataM;
-    output wire [31:0] DataAdrM;
-    output wire MemWriteM;
-
     // Internal wires
-    wire [31:0] PCF;
-    wire [31:0] InstrF;
-    wire [31:0] ReadDataM;
+    wire [31:0] PCF, InstrF, ReadDataM;
 
     // Instantiate processor
     arm arm(

@@ -1,34 +1,18 @@
-# Excluir carpetas de cache y temporales
-pipeline.cache/
-pipeline.hw/
-pipeline.sim/
-
-# Excluir archivos de log y archivos temporales
+# Configuración general
+.DS_Store
 *.log
 *.jou
-*.str
-
-# Excluir archivos de resultados de simulación
+*.zip
 *.wdb
-*.xsim
+*.pb
 
-# Excluir archivos generados por el compilador
-*.d
-*.o
-*.bin
-*.elf
+# Archivos de configuración específicos de Vivado
+.Xil/
+*.xpr
+*.backup.jou
+*.backup.log
 
-# Excluir archivos específicos de Vivado
-*.runs/
-*.sdk/
-
-# Excluir archivos de proyecto Vivado
-*.xsc
-*.xci
-*.xsa
-*.xpr.lock
-
-# Excluir cualquier otra carpeta o archivo temporal
-temp/
-.tmp/
+# Excluir contenido dentro de projects, pero no la carpeta en sí
+projects/*
+!projects/.gitkeep
 
