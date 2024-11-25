@@ -3,7 +3,7 @@ module controller (
     input wire [3:0] ALUFlagsE,
     input wire [31:12] InstrD,
     output wire [1:0] RegSrcD, ImmSrcD, ALUControlE, 
-    output wire MemtoRegE, ALUSrcE, BranchTakenE, 
+    output wire BranchTakenD, MemtoRegE, ALUSrcE, 
                 RegWriteM, MemWriteM, PCSrcW, RegWriteW, MemtoRegW, PCWrPendingF
 );
     // Internal signals
@@ -11,10 +11,10 @@ module controller (
     reg [9:0] controlsD;
     wire [3:0] FlagsNextE, CondE, FlagsE;
     wire [1:0] FlagWriteE; // wire porque entra como wire en cond
-    wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUOpD,
-         PCSrcE, RegWriteE, MemWriteE, BranchE, 
+    wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUOpD, CondExEarlyD,
+         PCSrcE, RegWriteE, MemWriteE, 
          CondExE, RegWriteGatedE, MemWriteGatedE, 
-         PCSrcMwire, MemtoRegM; 
+         PCSrcM, MemtoRegM; 
 
     // Decode stage
     always @(*) begin
@@ -46,14 +46,22 @@ module controller (
     end
 
     assign PCSrcD = (((InstrD[15:12] == 4'b1111) & RegWriteD) | BranchD);
+    
+    conditional CondEarly(
+        .Cond(InstrD[31:28]),
+        .Flags(FlagsNextE),
+        .CondEx(CondExEarlyD)
+    );
+    
+    assign BranchTakenD = BranchD & CondExEarlyD;
 
     // Execute stage
     floprc #(7) flushedregsE(
         .clk(clk),
         .reset(reset),
         .clear(FlushE),
-        .d({FlagWriteD, BranchD, MemWriteD, RegWriteD, PCSrcD, MemtoRegD}),
-        .q({FlagWriteE, BranchE, MemWriteE, RegWriteE, PCSrcE, MemtoRegE})
+        .d({FlagWriteD, MemWriteD, RegWriteD, PCSrcD, MemtoRegD}),
+        .q({FlagWriteE, MemWriteE, RegWriteE, PCSrcE, MemtoRegE})
     );
 
     flopr #(3) regsE(
@@ -86,11 +94,10 @@ module controller (
         .CondEx(CondExE),
         .FlagsNext(FlagsNextE)
     );
-
-    assign BranchTakenE = BranchE & CondExE;
+    
+    assign PCSrcGatedE = PCSrcE & CondExE;
     assign RegWriteGatedE = RegWriteE & CondExE;
     assign MemWriteGatedE = MemWriteE & CondExE;
-    assign PCSrcGatedE = PCSrcE & CondExE;
 
     // Memory stage
     flopr #(4) regsM(

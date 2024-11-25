@@ -1,5 +1,5 @@
 module datapath ( 
-	input wire clk, reset, ALUSrcE, BranchTakenE, PCSrcW, RegWriteW, MemtoRegW, 
+	input wire clk, reset, BranchTakenD, ALUSrcE, PCSrcW, RegWriteW, MemtoRegW, 
 	           StallF, StallD, FlushD, 
 	input wire [1:0] RegSrcD, ImmSrcD, ALUControlE, ForwardAE, ForwardBE, 
 	input wire [31:0] InstrF, ReadDataM, 
@@ -8,7 +8,7 @@ module datapath (
 	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E 
 ); 
 	// Internal wires 
-	wire [31:0] PCnext1F, PCnextF, PCPlus4F, PCPlus8D, rd1D, rd2D, ExtImmD, 
+	wire [31:0] PCnext1F, PCnextF, PCPlus4F, PCPlus8D, rd1D, rd2D, ExtImmD, PCBranchD,
 	            rd1E, rd2E, ExtImmE, WriteDataE, SrcAE, SrcBE, ALUResultE, 
 	            ReadDataW, ALUOutW, ResultW; 
 	wire [3:0] RA1D, RA2D, RA1E, RA2E, WA3E, WA3M, WA3W; 
@@ -23,8 +23,8 @@ module datapath (
 	);
 	mux2 #(32) branchmux(
 		.d0(PCnext1F),
-		.d1(ALUResultE),
-		.s(BranchTakenE),
+		.d1(PCBranchD),
+		.s(BranchTakenD),
 		.y(PCnextF)
 	);
 	flopenr #(32) pcreg(
@@ -79,6 +79,11 @@ module datapath (
 		.Instr(InstrD[23:0]),
 		.ImmSrc(ImmSrcD),
 		.ExtImm(ExtImmD)
+	);
+	adder #(32) pcbranchadd(
+	    .a(ExtImmD),
+		.b(PCPlus8D),
+		.y(PCBranchD)
 	);
 
 	// Execute Stage

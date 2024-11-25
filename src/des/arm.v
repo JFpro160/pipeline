@@ -5,7 +5,7 @@ module arm (
     output wire MemWriteM 
 ); 
     // Internal signals 
-    wire ALUSrcE, MemtoRegE, BranchTakenE, 
+    wire BranchTakenD, ALUSrcE, MemtoRegE,  
          RegWriteM, PCSrcW, RegWriteW, MemtoRegW, 
          PCWrPendingF, StallF, StallD, FlushD, FlushE, 
          Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E; 
@@ -22,7 +22,7 @@ module arm (
         .RegSrcD(RegSrcD),
         .ImmSrcD(ImmSrcD),
         .ALUSrcE(ALUSrcE),
-        .BranchTakenE(BranchTakenE),
+        .BranchTakenD(BranchTakenD),
         .ALUControlE(ALUControlE),
         .MemWriteM(MemWriteM),
         .MemtoRegW(MemtoRegW),
@@ -42,7 +42,7 @@ module arm (
         .RegWriteW(RegWriteW),
         .ImmSrcD(ImmSrcD),
         .ALUSrcE(ALUSrcE),
-        .BranchTakenE(BranchTakenE),
+        .BranchTakenD(BranchTakenD),
         .ALUControlE(ALUControlE),
         .MemtoRegW(MemtoRegW),
         .PCSrcW(PCSrcW), 
@@ -76,7 +76,7 @@ module arm (
         .Match_12D_E(Match_12D_E),
         .RegWriteM(RegWriteM),
         .RegWriteW(RegWriteW),
-        .BranchTakenE(BranchTakenE),
+        .BranchTakenD(BranchTakenD),
         .MemtoRegE(MemtoRegE),
         .PCWrPendingF(PCWrPendingF),
         .PCSrcW(PCSrcW), 
