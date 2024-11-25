@@ -50,6 +50,8 @@ module controller (
     conditional CondEarly(
         .Cond(InstrD[31:28]),
         .Flags(FlagsNextE),
+        .ALUFlags(4'bx),
+        .FlagsWrite(2'bx),
         .CondEx(CondExEarlyD)
     );
     

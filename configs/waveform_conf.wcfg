@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="250.001 ns"></ZoomEndTime>
+      <ZoomEndTime time="109.566 ns"></ZoomEndTime>
       <Cursor1Time time="250.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="146"></NameColumnWidth>
-      <ValueColumnWidth column_width="128"></ValueColumnWidth>
+      <ValueColumnWidth column_width="136"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="10" />
+   <WVObjectSize size="21" />
    <wvobject type="logic" fp_name="/testbench/dut/arm/dp/rf/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -59,5 +59,49 @@
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/rf">
       <obj_property name="ElementShortName">rf[14:0][31:0]</obj_property>
       <obj_property name="ObjectShortName">rf[14:0][31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/CondEarly/Cond">
+      <obj_property name="ElementShortName">Cond[3:0]</obj_property>
+      <obj_property name="ObjectShortName">Cond[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/CondEarly/Flags">
+      <obj_property name="ElementShortName">Flags[3:0]</obj_property>
+      <obj_property name="ObjectShortName">Flags[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/CondEarly/ALUFlags">
+      <obj_property name="ElementShortName">ALUFlags[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ALUFlags[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/CondEarly/FlagsWrite">
+      <obj_property name="ElementShortName">FlagsWrite[1:0]</obj_property>
+      <obj_property name="ObjectShortName">FlagsWrite[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/CondEarly/FlagsNext">
+      <obj_property name="ElementShortName">FlagsNext[3:0]</obj_property>
+      <obj_property name="ObjectShortName">FlagsNext[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/CondEarly/CondEx">
+      <obj_property name="ElementShortName">CondEx</obj_property>
+      <obj_property name="ObjectShortName">CondEx</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/CondEarly/neg">
+      <obj_property name="ElementShortName">neg</obj_property>
+      <obj_property name="ObjectShortName">neg</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/CondEarly/zero">
+      <obj_property name="ElementShortName">zero</obj_property>
+      <obj_property name="ObjectShortName">zero</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/CondEarly/carry">
+      <obj_property name="ElementShortName">carry</obj_property>
+      <obj_property name="ObjectShortName">carry</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/CondEarly/overflow">
+      <obj_property name="ElementShortName">overflow</obj_property>
+      <obj_property name="ObjectShortName">overflow</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/CondEarly/ge">
+      <obj_property name="ElementShortName">ge</obj_property>
+      <obj_property name="ObjectShortName">ge</obj_property>
    </wvobject>
 </wave_config>
