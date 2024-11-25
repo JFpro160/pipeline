@@ -1,6 +1,6 @@
 // 32-bit ALU for ARM processor
 module alu (
-    input wire [1:0] ALUControl,
+    input wire [2:0] ALUControl,
     input wire [31:0] a, b,
     output reg [31:0] Result,
     output wire [3:0] Flags
@@ -18,20 +18,22 @@ module alu (
 
     // Compute result based on ALUControl
     always @(*) begin
-        casex (ALUControl[1:0])
-            2'b0?: Result = sum;       // Addition/Subtraction
-            2'b10: Result = a & b;     // AND
-            2'b11: Result = a | b;     // OR
+        casex (ALUControl[2:0])
+            3'b00?: Result = sum;       // Addition/Subtraction
+            3'b010: Result = a & b;     // AND
+            3'b011: Result = a | b;     // OR
+            3'b100: Result = a ^ b;     // XOR
         endcase
     end
 
     // Compute flags
+    wire sumOp = ALUControl[2:1] == 2'b0;
     assign neg = Result[31];                              // Negative flag
     assign zero = (Result == 32'b0);                      // Zero flag
-    assign carry = (ALUControl[1] == 1'b0) & sum[32];     // Carry flag
-    assign overflow = (ALUControl[1] == 1'b0) & 
+    assign carry = sumOp & sum[32];                       // Carry flag
+    assign overflow = sumOp &                             // Overflow flag
                       ~(a[31] ^ b[31] ^ ALUControl[0]) & 
-                       (a[31] ^ sum[31]);                 // Overflow flag
+                       (a[31] ^ sum[31]);                       
 
     // Assign flags to output
     assign Flags = {neg, zero, carry, overflow};

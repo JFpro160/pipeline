@@ -9,7 +9,8 @@ module arm (
          RegWriteM, PCSrcW, RegWriteW, MemtoRegW, 
          PCWrPendingF, StallF, StallD, FlushD, FlushE, 
          Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E; 
-    wire [1:0] RegSrcD, ImmSrcD, ALUControlE, ForwardAE, ForwardBE; 
+    wire [1:0] RegSrcD, ImmSrcD, ForwardAE, ForwardBE; 
+    wire [2:0] ALUControlE;
     wire [3:0] ALUFlagsE; 
     wire [31:0] InstrD; 
 

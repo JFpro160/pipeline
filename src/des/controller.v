@@ -2,17 +2,20 @@ module controller (
     input wire clk, reset, FlushE,
     input wire [3:0] ALUFlagsE,
     input wire [31:12] InstrD,
-    output wire [1:0] RegSrcD, ImmSrcD, ALUControlE, 
+    output wire [1:0] RegSrcD, ImmSrcD, 
+    output wire [2:0] ALUControlE, 
     output wire BranchTakenD, MemtoRegE, ALUSrcE, 
                 RegWriteM, MemWriteM, PCSrcW, RegWriteW, MemtoRegW, PCWrPendingF
 );
     // Internal signals
-    reg [1:0] ALUControlD, FlagWriteD;
+    reg NoWriteD;
+    reg [1:0] FlagWriteD;
+    reg [2:0] ALUControlD;
     reg [9:0] controlsD;
     wire [3:0] FlagsNextE, CondE, FlagsE;
     wire [1:0] FlagWriteE; // wire porque entra como wire en cond
     wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUOpD, CondExEarlyD,
-         PCSrcE, RegWriteE, MemWriteE, 
+         PCSrcE, RegWriteE, NowriteE, MemWriteE, 
          CondExE, RegWriteGatedE, MemWriteGatedE, 
          PCSrcM, MemtoRegM; 
 
@@ -31,17 +34,20 @@ module controller (
     always @(*) begin
         if (ALUOpD) begin
             case (InstrD[24:21])
-                4'b0100: ALUControlD = 2'b00; // ADD
-                4'b0010: ALUControlD = 2'b01; // SUB
-                4'b0000: ALUControlD = 2'b10; // AND
-                4'b1100: ALUControlD = 2'b11; // ORR
-                default: ALUControlD = 2'bxx;  // Unimplemented
+                4'b0100: begin ALUControlD = 3'b000; NoWriteD = 1'b0; end // ADD
+                4'b0010: begin ALUControlD = 3'b001; NoWriteD = 1'b0; end // SUB
+                4'b0000: begin ALUControlD = 3'b010; NoWriteD = 1'b0; end // AND
+                4'b1100: begin ALUControlD = 3'b011; NoWriteD = 1'b0; end // ORR
+                4'b0001: begin ALUControlD = 3'b100; NoWriteD = 1'b0; end // EOR
+                4'b1011: begin ALUControlD = 3'b000; NoWriteD = 1'b1; end // CMN
+                default: begin ALUControlD = 3'bxxx; NoWriteD = 1'bx; end // Unimplemented
             endcase
             FlagWriteD[1] = InstrD[20]; // Update N and Z flags if S bit is set
-            FlagWriteD[0] = InstrD[20] & ((ALUControlD == 2'b00) | (ALUControlD == 2'b01)); // Only for ADD/SUB
+            FlagWriteD[0] = InstrD[20] & (ALUControlD[2:1] == 2'b0); // Only for ADD/SUB
         end else begin
-            ALUControlD = 2'b00; // Addition for non-DP instructions
+            ALUControlD = 3'b00; // Addition for non-DP instructions
             FlagWriteD = 2'b00;  // Don't update flags
+            NoWriteD = 1'b0;
         end
     end
 
@@ -62,11 +68,11 @@ module controller (
         .clk(clk),
         .reset(reset),
         .clear(FlushE),
-        .d({FlagWriteD, MemWriteD, RegWriteD, PCSrcD, MemtoRegD}),
-        .q({FlagWriteE, MemWriteE, RegWriteE, PCSrcE, MemtoRegE})
+        .d({FlagWriteD, MemWriteD, RegWriteD, PCSrcD, MemtoRegD, NoWriteD}),
+        .q({FlagWriteE, MemWriteE, RegWriteE, PCSrcE, MemtoRegE, NoWriteE})
     );
 
-    flopr #(3) regsE(
+    flopr #(4) regsE(
         .clk(clk),
         .reset(reset),
         .d({ALUSrcD, ALUControlD}),
@@ -98,7 +104,7 @@ module controller (
     );
     
     assign PCSrcGatedE = PCSrcE & CondExE;
-    assign RegWriteGatedE = RegWriteE & CondExE;
+    assign RegWriteGatedE = RegWriteE & CondExE & ~NoWriteE;
     assign MemWriteGatedE = MemWriteE & CondExE;
 
     // Memory stage

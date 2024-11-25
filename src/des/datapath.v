@@ -1,7 +1,8 @@
 module datapath ( 
 	input wire clk, reset, BranchTakenD, ALUSrcE, PCSrcW, RegWriteW, MemtoRegW, 
 	           StallF, StallD, FlushD, 
-	input wire [1:0] RegSrcD, ImmSrcD, ALUControlE, ForwardAE, ForwardBE, 
+	input wire [1:0] RegSrcD, ImmSrcD, ForwardAE, ForwardBE, 
+	input wire [2:0] ALUControlE,
 	input wire [31:0] InstrF, ReadDataM, 
 	output wire [31:0] PCF, InstrD, ALUOutM, WriteDataM, 
 	output wire [3:0] ALUFlagsE, 
