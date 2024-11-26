@@ -30,6 +30,7 @@ module hazard (
     // Stall and flush logic
     assign StallD = ldrStallD;
     assign StallF = ldrStallD | PCWrPendingF;
+    
     assign FlushE = ldrStallD;
     assign FlushD = PCWrPendingF | PCSrcW | BranchTakenD;
 

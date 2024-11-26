@@ -15,7 +15,7 @@ module controller (
     wire [3:0] FlagsNextE, CondE, FlagsE;
     wire [1:0] FlagWriteE; // wire porque entra como wire en cond
     wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUOpD, CondExEarlyD,
-         PCSrcE, RegWriteE, NowriteE, MemWriteE, 
+         PCSrcE, RegWriteE, MemWriteE, 
          CondExE, RegWriteGatedE, MemWriteGatedE, 
          PCSrcM, MemtoRegM; 
 
@@ -51,7 +51,7 @@ module controller (
         end
     end
 
-    assign PCSrcD = (((InstrD[15:12] == 4'b1111) & RegWriteD) | BranchD);
+    assign PCSrcD = (((InstrD[15:12] == 4'b1111) & RegWriteD)); // Ya no BranchD
     
     conditional CondEarly(
         .Cond(InstrD[31:28]),
