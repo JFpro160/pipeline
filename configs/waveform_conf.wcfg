@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="247.299 ns"></ZoomStartTime>
-      <ZoomEndTime time="283.950 ns"></ZoomEndTime>
-      <Cursor1Time time="545.799 ns"></Cursor1Time>
+      <ZoomStartTime time="251.083 ns"></ZoomStartTime>
+      <ZoomEndTime time="283.784 ns"></ZoomEndTime>
+      <Cursor1Time time="303.483 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="146"></NameColumnWidth>
-      <ValueColumnWidth column_width="120"></ValueColumnWidth>
+      <ValueColumnWidth column_width="136"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="231" />
+   <WVObjectSize size="244" />
    <wvobject type="logic" fp_name="/testbench/dut/arm/c/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -944,5 +944,57 @@
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/WIDTH">
       <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
       <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/c/BranchTakenD">
+      <obj_property name="ElementShortName">BranchTakenD</obj_property>
+      <obj_property name="ObjectShortName">BranchTakenD</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/btb/Prediction">
+      <obj_property name="ElementShortName">Prediction</obj_property>
+      <obj_property name="ObjectShortName">Prediction</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/btb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/btb/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/btb/en">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/btb/BranchTaken">
+      <obj_property name="ElementShortName">BranchTaken</obj_property>
+      <obj_property name="ObjectShortName">BranchTaken</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/PC">
+      <obj_property name="ElementShortName">PC[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PC[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/PCBranch">
+      <obj_property name="ElementShortName">PCBranch[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PCBranch[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/Target">
+      <obj_property name="ElementShortName">Target[31:0]</obj_property>
+      <obj_property name="ObjectShortName">Target[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/buff">
+      <obj_property name="ElementShortName">buff[63:0][32:0]</obj_property>
+      <obj_property name="ObjectShortName">buff[63:0][32:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/index">
+      <obj_property name="ElementShortName">index[5:0]</obj_property>
+      <obj_property name="ObjectShortName">index[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/i">
+      <obj_property name="ElementShortName">i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/SIZE">
+      <obj_property name="ElementShortName">SIZE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">SIZE[31:0]</obj_property>
    </wvobject>
 </wave_config>

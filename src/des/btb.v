@@ -1,6 +1,6 @@
 module btb #(parameter SIZE = 64) (
     input wire clk, reset, en, BranchTaken,
-    input wire [31:0] PC, PCBranch, 
+    input wire [31:0] PC, PCBranch, PCUpdate, 
     output wire [31:0] Target, 
     output wire Prediction
 );
@@ -9,9 +9,10 @@ module btb #(parameter SIZE = 64) (
 
     wire [$clog2(SIZE)-1:0] index;
     assign index = PC[$clog2(SIZE)+2:2];
-
-    assign Target = buff[index][32:1]; // Branch target
-    assign Prediction = buff[index][0];
+    assign Target = en ? buff[index][32:1] : 32'bx; // Branch target
+    assign Prediction = en ? buff[index][0] : 1'b0;
+    
+    assign index = PCUpdate[$clog2(SIZE)+2:2];
 
     // Initialize the BTB
     integer i;
@@ -21,7 +22,7 @@ module btb #(parameter SIZE = 64) (
                 buff[i][0] <= 1'b0; // not taken
                 buff[i][32:1]  <= 32'bx; // Undefined target
             end
-        end else if (en) begin
+        end else begin
             buff[index][32:1] <= PCBranch;      
             buff[index][0] <= BranchTaken;         
         end

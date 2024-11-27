@@ -32,6 +32,6 @@ module hazard (
     assign StallF = ldrStallD | PCWrPendingF;
     
     assign FlushE = ldrStallD;
-    assign FlushD = PCWrPendingF | PCSrcW | BranchTakenD | BranchTakenD ^ Prediction;
+    assign FlushD = PCWrPendingF | PCSrcW | BranchTakenD ^ Prediction;
 
 endmodule

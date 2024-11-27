@@ -65,7 +65,7 @@ module arm (
         .StallF(StallF),
         .StallD(StallD),
         .FlushD(FlushD),
-        .Prediction(Prediction),
+        .PredictionD(PredictionD),
         .BranchD(BranchD)
     );
 
@@ -90,7 +90,7 @@ module arm (
         .StallD(StallD),
         .FlushD(FlushD),
         .FlushE(FlushE),
-        .Prediction(Prediction)
+        .Prediction(PredictionD)
     );
 
 endmodule

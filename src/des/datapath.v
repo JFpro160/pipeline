@@ -6,7 +6,7 @@ module datapath (
 	input wire [31:0] InstrF, ReadDataM, 
 	output wire [31:0] PCF, InstrD, ALUOutM, WriteDataM, 
 	output wire [3:0] ALUFlagsE, 
-	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E, Prediction 
+	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E, PredictionD 
 ); 
 	// Internal wires 
 	wire [31:0] PCnext1F, PCnextF, PCPlus4F, PCPlus8D, rd1D, rd2D, ExtImmD, PCBranchD,
@@ -26,7 +26,7 @@ module datapath (
 		.d0(PCnext1F),
 		.d1(PCPlus4D),
 		.d2(PCBranchD),
-		.s({BranchTakenD, ~BranchTakenD & Prediction}),
+		.s({BranchTakenD & ~Prediction, ~BranchTakenD & Prediction}),
 		.y(PCnextF)
 	);
 	flopenr #(32) pcreg(
@@ -44,9 +44,10 @@ module datapath (
 	btb #(64) btb (
 	    .clk(clk),
 	    .reset(reset),
-	    .en(BranchD),
+	    .en(InstrF[27:26] == 2'b10),
 	    .BranchTaken(BranchTakenD),
 	    .PC(PCF),
+	    .PCUpdate(PCD),
 	    .PCBranch(PCBranchD),
 	    .Target(Target),
 	    .Prediction(Prediction)
@@ -61,6 +62,14 @@ module datapath (
 		.en(~StallD),
 		.d(PCPlus4F),
 		.q(PCPlus4D)
+	);
+	
+	flopenr #(1) predictionreg(
+		.clk(clk),
+		.reset(reset),
+		.en(~StallD),
+		.d(Prediction),
+		.q(PredictionD)
 	);
 
 	flopenrc #(32) instrreg(
