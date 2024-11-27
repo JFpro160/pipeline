@@ -65,8 +65,8 @@ module arm (
         .StallF(StallF),
         .StallD(StallD),
         .FlushD(FlushD),
-        .PredictionD(PredictionD),
-        .BranchD(BranchD)
+        .BranchD(BranchD),
+        .BranchMissed(BranchMissed)
     );
 
     // Instantiate hazard unit
@@ -80,7 +80,7 @@ module arm (
         .Match_12D_E(Match_12D_E),
         .RegWriteM(RegWriteM),
         .RegWriteW(RegWriteW),
-        .BranchTakenD(BranchTakenD),
+        .BranchMissed(BranchMissed),
         .MemtoRegE(MemtoRegE),
         .PCWrPendingF(PCWrPendingF),
         .PCSrcW(PCSrcW), 
@@ -89,8 +89,7 @@ module arm (
         .StallF(StallF),
         .StallD(StallD),
         .FlushD(FlushD),
-        .FlushE(FlushE),
-        .Prediction(PredictionD)
+        .FlushE(FlushE)
     );
 
 endmodule

@@ -6,12 +6,12 @@ module datapath (
 	input wire [31:0] InstrF, ReadDataM, 
 	output wire [31:0] PCF, InstrD, ALUOutM, WriteDataM, 
 	output wire [3:0] ALUFlagsE, 
-	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E, PredictionD 
+	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E, BranchMissed 
 ); 
 	// Internal wires 
 	wire [31:0] PCnext1F, PCnextF, PCPlus4F, PCPlus8D, rd1D, rd2D, ExtImmD, PCBranchD,
-	            rd1E, rd2E, ExtImmE, WriteDataE, SrcAE, SrcBE, ALUResultE, 
-	            ReadDataW, ALUOutW, ResultW, Target, PCPlus4D; 
+	            rd1E, rd2E, ExtImmE, WriteDataE, SrcAE, SrcBE, ALUResultE, PCD,
+	            ReadDataW, ALUOutW, ResultW, PCBranchF; 
 	wire [3:0] RA1D, RA2D, RA1E, RA2E, WA3E, WA3M, WA3W; 
 	wire Match_1D_E, Match_2D_E; 
 
@@ -22,11 +22,18 @@ module datapath (
 		.s(PCSrcW),
 		.y(PCnext1F)
 	);
-	mux3 #(32) branchmux(
+	mux4 #(32) branchmux(
 		.d0(PCnext1F),
-		.d1(PCPlus4D),
+		.d1(PCD + 3'b100),
 		.d2(PCBranchD),
-		.s({BranchTakenD & ~Prediction, ~BranchTakenD & Prediction}),
+		.d3(PCBranchF),
+		.s({PredictionF & ~PredictionD |
+		    PredictionF & BranchTakenD |
+		    BranchTakenD & ~PredictionD, 
+		    PredictionF & ~BranchTakenD |
+		    ~BranchTakenD & PredictionD |
+		    PredictionF & PredictionD 
+		    }),
 		.y(PCnextF)
 	);
 	flopenr #(32) pcreg(
@@ -41,35 +48,31 @@ module datapath (
 		.b(32'h4),
 		.y(PCPlus4F)
 	);
+	assign BranchF = (InstrF[27:26] == 2'b10);
+
 	btb #(64) btb (
 	    .clk(clk),
 	    .reset(reset),
-	    .en(InstrF[27:26] == 2'b10),
+	    .UpdateEnable(BranchMissed && BranchD),
 	    .BranchTaken(BranchTakenD),
+	    .Branch(BranchF),
 	    .PC(PCF),
-	    .PCUpdate(PCD),
 	    .PCBranch(PCBranchD),
-	    .Target(Target),
-	    .Prediction(Prediction)
+	    .PCUpdate(PCD),
+	    .PredictedTarget(PCBranchF),
+	    .Prediction(PredictionF)
 	);
 
 	// Decode Stage
 	assign PCPlus8D = PCPlus4F;
 	
-	flopenr #(32) pcplus4dreg(
+	flopenrc #(33) predreg(
 		.clk(clk),
 		.reset(reset),
 		.en(~StallD),
-		.d(PCPlus4F),
-		.q(PCPlus4D)
-	);
-	
-	flopenr #(1) predictionreg(
-		.clk(clk),
-		.reset(reset),
-		.en(~StallD),
-		.d(Prediction),
-		.q(PredictionD)
+		.clear(FlushD),
+		.d({PCF, PredictionF}),
+		.q({PCD, PredictionD})
 	);
 
 	flopenrc #(32) instrreg(
@@ -114,6 +117,8 @@ module datapath (
 		.b(PCPlus8D),
 		.y(PCBranchD)
 	);
+	
+	assign BranchMissed = BranchTakenD ^ PredictionD;
 
 	// Execute Stage
 	flopr #(32) rd1reg(
