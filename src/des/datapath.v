@@ -1,13 +1,16 @@
 module datapath ( 
 	input wire clk, reset, BranchTakenD, ALUSrcE, PCSrcW, RegWriteW, MemtoRegW, 
-	           StallF, StallD, FlushD, 
-	input wire [1:0] RegSrcD, ImmSrcD, ForwardAE, ForwardBE,ForwardCE, 
-	input wire [2:0] ALUControlE,
-	input wire Writeback, ShiftControlD,Saturated,
-	input wire [31:0] InstrF, ReadDataM, 
+	           StallF, StallD, FlushD,MemtoRegE,
+	input wire [1:0] RegSrcD, ImmSrcD, ForwardAE, ForwardBE,ForwardCE,ShiftControlE, 
+	input wire [3:0] ALUControlE,
+	input wire WriteBackW,SaturatedOpE,CarryE,RegShiftE,
+	input wire ShiftE,PreIndexE,PostIndexE,
+	input wire [31:0] InstrF, ReadDataM,
+	input wire MulOpD,MulOpE,
 	output wire [31:0] PCF, InstrD, ALUOutM, WriteDataM, 
 	output wire [3:0] ALUFlagsE,
-	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E 
+	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E,
+	Match_3E_M, Match_3E_W
 ); 
 	// Internal wires 
 	wire [31:0] PCnext1F, PCnextF, PCPlus4F, PCPlus8D, RD1D, RD2D, ExtImmD, PCBranchD,
@@ -16,16 +19,16 @@ module datapath (
 	wire [3:0] RA1D, RA2D, RA1E, RA2E, WA3E, WA3M, WA3W; 
 	wire Match_1D_E, Match_2D_E; 
     wire [3:0] RA1Wire;
-    wire [3:0] RA3D;
+    wire [3:0] RA3D, RA3E;
     wire [31:0] RD3D, RD3E;
     wire [3:0] WA3E_;
-    wire [31:0] RotE;
+    wire [4:0] RotE;
     wire [4:0] shamnt5;
-    wire [31:0] SrcCE;
-    wire MulOpD,MulOpE;
+    wire [31:0] SrcCE, ImmE;
     wire [1:0] ShiftControlE;
     wire [3:0] rot_immE;
-    wire [31:0] RotExtImmE,SrcBEWire;
+    wire [31:0] RotExtImmE,SrcBEWire, SrcBWireE, ShiftedSrcBE;
+    wire [31:0] ResultE;
 	// Fetch Stage
 	mux2 #(32) pcnextmux(
 		.d0(PCPlus4F),
@@ -103,11 +106,13 @@ module datapath (
 	regfile rf(
 		.clk(clk),
 		.we3(RegWriteW),
-		.we1(WriteBack),
+		.we1(WriteBackW),
+		.reset(reset),
 		.ra1(RA1D),
 		.ra2(RA2D),
 		.ra3(RA3D),
 		.wa3(WA3W),
+		.wd1(ALUOutW),
 		.wd3(ResultW),
 		.r15(PCPlus8D),
 		.rd1(RD1D),
@@ -177,17 +182,18 @@ module datapath (
 		.d(RA2D),
 		.q(RA2E)
 	);
+	
+	flopr #(4) ra3reg(
+	   .clk(clk),
+	   .reset(reset),
+	   .d(RA3D),
+	   .q(RA3E)
+	);
 	flopr #(4) rotreg(
 	   .clk(clk),
 	   .reset(reset),
 	   .d(InstrD[11:8]),
 	   .q(rot_immE)
-	);
-	flopr #(2) shcontrol(
-	   .clk(clk),
-	   .reset(reset),
-	   .d(ShiftControlD),
-	   .q(ShiftControlE)
 	);
 	
 	flopr #(5) shamnt5reg(
@@ -243,21 +249,7 @@ module datapath (
 	   .y(SrcBWireE)
 	);
 
-    		
-	mux2 #(32) srcbmux(
-		.d0(SrcBWireE),
-		.d1(ImmE),
-		.s(ALUSrcE),
-		.y(SrcBEWire)
-	);
-	
-	mux2 #(32) srcbmux2(
-	   .d0(SrcBEWire),
-	   .d1(WriteDataE),
-	   .s(SaturatedE),
-	   .y(SrcBE)
-	);
-	
+    	
 	mux2 #(32) rotextmux(
 	   .d0(RotExtImmE),
 	   .d1(ExtImmE),
@@ -270,6 +262,22 @@ module datapath (
 	   .b(rot_immE),
 	   .y(RotExtImmE)
 	);
+	
+	mux2 #(32) srcbmux(
+		.d0(SrcBWireE),
+		.d1(ImmE),
+		.s(ALUSrcE),
+		.y(SrcBEWire)
+	);
+	
+	mux2 #(32) srcbmux2(
+	   .d0(SrcBEWire),
+	   .d1(WriteDataE),
+	   .s(SaturatedOpE),
+	   .y(SrcBE)
+	);
+	
+	
 	//critical error just realized that for postindex
 	//to work i need to to have ra1 as the adress that ive been passing
 	//onto the different registers
@@ -279,16 +287,27 @@ module datapath (
 	alu alu(
 		.a(SrcAE),
 		.b(SrcBE),
+		.c(SrcCE),
 		.ALUControl(ALUControlE),
 		.Result(ALUResultE),
-		.Flags(ALUFlagsE)
+		.ALUFlags(ALUFlagsE)
 	);
+	
+	mux4 #(32) resultmux(    
+	   .d0(ALUResultE),       
+	   .d1(SrcBEWire),
+	   .d2(ALUResultE), 
+	   .d3(SrcAE),    
+	   .s({PostIndexE,PreIndexE,ShiftE}),            
+	   .y(ResultE)         
+	);        
+	
 
 	// Memory Stage
 	flopr #(32) aluresreg(
 		.clk(clk),
 		.reset(reset),
-		.d(ALUResultE),
+		.d(ResultE),
 		.q(ALUOutM)
 	);
 	flopr #(32) wdreg(
@@ -335,6 +354,8 @@ module datapath (
 	eqcmp #(4) m1(WA3W, RA1E, Match_1E_W);
 	eqcmp #(4) m2(WA3M, RA2E, Match_2E_M);
 	eqcmp #(4) m3(WA3W, RA2E, Match_2E_W);
+    eqcmp #(4) m4(WA3W, RA3E, Match_3E_W);
+    eqcmp #(4) m5(WA3M, RA3E, Match_3E_M);
 	eqcmp #(4) m4a(WA3E, RA1D, Match_1D_E);
 	eqcmp #(4) m4b(WA3E, RA2D, Match_2D_E);
 	assign Match_12D_E = Match_1D_E | Match_2D_E;

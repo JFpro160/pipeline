@@ -14,33 +14,13 @@ module regfile (
     output wire [31:0] rd2,
     output wire [31:0] rd3
 );
-    reg [31:0] rf [14:0]; // 15 registers (R0-R14)
+    reg [31:0] rf [14:0];
+    
+    always @(negedge clk) begin
+       if (we3) rf[wa3] <= wd3; 
+       if (we1) rf[ra1] <= wd1; 
+       end    
 
-    // Reset block (synchronous reset)
-    always @(posedge clk or posedge reset) begin
-        if (reset) begin
-            rf[0] <= 32'b0;
-            rf[1] <= 32'b0;
-            rf[2] <= 32'b0;
-            rf[3] <= 32'b0;
-            rf[4] <= 32'b0;
-            rf[5] <= 32'b0;
-            rf[6] <= 32'b0;
-            rf[7] <= 32'b0;
-            rf[8] <= 32'b0;
-            rf[9] <= 32'b0;
-            rf[10] <= 32'b0;
-            rf[11] <= 32'b0;
-            rf[12] <= 32'b0;
-            rf[13] <= 32'b0;
-            rf[14] <= 32'b0;
-        end else begin
-            if (we3) rf[wa3] <= wd3; // Write to wa3
-            if (we1) rf[ra1] <= wd1;   // Write to R0 (or other logic if needed)
-        end
-    end
-
-    // Read logic
     assign rd1 = (ra1 == 4'b1111) ? r15 : rf[ra1];
     assign rd2 = (ra2 == 4'b1111) ? r15 : rf[ra2];
     assign rd3 = (ra3 == 4'b1111) ? r15 : rf[ra3];

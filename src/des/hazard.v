@@ -1,8 +1,8 @@
 module hazard (
     input wire clk, reset, BranchTakenD, MemtoRegE, RegWriteM, PCSrcW, RegWriteW, 
                PCWrPendingF, Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, 
-               Match_12D_E, 
-    output reg [1:0] ForwardAE, ForwardBE,
+               Match_12D_E,  Match_3E_M, Match_3E_W,
+    output reg [1:0] ForwardAE, ForwardBE,ForwardCE,
     output wire StallF, StallD, FlushD, FlushE
 );
     wire ldrStallD;
@@ -22,6 +22,13 @@ module hazard (
             ForwardBE = 2'b01;
         else
             ForwardBE = 2'b00;
+            
+        if (Match_3E_M & RegWriteM)
+            ForwardCE = 2'b10;
+        else if (Match_3E_W & RegWriteW)
+            ForwardCE = 2'b01;
+        else
+            ForwardCE = 2'b00;
     end
 
     // Load RAW hazard

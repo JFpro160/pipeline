@@ -1,23 +1,25 @@
 module controller (
     input wire clk, reset, FlushE,
     input wire [3:0] ALUFlagsE,
-    input wire [31:12] InstrD,
-    output wire [1:0] RegSrcD, ImmSrcD, 
-    output wire [2:0] ALUControlE, 
+    input wire [31:0] InstrD,
+    output wire [1:0] RegSrcD, ImmSrcD,ShiftControlE, 
+    output wire SaturatedOpE,ShiftE,PreIndexE,PostIndexE,CarryE,WriteBackW,MulOpD,MulOpE,RegShiftE,
+    output wire [3:0] ALUControlE, 
     output wire BranchTakenD, MemtoRegE, ALUSrcE, 
                 RegWriteM, MemWriteM, PCSrcW, RegWriteW, MemtoRegW, PCWrPendingF
 );
     // Internal signals
     reg NoWriteD;
     reg [1:0] FlagWriteD;
-    reg [2:0] ALUControlD;
+    reg [3:0] ALUControlD;
     reg [9:0] controlsD;
     wire [3:0] FlagsNextE, CondE, FlagsE;
     wire [1:0] FlagWriteE; // wire porque entra como wire en cond
     wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUOpD, CondExEarlyD,
          PCSrcE, RegWriteE, MemWriteE, 
          CondExE, RegWriteGatedE, MemWriteGatedE, 
-         PCSrcM, MemtoRegM; 
+         PCSrcM, MemtoRegM, ALUSrcD; 
+    wire WriteBackE, RegShiftD,SaturatedOpD,ShiftD,PreIndexD,PostIndexD,WriteBackD;
 
     // Decode stage
     always @(*) begin
@@ -30,25 +32,51 @@ module controller (
     end
 
     assign {RegSrcD, ImmSrcD, ALUSrcD, MemtoRegD, RegWriteD, MemWriteD, BranchD, ALUOpD} = controlsD;
-
+    assign MulOpD = ((InstrD[25:24] == 2'b00) & (InstrD[7:4] == 4'b1001) & InstrD[27:26] == 2'b00);
+	assign SaturatedOpD = (InstrD[7:4] == 4'b0101 & InstrD[27:26] == 2'b00 & InstrD[24] &~InstrD[23] & ~InstrD[20]);
+	assign ShiftD = (InstrD[24:21] == 4'b1101 & InstrD[27:26] == 2'b00);
+	assign RegShiftD = (InstrD[6] == 1'b0 & InstrD[4]== 1'b1 & InstrD[25] == 1'b0);
+	assign PreIndexD = (InstrD[27:26] == 2'b01 & InstrD[24]);
+	assign PostIndexD = (InstrD[27:26] == 2'b01 & ~InstrD[24]);
+	assign WriteBackD = (InstrD[27:26] == 2'b01 & InstrD[21] & InstrD[24]) | (InstrD[27:26] == 2'b01 & ~InstrD[24]);
     always @(*) begin
         if (ALUOpD) begin
             case (InstrD[24:21])
-                4'b0100: begin ALUControlD = 3'b000; NoWriteD = 1'b0; end // ADD
-                4'b0010: begin ALUControlD = 3'b001; NoWriteD = 1'b0; end // SUB
-                4'b0000: begin ALUControlD = 3'b010; NoWriteD = 1'b0; end // AND
-                4'b1100: begin ALUControlD = 3'b011; NoWriteD = 1'b0; end // ORR
-                4'b0001: begin ALUControlD = 3'b100; NoWriteD = 1'b0; end // EOR
-                4'b1011: begin ALUControlD = 3'b000; NoWriteD = 1'b1; end // CMN
-                default: begin ALUControlD = 3'bxxx; NoWriteD = 1'bx; end // Unimplemented
-            endcase
+                4'b0100: ALUControlD = 3'b000;//add
+				4'b0010: ALUControlD = 3'b001;//sub
+				4'b0000: ALUControlD = 3'b010;//and
+				4'b1100: ALUControlD = 3'b011;//orr
+                4'b1010: ALUControlD = 3'b001; //cmp subs no write
+				4'b1011: ALUControlD = 3'b000; //cmn add no write
+				4'b1000: ALUControlD = 3'b010; //TST and no write
+				4'b1001: ALUControlD = 3'b110; //TEQ eor no write
+				4'b1111: ALUControlD = 3'b111; //mvn
+				default: ALUControlD = 3'bxxx;
+			endcase
+			if(MulOpD)
+			begin
+			case (InstrD[23:21])
+			 3'b000: ALUControlD = 3'b100; //MUL
+			 3'b001: ALUControlD = 3'b101; //MAL
+			 default: ALUControlD = 3'bxxx; //xd?
+			 endcase
+			end
+			if(SaturatedOpD) begin
+			case (InstrD[22:21])
+			2'b00: ALUControlD = 4'b1000;
+			2'b01: ALUControlD = 4'b1001;
+			default: ALUControlD = 4'bxxxx;
+			endcase
+			end
             FlagWriteD[1] = InstrD[20]; // Update N and Z flags if S bit is set
-            FlagWriteD[0] = InstrD[20] & (ALUControlD[2:1] == 2'b0); // Only for ADD/SUB
-        end else begin
-            ALUControlD = 3'b00; // Addition for non-DP instructions
-            FlagWriteD = 2'b00;  // Don't update flags
-            NoWriteD = 1'b0;
-        end
+            FlagWriteD[0] = InstrD[20] & ((ALUControlD == 2'b00) | (ALUControlD == 2'b01));
+            NoWriteD = (InstrD[24:23] == 2'b10 & ~SaturatedOpD);
+		end
+		else begin
+		    ALUControlD = (InstrD[27:26] == 2'b01 & ~InstrD[23]) ? 3'b001:3'b000;
+			FlagWriteD = 2'b00;
+			NoWriteD = 2'b00;
+		end
     end
 
     assign PCSrcD = (((InstrD[15:12] == 4'b1111) & RegWriteD)); // Ya no BranchD
@@ -62,6 +90,7 @@ module controller (
     );
     
     assign BranchTakenD = BranchD & CondExEarlyD;
+    assign CarryE = FlagsE[2];
 
     // Execute stage
     floprc #(7) flushedregsE(
@@ -72,20 +101,55 @@ module controller (
         .q({FlagWriteE, MemWriteE, RegWriteE, PCSrcE, MemtoRegE, NoWriteE})
     );
 
-    flopr #(4) regsE(
+    flopr #(5) regsE(
         .clk(clk),
         .reset(reset),
         .d({ALUSrcD, ALUControlD}),
         .q({ALUSrcE, ALUControlE})
     );
-
+    
+    flopr #(6) controlsignalsreg(
+        .clk(clk),
+        .reset(reset),
+        .d({SaturatedOpD,ShiftD,PreIndexD,PostIndexD,RegShiftD}),
+        .q({SaturatedOpE,ShiftE,PreIndexE,PostIndexE,RegShiftE})
+    );
+    
+    flopr #(1) writebacke(
+        .clk(clk),
+        .reset(reset),
+        .d(WriteBackD),
+        .q(WriteBackE)
+    );
+    
+   flopr #(1) writebackm(
+        .clk(clk),
+        .reset(reset),
+        .d(WriteBackE),
+        .q(WriteBackM)
+    );
+    
+   flopr #(1) writebackw(
+        .clk(clk),
+        .reset(reset),
+        .d(WriteBackM),
+        .q(WriteBackW)
+    );
+    
     flopr #(4) condregE(
         .clk(clk),
         .reset(reset),
         .d(InstrD[31:28]),
         .q(CondE)
     );
-
+    
+    flopr #(2) shcontrol(
+	   .clk(clk),
+	   .reset(reset),
+	   .d(InstrD[6:5]),
+	   .q(ShiftControlE)
+	);
+	
     flopr #(4) flagsreg(
         .clk(clk),
         .reset(reset),
