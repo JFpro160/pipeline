@@ -5,7 +5,7 @@ module controller (
     output wire [1:0] RegSrcD, ImmSrcD, 
     output wire [2:0] ALUControlE, 
     output wire BranchTakenD, MemtoRegE, ALUSrcE, 
-                RegWriteM, MemWriteM, PCSrcW, RegWriteW, MemtoRegW, PCWrPendingF
+                RegWriteM, MemWriteM, PCSrcW, RegWriteW, MemtoRegW, PCWrPendingF, BranchD
 );
     // Internal signals
     reg NoWriteD;
@@ -14,7 +14,7 @@ module controller (
     reg [9:0] controlsD;
     wire [3:0] FlagsNextE, CondE, FlagsE;
     wire [1:0] FlagWriteE; // wire porque entra como wire en cond
-    wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUOpD, CondExEarlyD,
+    wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, ALUOpD, CondExEarlyD,
          PCSrcE, RegWriteE, MemWriteE, 
          CondExE, RegWriteGatedE, MemWriteGatedE, 
          PCSrcM, MemtoRegM; 

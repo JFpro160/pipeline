@@ -1,7 +1,7 @@
 module hazard (
     input wire clk, reset, BranchTakenD, MemtoRegE, RegWriteM, PCSrcW, RegWriteW, 
                PCWrPendingF, Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, 
-               Match_12D_E, 
+               Match_12D_E, Prediction,
     output reg [1:0] ForwardAE, ForwardBE,
     output wire StallF, StallD, FlushD, FlushE
 );
@@ -32,6 +32,6 @@ module hazard (
     assign StallF = ldrStallD | PCWrPendingF;
     
     assign FlushE = ldrStallD;
-    assign FlushD = PCWrPendingF | PCSrcW | BranchTakenD;
+    assign FlushD = PCWrPendingF | PCSrcW | BranchTakenD | BranchTakenD ^ Prediction;
 
 endmodule

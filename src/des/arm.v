@@ -32,7 +32,8 @@ module arm (
         .RegWriteM(RegWriteM),
         .MemtoRegE(MemtoRegE),
         .PCWrPendingF(PCWrPendingF),
-        .FlushE(FlushE)
+        .FlushE(FlushE),
+        .BranchD(BranchD)
     );
 
     // Instantiate datapath
@@ -63,7 +64,9 @@ module arm (
         .ForwardBE(ForwardBE),
         .StallF(StallF),
         .StallD(StallD),
-        .FlushD(FlushD)
+        .FlushD(FlushD),
+        .Prediction(Prediction),
+        .BranchD(BranchD)
     );
 
     // Instantiate hazard unit
@@ -86,7 +89,8 @@ module arm (
         .StallF(StallF),
         .StallD(StallD),
         .FlushD(FlushD),
-        .FlushE(FlushE)
+        .FlushE(FlushE),
+        .Prediction(Prediction)
     );
 
 endmodule
