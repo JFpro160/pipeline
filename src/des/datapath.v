@@ -8,7 +8,7 @@ module datapath (
 	input wire [31:0] InstrF, ReadDataM,
 	input wire MulOpD,MulOpE,
 	output wire [31:0] PCF, InstrD, ALUOutM, WriteDataM, 
-	output wire [3:0] ALUFlagsE,
+	output wire [4:0] ALUFlagsE,
 	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E,
 	Match_3E_M, Match_3E_W
 ); 

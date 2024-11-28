@@ -1,6 +1,6 @@
 module controller (
     input wire clk, reset, FlushE,
-    input wire [3:0] ALUFlagsE,
+    input wire [4:0] ALUFlagsE,
     input wire [31:0] InstrD,
     output wire [1:0] RegSrcD, ImmSrcD,ShiftControlE, 
     output wire SaturatedOpE,ShiftE,PreIndexE,PostIndexE,CarryE,WriteBackW,MulOpD,MulOpE,RegShiftE,

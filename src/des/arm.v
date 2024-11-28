@@ -13,7 +13,7 @@ module arm (
     wire [1:0] RegSrcD, ImmSrcD, ForwardAE, ForwardBE, ForwardCE;
     wire WriteBackW, ShiftE,PreIndexE,PostIndexE, CarryE;
     wire [3:0] ALUControlE;
-    wire [3:0] ALUFlagsE; 
+    wire [4:0] ALUFlagsE; 
     wire [31:0] InstrD; 
     wire MulOpD, MulOpE;
     wire [1:0] ShiftControlE;
