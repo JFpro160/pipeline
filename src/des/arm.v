@@ -9,15 +9,17 @@ module arm (
          RegWriteM, PCSrcW, RegWriteW, RegShiftE,MemtoRegW, 
          PCWrPendingF, StallF, StallD, FlushD, FlushE, 
          Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W,
-         Match_3E_W,Match_3E_M, Match_12D_E; 
-    wire [1:0] RegSrcD, ImmSrcD, ForwardAE, ForwardBE, ForwardCE;
+         Match_3E_W,Match_3E_M, Match_12D_E,Match_1E_M_Index,Match_1E_W_Index,
+	Match_2E_M_Index,Match_2E_W_Index, Match_3E_M_Index, Match_3E_W_Index;
+    wire [1:0] RegSrcD, ImmSrcD, ForwardAE, ForwardBE, ForwardCE,
+    ForwardAEIndex, ForwardBEIndex, ForwardCEIndex;
     wire WriteBackW, ShiftE,PreIndexE,PostIndexE, CarryE;
     wire [3:0] ALUControlE;
     wire [4:0] ALUFlagsE; 
     wire [31:0] InstrD; 
     wire MulOpD, MulOpE;
     wire [1:0] ShiftControlE;
-    wire MemWriteE;
+    wire MemWriteE,WriteBackW;
 
     // Instantiate controller
     controller c(
@@ -45,6 +47,7 @@ module arm (
         .PreIndexE(PreIndexE),
         .PostIndexE(PostIndexE),
         .MemWriteE(MemWriteE),
+        .WriteBackM(WriteBackM),
         .CarryE(CarryE),
         .MulOpD(MulOpD),
         .MulOpE(MulOpE),
@@ -79,9 +82,18 @@ module arm (
         .Match_3E_W(Match_3E_W),
         .Match_3E_M(Match_3E_M),
         .Match_12D_E(Match_12D_E),
+        .Match_1E_M_Index(Match_1E_M_Index),
+        .Match_1E_W_Index(Match_1E_W_Index),
+        .Match_2E_M_Index(Match_2E_M_Index),
+        .Match_2E_W_Index(Match_2E_W_Index),
+        .Match_3E_M_Index(Match_3E_M_Index),
+        .Match_3E_W_Index(Match_3E_W_Index),
         .ForwardAE(ForwardAE),
         .ForwardBE(ForwardBE),
         .ForwardCE(ForwardCE),
+        .ForwardAEIndex(ForwardAEIndex),
+        .ForwardBEIndex(ForwardBEIndex),
+        .ForwardCEIndex(ForwardCEIndex),
         .WriteBackW(WriteBackW),
         .ShiftControlE(ShiftControlE),
         .SaturatedOpE(SaturatedOpE),
@@ -106,6 +118,14 @@ module arm (
         .Match_2E_W(Match_2E_W),
         .Match_3E_W(Match_3E_W),
         .Match_3E_M(Match_3E_M),
+        .Match_1E_M_Index(Match_1E_M_Index),
+        .Match_1E_W_Index(Match_1E_W_Index),
+        .Match_2E_M_Index(Match_2E_M_Index),
+        .Match_2E_W_Index(Match_2E_W_Index),
+        .Match_3E_M_Index(Match_3E_M_Index),
+        .Match_3E_W_Index(Match_3E_W_Index),
+        .WriteBackW(WriteBackW),
+        .WriteBackM(WriteBackM),
         .MemWriteE(MemWriteE),
         .Match_12D_E(Match_12D_E),
         .RegWriteM(RegWriteM),
@@ -117,6 +137,9 @@ module arm (
         .ForwardAE(ForwardAE),
         .ForwardBE(ForwardBE),
         .ForwardCE(ForwardCE),
+        .ForwardAEIndex(ForwardAEIndex),
+        .ForwardBEIndex(ForwardBEIndex),
+        .ForwardCEIndex(ForwardCEIndex),
         .StallF(StallF),
         .StallD(StallD),
         .FlushD(FlushD),

@@ -2,6 +2,7 @@ module datapath (
 	input wire clk, reset, BranchTakenD, ALUSrcE, PCSrcW, RegWriteW, MemtoRegW, 
 	           StallF, StallD, FlushD,MemtoRegE,
 	input wire [1:0] RegSrcD, ImmSrcD, ForwardAE, ForwardBE,ForwardCE,ShiftControlE, 
+	ForwardAEIndex, ForwardBEIndex,ForwardCEIndex,
 	input wire [3:0] ALUControlE,
 	input wire WriteBackW,SaturatedOpE,CarryE,RegShiftE,
 	input wire ShiftE,PreIndexE,PostIndexE,
@@ -10,7 +11,8 @@ module datapath (
 	output wire [31:0] PCF, InstrD, ALUOutM, WriteDataM, 
 	output wire [4:0] ALUFlagsE,
 	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E,
-	Match_3E_M, Match_3E_W
+	Match_3E_M, Match_3E_W,Match_1E_M_Index,Match_1E_W_Index,
+	Match_2E_M_Index,Match_2E_W_Index, Match_3E_M_Index, Match_3E_W_Index
 ); 
 	// Internal wires 
 	wire [31:0] PCnext1F, PCnextF, PCPlus4F, PCPlus8D, RD1D, RD2D, ExtImmD, PCBranchD,
@@ -26,9 +28,10 @@ module datapath (
     wire [4:0] shamnt5;
     wire [31:0] SrcCE, ImmE;
     wire [1:0] ShiftControlE;
-    wire [3:0] rot_immE;
+    wire [3:0] rot_immE, RA1W,RA1M;
     wire [31:0] RotExtImmE,SrcBEWire, SrcBWireE, ShiftedSrcBE;
-    wire [31:0] ResultE;
+    wire [31:0] ResultE,ALUResultW,ALUResultM;
+    wire [31:0] SrcAE_,SrcCE_,WriteDataE_;
 	// Fetch Stage
 	mux2 #(32) pcnextmux(
 		.d0(PCPlus4F),
@@ -111,8 +114,9 @@ module datapath (
 		.ra1(RA1D),
 		.ra2(RA2D),
 		.ra3(RA3D),
+		.wa1(RA1W),
 		.wa3(WA3W),
-		.wd1(ALUOutW),
+		.wd1(ALUResultW),
 		.wd3(ResultW),
 		.r15(PCPlus8D),
 		.rd1(RD1D),
@@ -208,13 +212,31 @@ module datapath (
 		.d1(ResultW),
 		.d2(ALUOutM),
 		.s(ForwardAE),
+		.y(SrcAE_)
+	);
+	
+		
+	mux3 #(32) byp1muxindex(
+		.d0(SrcAE_),
+		.d1(ALUResultW),
+		.d2(ALUResultM),
+		.s(ForwardAEIndex),
 		.y(SrcAE)
 	);
+	
 	mux3 #(32) byp2mux(
 		.d0(RD2E),
 		.d1(ResultW),
 		.d2(ALUOutM),
 		.s(ForwardBE),
+		.y(WriteDataE_)
+	);
+	
+	mux3 #(32) byp2muxindex(
+		.d0(WriteDataE_),
+		.d1(ALUResultW),
+		.d2(ALUResultM),
+		.s(ForwardBEIndex),
 		.y(WriteDataE)
 	);
 	
@@ -223,6 +245,14 @@ module datapath (
 	   .d1(ResultW),
 	   .d2(ALUOutM),
 	   .s(ForwardCE),
+	   .y(SrcCE_)
+	);
+	
+    mux3 #(32) byp3muxindex(
+	   .d0(SrcCE_),
+	   .d1(ALUResultW),
+	   .d2(ALUResultM),
+	   .s(ForwardCEIndex),
 	   .y(SrcCE)
 	);
 	
@@ -304,7 +334,14 @@ module datapath (
 	
 
 	// Memory Stage
-	flopr #(32) aluresreg(
+	
+	flopr #(32) aluresereg(
+	   .clk(clk),
+	   .reset(reset),
+	   .d(ALUResultE),
+	   .q(ALUResultM)
+	);
+	flopr #(32) resreg(
 		.clk(clk),
 		.reset(reset),
 		.d(ResultE),
@@ -322,8 +359,28 @@ module datapath (
 		.d(WA3E),
 		.q(WA3M)
 	);
+	flopr #(4) ra1mreg(
+	   .clk(clk),
+	   .reset(reset),
+	   .d(RA1E),
+	   .q(RA1M)
+	);
 
 	// Writeback Stage
+	flopr #(32) alureswreg(
+	   .clk(clk),
+	   .reset(reset),
+	   .d(ALUResultM),
+	   .q(ALUResultW)
+	);
+	
+	flopr #(4) ra1wreg(
+	   .clk(clk),
+	   .reset(reset),
+	   .d(RA1M),
+	   .q(RA1W)
+	);
+	
 	flopr #(32) aluoutreg(
 		.clk(clk),
 		.reset(reset),
@@ -358,6 +415,12 @@ module datapath (
     eqcmp #(4) m5(WA3M, RA3E, Match_3E_M);
 	eqcmp #(4) m4a(WA3E, RA1D, Match_1D_E);
 	eqcmp #(4) m4b(WA3E, RA2D, Match_2D_E);
+    eqcmp #(4) m6(RA1M, RA1E, Match_1E_M_Index);
+    eqcmp #(4) m7(RA1W, RA1E, Match_1E_W_Index);
+    eqcmp #(4) m8(RA1M, RA2E, Match_2E_M_Index);
+    eqcmp #(4) m9(RA1W, RA2E, Match_2E_W_Index);
+    eqcmp #(4) m10(RA1M, RA3E, Match_3E_M_Index);
+    eqcmp #(4) m11(RA1W, RA3E, Match_3E_W_Index);
 	assign Match_12D_E = Match_1D_E | Match_2D_E;
 
 endmodule

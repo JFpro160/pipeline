@@ -6,6 +6,7 @@ module regfile (
     input wire [3:0] ra1,
     input wire [3:0] ra2,
     input wire [3:0] ra3,
+    input wire [3:0] wa1,
     input wire [3:0] wa3,
     input wire [31:0] wd3,
     input wire [31:0] wd1,
@@ -18,7 +19,7 @@ module regfile (
     
     always @(negedge clk) begin
        if (we3) rf[wa3] <= wd3; 
-       if (we1) rf[ra1] <= wd1; 
+       if (we1) rf[wa1] <= wd1; 
        end    
 
     assign rd1 = (ra1 == 4'b1111) ? r15 : rf[ra1];

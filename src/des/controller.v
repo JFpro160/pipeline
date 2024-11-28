@@ -3,9 +3,9 @@ module controller (
     input wire [4:0] ALUFlagsE,
     input wire [31:0] InstrD,
     output wire [1:0] RegSrcD, ImmSrcD,ShiftControlE, 
-    output wire MemWriteE,SaturatedOpE,ShiftE,PreIndexE,PostIndexE,CarryE,WriteBackW,MulOpD,MulOpE,RegShiftE,
+    output wire MemWriteE,SaturatedOpE,ShiftE,PreIndexE,PostIndexE,CarryE,WriteBackW,WriteBackM,MulOpD,MulOpE,RegShiftE,
     output wire [3:0] ALUControlE, 
-    output wire BranchTakenD, MemtoRegE, ALUSrcE, 
+    output wire BranchTakenD, MemtoRegE, ALUSrcE, WriteBackE,
                 RegWriteM, MemWriteM, PCSrcW, RegWriteW, MemtoRegW, PCWrPendingF
 );
     // Internal signals
@@ -19,7 +19,7 @@ module controller (
          PCSrcE, RegWriteE, 
          CondExE, RegWriteGatedE, MemWriteGatedE, 
          PCSrcM, MemtoRegM, ALUSrcD; 
-    wire WriteBackE, RegShiftD,SaturatedOpD,ShiftD,PreIndexD,PostIndexD,WriteBackD;
+    wire RegShiftD,SaturatedOpD,ShiftD,PreIndexD,PostIndexD,WriteBackD;
 
     // Decode stage
     always @(*) begin
