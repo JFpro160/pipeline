@@ -7,7 +7,7 @@ module top (
     wire [31:0] PCF, InstrF, ReadDataM;
     
     // clk divider
-    clk_divider #(32) clkd(
+    clk_divider #(0) clkd( // 26
         .clk(clk),
         .rst(reset),
         .led(clkDiv)
