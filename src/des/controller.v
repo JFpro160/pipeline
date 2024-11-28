@@ -46,6 +46,7 @@ module controller (
 				4'b0010: ALUControlD = 3'b001;//sub
 				4'b0000: ALUControlD = 3'b010;//and
 				4'b1100: ALUControlD = 3'b011;//orr
+				4'b0001: ALUControlD = 3'b110; //eor
                 4'b1010: ALUControlD = 3'b001; //cmp subs no write
 				4'b1011: ALUControlD = 3'b000; //cmn add no write
 				4'b1000: ALUControlD = 3'b010; //TST and no write
