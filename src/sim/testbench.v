@@ -33,7 +33,7 @@ module testbench;
 
     // Timeout to avoid infinite simulation
     initial begin
-        #2147483647; // Max 2147483647;
+        #900; // Max 2147483647;
         $display("Simulation timed out at time %0t", $time);
         $finish;
     end

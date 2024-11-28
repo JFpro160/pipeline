@@ -17,6 +17,7 @@ module arm (
     wire [31:0] InstrD; 
     wire MulOpD, MulOpE;
     wire [1:0] ShiftControlE;
+    wire MemWriteE;
 
     // Instantiate controller
     controller c(
@@ -43,6 +44,7 @@ module arm (
         .ShiftE(ShiftE),
         .PreIndexE(PreIndexE),
         .PostIndexE(PostIndexE),
+        .MemWriteE(MemWriteE),
         .CarryE(CarryE),
         .MulOpD(MulOpD),
         .MulOpE(MulOpE),
@@ -104,6 +106,7 @@ module arm (
         .Match_2E_W(Match_2E_W),
         .Match_3E_W(Match_3E_W),
         .Match_3E_M(Match_3E_M),
+        .MemWriteE(MemWriteE),
         .Match_12D_E(Match_12D_E),
         .RegWriteM(RegWriteM),
         .RegWriteW(RegWriteW),

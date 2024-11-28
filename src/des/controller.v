@@ -3,7 +3,7 @@ module controller (
     input wire [4:0] ALUFlagsE,
     input wire [31:0] InstrD,
     output wire [1:0] RegSrcD, ImmSrcD,ShiftControlE, 
-    output wire SaturatedOpE,ShiftE,PreIndexE,PostIndexE,CarryE,WriteBackW,MulOpD,MulOpE,RegShiftE,
+    output wire MemWriteE,SaturatedOpE,ShiftE,PreIndexE,PostIndexE,CarryE,WriteBackW,MulOpD,MulOpE,RegShiftE,
     output wire [3:0] ALUControlE, 
     output wire BranchTakenD, MemtoRegE, ALUSrcE, 
                 RegWriteM, MemWriteM, PCSrcW, RegWriteW, MemtoRegW, PCWrPendingF
@@ -16,7 +16,7 @@ module controller (
     wire [3:0] FlagsNextE, CondE, FlagsE;
     wire [1:0] FlagWriteE; // wire porque entra como wire en cond
     wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUOpD, CondExEarlyD,
-         PCSrcE, RegWriteE, MemWriteE, 
+         PCSrcE, RegWriteE, 
          CondExE, RegWriteGatedE, MemWriteGatedE, 
          PCSrcM, MemtoRegM, ALUSrcD; 
     wire WriteBackE, RegShiftD,SaturatedOpD,ShiftD,PreIndexD,PostIndexD,WriteBackD;
