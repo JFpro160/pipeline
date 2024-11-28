@@ -26,17 +26,18 @@ module testbench;
     // Generate clock signal
     always begin
         clk <= 1;
-        #5;
+        #2.5; // 5
         clk <= 0;
-        #5;
+        #2.5; // 5
     end
-
+    
     // Timeout to avoid infinite simulation
     initial begin
-        #10000;
+        #1500; // Max 2147483647
         $display("Simulation timed out at time %0t", $time);
         $finish;
     end
+
 
     // Dump waveform data for analysis
     initial begin
@@ -45,4 +46,3 @@ module testbench;
     end
 
 endmodule
-
