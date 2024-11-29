@@ -24,7 +24,7 @@ module datapath (
     wire [3:0] RA3D, RA3E;
     wire [31:0] RD3D, RD3E;
     wire [3:0] WA3E_;
-    wire [4:0] RotE;
+    wire [7:0] RotE;
     wire [4:0] shamnt5;
     wire [31:0] SrcCE, ImmE;
     wire [1:0] ShiftControlE;
@@ -256,9 +256,9 @@ module datapath (
 	   .y(SrcCE)
 	);
 	
-	mux2 #(5) rotmux(
-	   .d0(shamnt5),
-	   .d1(SrcCE),
+	mux2 #(8) rotmux(
+	   .d0({3'b000,shamnt5}),
+	   .d1(SrcCE[7:0]),
 	   .s(RegShiftE),
 	   .y(RotE)
 	);

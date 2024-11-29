@@ -1,8 +1,8 @@
 module shift(b, a, d, y, carry_in);
-    input wire [4:0] b;          // Shift amount (0 to 31)
-    input wire signed [31:0] a;         // Input value to be shifted
-    input wire [1:0] d;    
-    input wire carry_in;      // Shift type selector
+    input wire [7:0] b;          // Shift amount //Rs bottom byte
+    input wire [31:0] a;         // Input value to be shifted
+    input wire [1:0] d;    //shift type selec
+    input wire carry_in;      
     output reg [31:0] y;    // Shifted result
 
     always @(*) begin
@@ -33,7 +33,7 @@ module shift(b, a, d, y, carry_in);
                     // RRX
                     y = {carry_in, a[31:1]};
                 end else begin
-                    y = (a >> b) | (a << (32 - b));
+                    y = (a >> b) | (a << b%32);
                 end
             end
             default: begin // No operation
