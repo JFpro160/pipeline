@@ -307,13 +307,6 @@ module datapath (
 	   .y(SrcBE)
 	);
 	
-	
-	//critical error just realized that for postindex
-	//to work i need to to have ra1 as the adress that ive been passing
-	//onto the different registers
-	//i need to make this write postindex during the first half of the cycle
-	//also a new mux that only activated during the first 
-	
 	alu alu(
 		.a(SrcAE),
 		.b(SrcBE),
