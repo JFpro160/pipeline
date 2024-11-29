@@ -29,7 +29,7 @@
                  (b[31] == 1'b1 && a[31] == 1'b0 && ~sumq[31]) ? 32'h80000000 : sumq[31:0]);
 
     always @(*) begin
-            case (ALUControl[3:0])
+            casex (ALUControl[3:0])
                 4'b000?: Result = sum; // Add/Sub
                 4'b0010: Result = a & b; // AND
                 4'b0011: Result = a | b; // ORR
@@ -39,7 +39,6 @@
                 4'b0111: Result = ~b; // MVN
                 4'b1000: Result = qadd; // QADD
                 4'b1001: Result = qsub; // QSUB
-                default: Result = 32'b0; // Default case
             endcase
         end
     

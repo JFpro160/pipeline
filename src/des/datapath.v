@@ -256,7 +256,7 @@ module datapath (
 	   .y(SrcCE)
 	);
 	
-	mux2 #(32) rotmux(
+	mux2 #(5) rotmux(
 	   .d0(shamnt5),
 	   .d1(SrcCE),
 	   .s(RegShiftE),

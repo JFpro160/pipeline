@@ -36,7 +36,7 @@ module controller (
     assign MulOpD = ((InstrD[25:24] == 2'b00) & (InstrD[7:4] == 4'b1001) & InstrD[27:26] == 2'b00);
 	assign SaturatedOpD = (InstrD[7:4] == 4'b0101 & InstrD[27:26] == 2'b00 & InstrD[24] &~InstrD[23] & ~InstrD[20]);
 	assign ShiftD = (InstrD[24:21] == 4'b1101 & InstrD[27:26] == 2'b00);
-	assign RegShiftD = (InstrD[6] == 1'b0 & InstrD[4]== 1'b1 & InstrD[25] == 1'b0);
+	assign RegShiftD = (ALUOpD & InstrD[7] == 1'b0 & InstrD[4]== 1'b1 & InstrD[25] == 1'b0);
 	assign PreIndexD = (InstrD[27:26] == 2'b01 & InstrD[24]);
 	assign PostIndexD = (InstrD[27:26] == 2'b01 & ~InstrD[24]);
 	assign WriteBackD = (InstrD[27:26] == 2'b01 & InstrD[21] & InstrD[24]) | (InstrD[27:26] == 2'b01 & ~InstrD[24]);
