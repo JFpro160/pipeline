@@ -9,7 +9,7 @@ module datapath (
 	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E, BranchMissed 
 ); 
 	// Internal wires 
-	wire [31:0] PCnext1F, PCnextF, PCPlus4F, PCPlus8D, rd1D, rd2D, ExtImmD, PCBranchD,
+	wire [31:0] PCnext1F, PCnext2F, PCnextF, PCPlus4F, PCPlus8D, rd1D, rd2D, ExtImmD, PCBranchD,
 	            rd1E, rd2E, ExtImmE, WriteDataE, SrcAE, SrcBE, ALUResultE, PCD,
 	            ReadDataW, ALUOutW, ResultW, PCBranchF; 
 	wire [3:0] RA1D, RA2D, RA1E, RA2E, WA3E, WA3M, WA3W; 
@@ -27,14 +27,20 @@ module datapath (
 		.d1(PCD + 3'b100),
 		.d2(PCBranchD),
 		.d3(PCBranchF),
-		.s({PredictionF & ~PredictionD |
-		    PredictionF & BranchTakenD |
-		    BranchTakenD & ~PredictionD, 
-		    PredictionF & ~BranchTakenD |
-		    ~BranchTakenD & PredictionD |
-		    PredictionF & PredictionD 
+		.s({(PredictionF & ~PredictionD |
+		     PredictionF & BranchTakenD |
+		     BranchTakenD & ~PredictionD), 
+		    (PredictionF & ~BranchTakenD | 
+		     ~BranchTakenD & PredictionD | 
+		     PredictionF & PredictionD) 
 		    }),
-		.y(PCnextF)
+		.y(PCnext2F)
+	);
+	mux2 #(32) targeteqmux(
+	    .d0(PCnext2F),
+	    .d1(PCnext1F),
+	    .s(PCnext2F == PCF),
+	    .y(PCnextF)
 	);
 	flopenr #(32) pcreg(
 		.clk(clk),
@@ -53,7 +59,7 @@ module datapath (
 	btb #(64) btb (
 	    .clk(clk),
 	    .reset(reset),
-	    .UpdateEnable(BranchMissed && BranchD),
+	    .UpdateEnable((BranchTakenD ^ PredictionD) && BranchD), // branchupdate
 	    .BranchTaken(BranchTakenD),
 	    .Branch(BranchF),
 	    .PC(PCF),
@@ -118,7 +124,7 @@ module datapath (
 		.y(PCBranchD)
 	);
 	
-	assign BranchMissed = BranchTakenD ^ PredictionD;
+	assign BranchMissed = (BranchTakenD ^ PredictionD) & (PCnext2F != PCF); // a donde voy tiene que ser diferente a donde estoy sino para que voy xd
 
 	// Execute Stage
 	flopr #(32) rd1reg(

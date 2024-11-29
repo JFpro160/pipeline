@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="251.083 ns"></ZoomStartTime>
-      <ZoomEndTime time="283.784 ns"></ZoomEndTime>
-      <Cursor1Time time="303.483 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="32.701 ns"></ZoomEndTime>
+      <Cursor1Time time="0.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="146"></NameColumnWidth>
       <ValueColumnWidth column_width="136"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="244" />
+   <WVObjectSize size="256" />
    <wvobject type="logic" fp_name="/testbench/dut/arm/c/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -256,17 +256,9 @@
       <obj_property name="ElementShortName">ALUControlE[2:0]</obj_property>
       <obj_property name="ObjectShortName">ALUControlE[2:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/InstrF">
-      <obj_property name="ElementShortName">InstrF[31:0]</obj_property>
-      <obj_property name="ObjectShortName">InstrF[31:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/ReadDataM">
       <obj_property name="ElementShortName">ReadDataM[31:0]</obj_property>
       <obj_property name="ObjectShortName">ReadDataM[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/PCF">
-      <obj_property name="ElementShortName">PCF[31:0]</obj_property>
-      <obj_property name="ObjectShortName">PCF[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/InstrD">
       <obj_property name="ElementShortName">InstrD[31:0]</obj_property>
@@ -303,10 +295,6 @@
    <wvobject type="logic" fp_name="/testbench/dut/arm/dp/Match_12D_E">
       <obj_property name="ElementShortName">Match_12D_E</obj_property>
       <obj_property name="ObjectShortName">Match_12D_E</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/Prediction">
-      <obj_property name="ElementShortName">Prediction</obj_property>
-      <obj_property name="ObjectShortName">Prediction</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/PCnext1F">
       <obj_property name="ElementShortName">PCnext1F[31:0]</obj_property>
@@ -380,10 +368,6 @@
       <obj_property name="ElementShortName">ResultW[31:0]</obj_property>
       <obj_property name="ObjectShortName">ResultW[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/Target">
-      <obj_property name="ElementShortName">Target[31:0]</obj_property>
-      <obj_property name="ObjectShortName">Target[31:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/RA1D">
       <obj_property name="ElementShortName">RA1D[3:0]</obj_property>
       <obj_property name="ObjectShortName">RA1D[3:0]</obj_property>
@@ -428,10 +412,6 @@
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/h/BranchTakenD">
-      <obj_property name="ElementShortName">BranchTakenD</obj_property>
-      <obj_property name="ObjectShortName">BranchTakenD</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/testbench/dut/arm/h/MemtoRegE">
       <obj_property name="ElementShortName">MemtoRegE</obj_property>
       <obj_property name="ObjectShortName">MemtoRegE</obj_property>
@@ -471,10 +451,6 @@
    <wvobject type="logic" fp_name="/testbench/dut/arm/h/Match_12D_E">
       <obj_property name="ElementShortName">Match_12D_E</obj_property>
       <obj_property name="ObjectShortName">Match_12D_E</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/h/Prediction">
-      <obj_property name="ElementShortName">Prediction</obj_property>
-      <obj_property name="ObjectShortName">Prediction</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/h/ForwardAE">
       <obj_property name="ElementShortName">ForwardAE[1:0]</obj_property>
@@ -660,11 +636,6 @@
       <obj_property name="ElementShortName">sumOp</obj_property>
       <obj_property name="ObjectShortName">sumOp</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/rf">
-      <obj_property name="ElementShortName">rf[14:0][31:0]</obj_property>
-      <obj_property name="ObjectShortName">rf[14:0][31:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/ALUControl">
       <obj_property name="ElementShortName">ALUControl[2:0]</obj_property>
       <obj_property name="ObjectShortName">ALUControl[2:0]</obj_property>
@@ -737,30 +708,6 @@
       <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
       <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/pcplus4dreg/clk">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/pcplus4dreg/reset">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/pcplus4dreg/en">
-      <obj_property name="ElementShortName">en</obj_property>
-      <obj_property name="ObjectShortName">en</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/pcplus4dreg/d">
-      <obj_property name="ElementShortName">d[31:0]</obj_property>
-      <obj_property name="ObjectShortName">d[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/pcplus4dreg/q">
-      <obj_property name="ElementShortName">q[31:0]</obj_property>
-      <obj_property name="ObjectShortName">q[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/pcplus4dreg/WIDTH">
-      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/pcadd/a">
       <obj_property name="ElementShortName">a[31:0]</obj_property>
       <obj_property name="ObjectShortName">a[31:0]</obj_property>
@@ -918,30 +865,6 @@
       <obj_property name="ObjectShortName">y[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/pcnextmux/WIDTH">
-      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/s">
-      <obj_property name="ElementShortName">s[1:0]</obj_property>
-      <obj_property name="ObjectShortName">s[1:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/d0">
-      <obj_property name="ElementShortName">d0[31:0]</obj_property>
-      <obj_property name="ObjectShortName">d0[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/d1">
-      <obj_property name="ElementShortName">d1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">d1[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/d2">
-      <obj_property name="ElementShortName">d2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">d2[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/y">
-      <obj_property name="ElementShortName">y[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/WIDTH">
       <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
       <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
    </wvobject>
@@ -961,10 +884,6 @@
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/btb/en">
-      <obj_property name="ElementShortName">en</obj_property>
-      <obj_property name="ObjectShortName">en</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/testbench/dut/arm/dp/btb/BranchTaken">
       <obj_property name="ElementShortName">BranchTaken</obj_property>
       <obj_property name="ObjectShortName">BranchTaken</obj_property>
@@ -977,18 +896,6 @@
       <obj_property name="ElementShortName">PCBranch[31:0]</obj_property>
       <obj_property name="ObjectShortName">PCBranch[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/Target">
-      <obj_property name="ElementShortName">Target[31:0]</obj_property>
-      <obj_property name="ObjectShortName">Target[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/buff">
-      <obj_property name="ElementShortName">buff[63:0][32:0]</obj_property>
-      <obj_property name="ObjectShortName">buff[63:0][32:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/index">
-      <obj_property name="ElementShortName">index[5:0]</obj_property>
-      <obj_property name="ObjectShortName">index[5:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/i">
       <obj_property name="ElementShortName">i[31:0]</obj_property>
       <obj_property name="ObjectShortName">i[31:0]</obj_property>
@@ -996,5 +903,146 @@
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/SIZE">
       <obj_property name="ElementShortName">SIZE[31:0]</obj_property>
       <obj_property name="ObjectShortName">SIZE[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/BranchMissed">
+      <obj_property name="ElementShortName">BranchMissed</obj_property>
+      <obj_property name="ObjectShortName">BranchMissed</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/MemtoRegE">
+      <obj_property name="ElementShortName">MemtoRegE</obj_property>
+      <obj_property name="ObjectShortName">MemtoRegE</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/RegWriteM">
+      <obj_property name="ElementShortName">RegWriteM</obj_property>
+      <obj_property name="ObjectShortName">RegWriteM</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/PCSrcW">
+      <obj_property name="ElementShortName">PCSrcW</obj_property>
+      <obj_property name="ObjectShortName">PCSrcW</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/RegWriteW">
+      <obj_property name="ElementShortName">RegWriteW</obj_property>
+      <obj_property name="ObjectShortName">RegWriteW</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/PCWrPendingF">
+      <obj_property name="ElementShortName">PCWrPendingF</obj_property>
+      <obj_property name="ObjectShortName">PCWrPendingF</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/Match_1E_M">
+      <obj_property name="ElementShortName">Match_1E_M</obj_property>
+      <obj_property name="ObjectShortName">Match_1E_M</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/Match_1E_W">
+      <obj_property name="ElementShortName">Match_1E_W</obj_property>
+      <obj_property name="ObjectShortName">Match_1E_W</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/Match_2E_M">
+      <obj_property name="ElementShortName">Match_2E_M</obj_property>
+      <obj_property name="ObjectShortName">Match_2E_M</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/Match_2E_W">
+      <obj_property name="ElementShortName">Match_2E_W</obj_property>
+      <obj_property name="ObjectShortName">Match_2E_W</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/Match_12D_E">
+      <obj_property name="ElementShortName">Match_12D_E</obj_property>
+      <obj_property name="ObjectShortName">Match_12D_E</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/h/ForwardAE">
+      <obj_property name="ElementShortName">ForwardAE[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ForwardAE[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/h/ForwardBE">
+      <obj_property name="ElementShortName">ForwardBE[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ForwardBE[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/StallF">
+      <obj_property name="ElementShortName">StallF</obj_property>
+      <obj_property name="ObjectShortName">StallF</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/StallD">
+      <obj_property name="ElementShortName">StallD</obj_property>
+      <obj_property name="ObjectShortName">StallD</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/FlushD">
+      <obj_property name="ElementShortName">FlushD</obj_property>
+      <obj_property name="ObjectShortName">FlushD</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/FlushE">
+      <obj_property name="ElementShortName">FlushE</obj_property>
+      <obj_property name="ObjectShortName">FlushE</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/h/ldrStallD">
+      <obj_property name="ElementShortName">ldrStallD</obj_property>
+      <obj_property name="ObjectShortName">ldrStallD</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/PCBranchF">
+      <obj_property name="ElementShortName">PCBranchF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PCBranchF[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/PredictionF">
+      <obj_property name="ElementShortName">PredictionF</obj_property>
+      <obj_property name="ObjectShortName">PredictionF</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/PredictionD">
+      <obj_property name="ElementShortName">PredictionD</obj_property>
+      <obj_property name="ObjectShortName">PredictionD</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/testbench/dut/arm/dp/BranchTakenD">
+      <obj_property name="ElementShortName">BranchTakenD</obj_property>
+      <obj_property name="ObjectShortName">BranchTakenD</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/s">
+      <obj_property name="ElementShortName">s[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/d0">
+      <obj_property name="ElementShortName">d0[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d0[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/d1">
+      <obj_property name="ElementShortName">d1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/d2">
+      <obj_property name="ElementShortName">d2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/d3">
+      <obj_property name="ElementShortName">d3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">d3[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/y">
+      <obj_property name="ElementShortName">y[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/branchmux/WIDTH">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/InstrF">
+      <obj_property name="ElementShortName">InstrF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">InstrF[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/PCF">
+      <obj_property name="ElementShortName">PCF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PCF[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/rf/rf">
+      <obj_property name="ElementShortName">rf[14:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">rf[14:0][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/dp/btb/buff">
+      <obj_property name="ElementShortName">buff[63:0][32:0]</obj_property>
+      <obj_property name="ObjectShortName">buff[63:0][32:0]</obj_property>
    </wvobject>
 </wave_config>

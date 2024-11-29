@@ -12,7 +12,7 @@ module btb #(parameter SIZE = 64) (
     assign indexRead = PC[$clog2(SIZE)+2:2];
     assign indexWrite = PCUpdate[$clog2(SIZE)+2:2];
 
-    assign PredictedTarget = Branch ? buff[indexRead][32:1] : 32'bx; // Branch target
+    assign PredictedTarget = Branch ? buff[indexRead][32:1] : 32'b0; // Branch target
     assign Prediction = Branch ? buff[indexRead][0] : 1'b0;
 
     // Initialize the BTB
@@ -21,7 +21,7 @@ module btb #(parameter SIZE = 64) (
         if (reset) begin
             for (i = 0; i < SIZE; i = i + 1) begin
                 buff[i][0] <= 1'b0;         // Not taken
-                buff[i][32:1] <= 32'bx;    // Undefined target
+                buff[i][32:1] <= 32'b0;    // Undefined target
             end
         end else if (UpdateEnable) begin
             buff[indexWrite][32:1] <= PCBranch;   // Correct destination
