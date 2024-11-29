@@ -1,8 +1,8 @@
 module conditional (
     input wire [3:0] Cond,
     input wire [4:0] Flags, ALUFlags,
-    input wire [1:0] FlagsWrite,
-    output wire [3:0] FlagsNext,
+    input wire [2:0] FlagsWrite,
+    output wire [4:0] FlagsNext,
     output reg CondEx
 );  
     wire neg, zero, carry, overflow, q ,ge;
@@ -34,6 +34,7 @@ module conditional (
     end
 
     // Update flags conditionally
-    assign FlagsNext[4:3] = (FlagsWrite[1] & CondEx) ? ALUFlags[4:3] : Flags[4:3];
-    assign FlagsNext[2:1] = (FlagsWrite[0] & CondEx) ? ALUFlags[2:1] : Flags[2:1];
+    assign FlagsNext[4:3] = (FlagsWrite[2] & CondEx) ? ALUFlags[4:3] : Flags[4:3];
+    assign FlagsNext[2:1] = (FlagsWrite[1] & CondEx) ? ALUFlags[2:1] : Flags[2:1];
+    assign FlagsNext[0] = (FlagsWrite[0] & CondEx) ? ALUFlags[0]:Flags[0];             
 endmodule

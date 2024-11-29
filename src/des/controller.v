@@ -10,11 +10,12 @@ module controller (
 );
     // Internal signals
     reg NoWriteD;
-    reg [1:0] FlagWriteD;
+    reg [2:0] FlagWriteD;
     reg [3:0] ALUControlD;
     reg [9:0] controlsD;
-    wire [3:0] FlagsNextE, CondE, FlagsE;
-    wire [1:0] FlagWriteE; // wire porque entra como wire en cond
+    wire [3:0] CondE;
+    wire [4:0] FlagsNextE, FlagsE;
+    wire [2:0] FlagWriteE; // wire porque entra como wire en cond
     wire PCSrcD, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUOpD, CondExEarlyD,
          PCSrcE, RegWriteE, 
          CondExE, RegWriteGatedE, MemWriteGatedE, 
@@ -69,13 +70,14 @@ module controller (
 			default: ALUControlD = 4'bxxxx;
 			endcase
 			end
-            FlagWriteD[1] = InstrD[20]; // Update N and Z flags if S bit is set
-            FlagWriteD[0] = InstrD[20] & ((ALUControlD == 2'b00) | (ALUControlD == 2'b01));
+            FlagWriteD[2] = InstrD[20]; // Update N and Z flags if S bit is set
+            FlagWriteD[1] = InstrD[20] & ((ALUControlD == 2'b00) | (ALUControlD == 2'b01));
+            FlagWriteD[0] = 1'b1; //if overflow occurs, then saturation
             NoWriteD = (InstrD[24:23] == 2'b10 & ~SaturatedOpD);
 		end
 		else begin
 		    ALUControlD = (InstrD[27:26] == 2'b01 & ~InstrD[23]) ? 3'b001:3'b000;
-			FlagWriteD = 2'b00;
+			FlagWriteD = 3'b000;
 			NoWriteD = 2'b00;
 		end
     end
@@ -85,8 +87,8 @@ module controller (
     conditional CondEarly(
         .Cond(InstrD[31:28]),
         .Flags(FlagsNextE),
-        .ALUFlags(4'bx),
-        .FlagsWrite(2'bx),
+        .ALUFlags(5'bx),
+        .FlagsWrite(3'bx),
         .CondEx(CondExEarlyD)
     );
     
@@ -94,7 +96,7 @@ module controller (
     assign CarryE = FlagsE[2];
 
     // Execute stage
-    floprc #(7) flushedregsE(
+    floprc #(8) flushedregsE(
         .clk(clk),
         .reset(reset),
         .clear(FlushE),
@@ -151,7 +153,7 @@ module controller (
 	   .q(ShiftControlE)
 	);
 	
-    flopr #(4) flagsreg(
+    flopr #(5) flagsreg(
         .clk(clk),
         .reset(reset),
         .d(FlagsNextE),

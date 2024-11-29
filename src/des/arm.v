@@ -19,7 +19,7 @@ module arm (
     wire [31:0] InstrD; 
     wire MulOpD, MulOpE;
     wire [1:0] ShiftControlE;
-    wire MemWriteE,WriteBackW;
+    wire MemWriteE;
 
     // Instantiate controller
     controller c(
