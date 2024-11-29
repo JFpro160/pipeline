@@ -33,7 +33,7 @@ module shift(b, a, d, y, carry_in);
                     // RRX
                     y = {carry_in, a[31:1]};
                 end else begin
-                    y = (a >> b) | (a << b%32);
+                    y = (a >> b%32) | (a << 32 - b%32);
                 end
             end
             default: begin // No operation

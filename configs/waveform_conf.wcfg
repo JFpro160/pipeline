@@ -11,12 +11,12 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="60.315 ns"></ZoomStartTime>
-      <ZoomEndTime time="136.317 ns"></ZoomEndTime>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="219.113 ns"></ZoomEndTime>
       <Cursor1Time time="290.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="21"></NameColumnWidth>
+      <NameColumnWidth column_width="59"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="201" />
@@ -354,8 +354,8 @@
       <obj_property name="ObjectShortName">WA3E_[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/dut/arm/dp/RotE" type="array">
-      <obj_property name="ElementShortName">RotE[4:0]</obj_property>
-      <obj_property name="ObjectShortName">RotE[4:0]</obj_property>
+      <obj_property name="ElementShortName">RotE[7:0]</obj_property>
+      <obj_property name="ObjectShortName">RotE[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/dut/arm/dp/shamnt5" type="array">
       <obj_property name="ElementShortName">shamnt5[4:0]</obj_property>
@@ -807,8 +807,8 @@
       <obj_property name="ObjectShortName">qsub[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/dut/arm/dp/shsrcb/b" type="array">
-      <obj_property name="ElementShortName">b[4:0]</obj_property>
-      <obj_property name="ObjectShortName">b[4:0]</obj_property>
+      <obj_property name="ElementShortName">b[7:0]</obj_property>
+      <obj_property name="ObjectShortName">b[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/dut/arm/dp/shsrcb/a" type="array">
       <obj_property name="ElementShortName">a[31:0]</obj_property>
