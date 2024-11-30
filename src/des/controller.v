@@ -53,6 +53,7 @@ module controller (
 				4'b1000: ALUControlD = 3'b010; //TST and no write
 				4'b1001: ALUControlD = 3'b110; //TEQ eor no write
 				4'b1111: ALUControlD = 3'b111; //mvn
+				4'b1110: ALUControlD = 4'b1010; //bic
 				default: ALUControlD = 3'bxxx;
 			endcase
 			if(MulOpD)

@@ -37,6 +37,7 @@
                 4'b0101: Result = a * b + c; // MLA
                 4'b0110: Result = a ^ b; // EOR
                 4'b0111: Result = ~b; // MVN
+                4'b1010: Result = a & ~b; // BIC
                 4'b1000: Result = qadd; // QADD
                 4'b1001: Result = qsub; // QSUB
             endcase
