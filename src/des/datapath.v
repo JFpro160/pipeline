@@ -27,7 +27,6 @@ module datapath (
     wire [7:0] RotE;
     wire [4:0] shamnt5;
     wire [31:0] SrcCE, ImmE;
-    wire [1:0] ShiftControlE;
     wire [3:0] rot_immE, RA1W,RA1M;
     wire [31:0] RotExtImmE,SrcBEWire, SrcBWireE, ShiftedSrcBE;
     wire [31:0] ResultE,ALUResultW,ALUResultM;
@@ -355,7 +354,7 @@ module datapath (
 		.ALUFlags(ALUFlagsE)
 	);
 	
-	mux4 #(32) resultmux(    
+	mux4h #(32) resultmux(    
 	   .d0(ALUResultE),       
 	   .d1(SrcBEWire),
 	   .d2(ALUResultE), 
