@@ -73,8 +73,8 @@ module controller (
 			end
             FlagWriteD[2] = InstrD[20]; // Update N and Z flags if S bit is set
             FlagWriteD[1] = InstrD[20] & ((ALUControlD == 2'b00) | (ALUControlD == 2'b01));
-            FlagWriteD[0] = 1'b1; //if overflow occurs, then saturation
-            NoWriteD = (InstrD[24:23] == 2'b10 & ~SaturatedOpD);
+            FlagWriteD[0] = SaturatedOpD; //if overflow occurs, then saturation
+            NoWriteD = (InstrD[24:23] == 2'b10 & InstrD[27:26] == 2'b00);
 		end
 		else begin
 		    ALUControlD = (InstrD[27:26] == 2'b01 & ~InstrD[23]) ? 3'b001:3'b000;

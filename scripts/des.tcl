@@ -56,11 +56,11 @@ if { [llength $design_files] == 0 } {
     puts "Archivos de diseño encontrados: $design_files"
 }
 
-# 6. Agregar archivos de constraints desde ../src/con
-puts "Buscando archivos de constraints en ../src/con/"
-set constraint_files [glob ../src/con/*.xdc]
+# 6. Agregar archivos de constraints desde ../src/cons
+puts "Buscando archivos de constraints en ../src/cons/"
+set constraint_files [glob ../src/cons/*.xdc]
 if { [llength $constraint_files] == 0 } {
-    puts "ERROR: No se encontraron archivos de constraints en ../src/con/"
+    puts "ERROR: No se encontraron archivos de constraints en ../src/cons/"
     exit
 } else {
     add_files $constraint_files
