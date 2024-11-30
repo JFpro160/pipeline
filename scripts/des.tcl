@@ -39,45 +39,57 @@ if { [file exists $directorio_proyecto] } {
     puts "Eliminando proyecto existente en: $directorio_proyecto"
     file delete -force $directorio_proyecto
 }
+
 puts "Creando nuevo proyecto en: $directorio_proyecto"
 
 # 4. Crear Proyecto
 create_project $nombre_proyecto $directorio_proyecto -part $parte_fpga
 
 # 5. Agregar Archivos de Diseño
-puts "Buscando archivos de diseño en ./src/des/"
-set design_files [glob ./src/des/*.v]
+puts "Buscando archivos de diseño en ../src/des/"
+set design_files [glob ../src/des/*.v]
 if { [llength $design_files] == 0 } {
-    puts "ERROR: No se encontraron archivos de diseño en ./src/des/"
+    puts "ERROR: No se encontraron archivos Verilog en ../src/des/"
     exit
 } else {
-    puts "Archivos de diseño encontrados: $design_files"
     add_files $design_files
+    puts "Archivos de diseño encontrados: $design_files"
 }
 
-# 6. Establecer el Módulo Top
+# 6. Agregar archivos de constraints desde ../src/con
+puts "Buscando archivos de constraints en ../src/con/"
+set constraint_files [glob ../src/con/*.xdc]
+if { [llength $constraint_files] == 0 } {
+    puts "ERROR: No se encontraron archivos de constraints en ../src/con/"
+    exit
+} else {
+    add_files $constraint_files
+    puts "Archivos de constraints encontrados: $constraint_files"
+}
+
+# 7. Establecer el Módulo Top
 puts "Estableciendo módulo top: $modulo_top"
 set_property top $modulo_top [current_fileset]
 
-# 7. Lanzar Síntesis
+# 8. Lanzar Síntesis
 puts "Iniciando síntesis..."
 launch_runs synth_1
 wait_on_run synth_1
 puts "Síntesis completada."
 
-# 8. Lanzar Implementación
+# 9. Lanzar Implementación
 puts "Iniciando implementación..."
 launch_runs impl_1
 wait_on_run impl_1
 puts "Implementación completada."
 
-# 9. Generar Bitstream
+# 10. Generar Bitstream
 puts "Generando bitstream..."
 launch_runs impl_1 -to_step write_bitstream
 wait_on_run impl_1
 puts "Bitstream generado exitosamente."
 
-# 10. Instrucciones Finales
+# 11. Instrucciones Finales
 puts "=================================================="
 puts " Proyecto completado:"
 puts "  - Directorio del Proyecto: $directorio_proyecto"
