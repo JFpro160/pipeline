@@ -4,7 +4,7 @@ module dmem (
     output wire [31:0] rd
 );
     // Memory array
-    reg [31:0] RAM [63:0];
+    reg [31:0] RAM [100:0];
 
     // Initialize memory with contents from "memfile.dat"
     initial begin

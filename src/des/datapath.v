@@ -56,7 +56,7 @@ module datapath (
 	);
 	assign BranchF = (InstrF[27:26] == 2'b10);
 
-	btb #(64) btb (
+	btb #(100) btb ( //63
 	    .clk(clk),
 	    .reset(reset),
 	    .UpdateEnable((BranchTakenD ^ PredictionD) && BranchD), // branchupdate
