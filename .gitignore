@@ -1,0 +1,18 @@
+# Configuración general
+.DS_Store
+*.log
+*.jou
+*.zip
+*.wdb
+*.pb
+
+# Archivos de configuración específicos de Vivado
+.Xil/
+*.xpr
+*.backup.jou
+*.backup.log
+
+# Excluir contenido dentro de projects, pero no la carpeta en sí
+projects/*
+!projects/.gitkeep
+
