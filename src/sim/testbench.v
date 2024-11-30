@@ -1,48 +1,49 @@
 `timescale 1ns / 1ps
+module tb_basys();
 
-module testbench;
-    // Clock and reset signals
-    reg clk, reset;
-    // Outputs from the processor
-    wire [31:0] WriteData, DataAdr;
-    wire MemWrite;
+    // Declaración de señales de prueba
+    reg clk;
+    reg reset;
+    reg resetClk;
+    wire [6:0] seg;
+    wire clkDiv;
+    wire [3:0] an;
 
-    // Instantiate the top module (processor under test)
-    top dut(
-        .clk(clk),
+    // Instanciación del módulo basys
+    basys uut (
         .reset(reset),
-        .WriteDataM(WriteData),
-        .DataAdrM(DataAdr),
-        .MemWriteM(MemWrite)
+        .resetClk(resetClk),
+        .clk(clk),
+        .seg(seg),
+        .clkDiv(clkDiv),
+        .an(an)
     );
 
-    // Initialize testbench
-    initial begin
-        reset <= 1;
-        #22;
-        reset <= 0;
-    end
-
-    // Generate clock signal
+    // Generación de señal de reloj (clk)
     always begin
-        clk <= 1;
-        #2.5; // 5
-        clk <= 0;
-        #2.5; // 5
-    end
-    
-    // Timeout to avoid infinite simulation
-    initial begin
-        #1500; // Max 2147483647
-        $display("Simulation timed out at time %0t", $time);
-        $finish;
+        #5 clk = ~clk; // Reloj de 10 unidades de tiempo (50 MHz)
     end
 
-
-    // Dump waveform data for analysis
+    // Inicialización y estímulos
     initial begin
-        $dumpfile("dump.vcd");
-        $dumpvars(0, testbench);
+        // Inicialización de señales
+        clk = 0;
+        reset = 0;
+        resetClk = 0;
+
+        // Visualización de señales en la simulación
+        $monitor("Time: %0t, clk: %b, reset: %b, seg: %b, clkDiv: %b, an: %b", 
+                 $time, clk, reset, seg, clkDiv, an);
+
+        // Reset inicial
+        reset = 1;
+        resetClk = 1;
+        #10 resetClk = 0;
+         #10 reset = 0; // Desactivar reset después de 10 unidades de tiempo
+
+        // Simulación de comportamiento durante un período largo
+        #1000;
+        $stop; // Detener la simulación después de 1000 unidades de tiempo
     end
 
 endmodule

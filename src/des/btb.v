@@ -1,4 +1,4 @@
-module btb #(parameter SIZE = 63) (
+module btb #(parameter SIZE = 64) (
     input wire clk, reset, 
     input wire UpdateEnable, BranchTaken, Branch,
     input wire [31:0] PC, PCBranch, PCUpdate, 

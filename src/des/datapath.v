@@ -6,7 +6,8 @@ module datapath (
 	input wire [31:0] InstrF, ReadDataM, 
 	output wire [31:0] PCF, InstrD, ALUOutM, WriteDataM, 
 	output wire [3:0] ALUFlagsE, 
-	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E, BranchMissed 
+	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E, BranchMissed,
+	output wire [479:0] rf
 ); 
 	// Internal wires 
 	wire [31:0] PCnext1F, PCnext2F, PCnextF, PCPlus4F, PCPlus8D, rd1D, rd2D, ExtImmD, PCBranchD,
@@ -56,7 +57,7 @@ module datapath (
 	);
 	assign BranchF = (InstrF[27:26] == 2'b10);
 
-	btb #(100) btb ( //63
+	btb #(64) btb (
 	    .clk(clk),
 	    .reset(reset),
 	    .UpdateEnable((BranchTakenD ^ PredictionD) && BranchD), // branchupdate
@@ -111,7 +112,8 @@ module datapath (
 		.wd3(ResultW),
 		.r15(PCPlus8D),
 		.rd1(rd1D),
-		.rd2(rd2D)
+		.rd2(rd2D),
+		.rf_out(rf)
 	);
 	extend ext(
 		.Instr(InstrD[23:0]),

@@ -2,7 +2,8 @@ module arm (
     input wire clk, reset, 
     input wire [31:0] InstrF, ReadDataM,
     output wire [31:0] PCF, ALUOutM, WriteDataM, 
-    output wire MemWriteM 
+    output wire MemWriteM,
+	output wire [479:0] rf
 ); 
     // Internal signals 
     wire BranchTakenD, ALUSrcE, MemtoRegE,  
@@ -66,7 +67,8 @@ module arm (
         .StallD(StallD),
         .FlushD(FlushD),
         .BranchD(BranchD),
-        .BranchMissed(BranchMissed)
+        .BranchMissed(BranchMissed),
+        .rf(rf)
     );
 
     // Instantiate hazard unit
