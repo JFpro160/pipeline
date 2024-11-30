@@ -1,6 +1,6 @@
 module datapath ( 
 	input wire clk, reset, BranchTakenD, ALUSrcE, PCSrcW, RegWriteW, MemtoRegW, 
-	           StallF, StallD, FlushD,MemtoRegE,
+	           StallF, StallD, FlushD,MemtoRegE, BranchD, 
 	input wire [1:0] RegSrcD, ImmSrcD, ForwardAE, ForwardBE,ForwardCE,ShiftControlE, 
 	ForwardAEIndex, ForwardBEIndex,ForwardCEIndex,
 	input wire [3:0] ALUControlE,
@@ -12,12 +12,12 @@ module datapath (
 	output wire [4:0] ALUFlagsE,
 	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E,
 	Match_3E_M, Match_3E_W,Match_1E_M_Index,Match_1E_W_Index,
-	Match_2E_M_Index,Match_2E_W_Index, Match_3E_M_Index, Match_3E_W_Index
+	Match_2E_M_Index,Match_2E_W_Index, Match_3E_M_Index, Match_3E_W_Index, BranchMissed 
 ); 
 	// Internal wires 
-	wire [31:0] PCnext1F, PCnextF, PCPlus4F, PCPlus8D, RD1D, RD2D, ExtImmD, PCBranchD,
-	            RD1E, RD2E, ExtImmE, WriteDataE, SrcAE, SrcBE, ALUResultE, 
-	            ReadDataW, ALUOutW, ResultW; 
+  wire [31:0] PCnext1F, PCnext2F, PCnextF, PCPlus4F, PCPlus8D, RD1D, RD2D, ExtImmD, PCBranchD,
+	            RD1E, RD2E, ExtImmE, WriteDataE, SrcAE, SrcBE, ALUResultE, PCD, 
+	            ReadDataW, ALUOutW, ResultW, PCBranchF; 
 	wire [3:0] RA1D, RA2D, RA1E, RA2E, WA3E, WA3M, WA3W; 
 	wire Match_1D_E, Match_2D_E; 
     wire [3:0] RA1Wire;
@@ -39,11 +39,25 @@ module datapath (
 		.s(PCSrcW),
 		.y(PCnext1F)
 	);
-	mux2 #(32) branchmux(
+	mux4 #(32) branchmux(
 		.d0(PCnext1F),
-		.d1(PCBranchD),
-		.s(BranchTakenD),
-		.y(PCnextF)
+		.d1(PCD + 3'b100),
+		.d2(PCBranchD),
+		.d3(PCBranchF),
+		.s({(PredictionF & ~PredictionD |
+		     PredictionF & BranchTakenD |
+		     BranchTakenD & ~PredictionD), 
+		    (PredictionF & ~BranchTakenD | 
+		     ~BranchTakenD & PredictionD | 
+		     PredictionF & PredictionD) 
+		    }),
+		.y(PCnext2F)
+	);
+	mux2 #(32) targeteqmux(
+	    .d0(PCnext2F),
+	    .d1(PCnext1F),
+	    .s(PCnext2F == PCF),
+	    .y(PCnextF)
 	);
 	flopenr #(32) pcreg(
 		.clk(clk),
@@ -57,9 +71,32 @@ module datapath (
 		.b(32'h4),
 		.y(PCPlus4F)
 	);
+	assign BranchF = (InstrF[27:26] == 2'b10);
+
+	btb #(100) btb ( //63
+	    .clk(clk),
+	    .reset(reset),
+	    .UpdateEnable((BranchTakenD ^ PredictionD) && BranchD), // branchupdate
+	    .BranchTaken(BranchTakenD),
+	    .Branch(BranchF),
+	    .PC(PCF),
+	    .PCBranch(PCBranchD),
+	    .PCUpdate(PCD),
+	    .PredictedTarget(PCBranchF),
+	    .Prediction(PredictionF)
+	);
 
 	// Decode Stage
 	assign PCPlus8D = PCPlus4F;
+	
+	flopenrc #(33) predreg(
+		.clk(clk),
+		.reset(reset),
+		.en(~StallD),
+		.clear(FlushD),
+		.d({PCF, PredictionF}),
+		.q({PCD, PredictionD})
+	);
 
 	flopenrc #(32) instrreg(
 		.clk(clk),
@@ -133,6 +170,8 @@ module datapath (
 		.b(PCPlus8D),
 		.y(PCBranchD)
 	);
+	
+	assign BranchMissed = (BranchTakenD ^ PredictionD) & (PCnext2F != PCF); // a donde voy tiene que ser diferente a donde estoy sino para que voy xd
 
 	// Execute Stage
 	flopr #(32) rd1reg(

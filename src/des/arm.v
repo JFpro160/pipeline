@@ -51,7 +51,8 @@ module arm (
         .CarryE(CarryE),
         .MulOpD(MulOpD),
         .MulOpE(MulOpE),
-        .FlushE(FlushE)
+        .FlushE(FlushE),
+        .BranchD(BranchD)
     );
 
     // Instantiate datapath
@@ -105,7 +106,9 @@ module arm (
         .CarryE(CarryE),
         .StallF(StallF),
         .StallD(StallD),
-        .FlushD(FlushD)
+        .FlushD(FlushD),
+        .BranchD(BranchD),
+        .BranchMissed(BranchMissed)
     );
 
     // Instantiate hazard unit
@@ -130,7 +133,7 @@ module arm (
         .Match_12D_E(Match_12D_E),
         .RegWriteM(RegWriteM),
         .RegWriteW(RegWriteW),
-        .BranchTakenD(BranchTakenD),
+        .BranchMissed(BranchMissed),
         .MemtoRegE(MemtoRegE),
         .PCWrPendingF(PCWrPendingF),
         .PCSrcW(PCSrcW), 

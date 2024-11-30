@@ -93,9 +93,24 @@ if { ![file exists $ruta_waveform_conf] } {
     puts "Configuración de waveform añadida exitosamente."
 }
 
+# Agregar archivos de constraints desde ../src/con
+puts "Buscando archivos de constraints en ../src/con/"
+set constraint_files [glob ../src/con/*.xdc]
+if { [llength $constraint_files] == 0 } {
+    puts "ERROR: No se encontraron archivos de constraints en ../src/con/"
+    exit
+} else {
+    add_files $constraint_files
+    puts "Archivos de constraints encontrados: $constraint_files"
+}
+
 # Establecer módulo top para la simulación
 puts "Estableciendo módulo top para la simulación: $modulo_top"
 set_property top $modulo_top [get_filesets sim_1]
+
+# Establecer tiempo de ejecución de la simulación (10 segundos)
+puts "Estableciendo tiempo de ejecución de la simulación a 10 segundos..."
+set_property -name {xsim.simulate.runtime} -value {10000000000ns} -objects [get_filesets sim_1]
 
 # Lanzar simulación
 puts "Iniciando simulación..."
@@ -106,6 +121,7 @@ puts "Simulación completada."
 puts "=================================================="
 puts " Simulación completada con éxito:"
 puts "  - Proyecto: $nombre_proyecto"
-puts "  - Configuración del waveform aplicada."
+puts "  - FPGA Parte: $parte_fpga"
+puts "  - Módulo Top: $modulo_top"
 puts "=================================================="
 

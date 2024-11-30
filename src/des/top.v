@@ -5,10 +5,17 @@ module top (
 );
     // Internal wires
     wire [31:0] PCF, InstrF, ReadDataM;
+    
+    // clk divider
+    clk_divider #(0) clkd( // 26
+        .clk(clk),
+        .rst(reset),
+        .led(clkDiv)
+    );
 
     // Instantiate processor
     arm arm(
-        .clk(clk),
+        .clk(clkDiv),
         .reset(reset),
         .PCF(PCF),
         .InstrF(InstrF),
@@ -26,7 +33,7 @@ module top (
 
     // Data memory
     dmem dmem(
-        .clk(clk),
+        .clk(clkDiv),
         .we(MemWriteM),
         .a(DataAdrM),
         .wd(WriteDataM),
