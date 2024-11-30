@@ -43,18 +43,19 @@ module controller (
     always @(*) begin
         if (ALUOpD) begin
             case (InstrD[24:21])
-                4'b0100: ALUControlD = 3'b000;//add
-				4'b0010: ALUControlD = 3'b001;//sub
-				4'b0000: ALUControlD = 3'b010;//and
-				4'b1100: ALUControlD = 3'b011;//orr
-				4'b0001: ALUControlD = 3'b110; //eor
-                4'b1010: ALUControlD = 3'b001; //cmp subs no write
-				4'b1011: ALUControlD = 3'b000; //cmn add no write
-				4'b1000: ALUControlD = 3'b010; //TST and no write
-				4'b1001: ALUControlD = 3'b110; //TEQ eor no write
-				4'b1111: ALUControlD = 3'b111; //mvn
+                4'b0100: ALUControlD = 4'b0000;//add
+				4'b0010: ALUControlD = 4'b0001;//sub
+				4'b0000: ALUControlD = 4'b0010;//and
+				4'b1100: ALUControlD = 4'b0011;//orr
+				4'b0001: ALUControlD = 4'b0110; //eor
+                4'b1010: ALUControlD = 4'b0001; //cmp subs no write
+				4'b1011: ALUControlD = 4'b0000; //cmn add no write
+				4'b1000: ALUControlD = 4'b0010; //TST and no write
+				4'b1001: ALUControlD = 4'b0110; //TEQ eor no write
+				4'b1111: ALUControlD = 4'b1111; //mvn
+				4'b1101: ALUControlD = 4'b1110; //mov xd para q pase por el alu ya todo gg
 				4'b1110: ALUControlD = 4'b1010; //bic
-				default: ALUControlD = 3'bxxx;
+				default: ALUControlD = 4'bxxxx;
 			endcase
 			if(MulOpD)
 			begin

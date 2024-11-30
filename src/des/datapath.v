@@ -370,15 +370,25 @@ module datapath (
 		.Result(ALUResultE),
 		.ALUFlags(ALUFlagsE)
 	);
-	
-	mux4h #(32) resultmux(    
+
+
+    mux3 #(32) resultmux(    
 	   .d0(ALUResultE),       
 	   .d1(SrcBEWire),
-	   .d2(ALUResultE), 
-	   .d3(SrcAE),    
-	   .s({PostIndexE,PreIndexE,ShiftE}),            
+	   .d2(SrcAE), 
+	   .s({PostIndexE,PreIndexE}),            
 	   .y(ResultE)         
-	);        
+	);   	
+	
+	
+//	mux4h #(32) resultmux(    
+//	   .d0(ALUResultE),       
+//	   .d1(SrcBEWire),
+//	   .d2(ALUResultE), 
+//	   .d3(SrcAE),    
+//	   .s({PostIndexE,PreIndexE,ShiftE}),            
+//	   .y(ResultE)         
+//	);        
 	
 
 	// Memory Stage
