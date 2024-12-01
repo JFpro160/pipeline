@@ -1,17 +1,12 @@
 module top (
-    input wire clk, reset,
-    output wire [31:0] WriteDataM, DataAdrM,
-    output wire MemWriteM
+    input wire clkDiv, reset,
+    output wire [31:0] PCF,
+	output wire [479:0] rf
 );
+    wire MemWriteM;
+    wire [31:0] WriteDataM, DataAdrM;
     // Internal wires
-    wire [31:0] PCF, InstrF, ReadDataM;
-    
-    // clk divider
-    clk_divider #(0) clkd( // 26
-        .clk(clk),
-        .rst(reset),
-        .led(clkDiv)
-    );
+    wire [31:0] InstrF, ReadDataM;
 
     // Instantiate processor
     arm arm(
@@ -22,7 +17,8 @@ module top (
         .MemWriteM(MemWriteM),
         .ALUOutM(DataAdrM),
         .WriteDataM(WriteDataM),
-        .ReadDataM(ReadDataM)
+        .ReadDataM(ReadDataM),
+        .rf(rf)
     );
 
     // Instruction memory

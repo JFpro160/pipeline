@@ -1,127 +1,85 @@
 module basys(
     input wire reset,
+    input wire resetClk,
     input wire clk,
+    input wire [14:0] sw,
     output wire [6:0] seg,
-    output reg [3:0] an
+    output clkDiv,
+    output wire [3:0] an
 );
-    reg[3:0] num;
-    clk_divider #(26) clkd(
+    wire [3:0] num;
+    wire clkLed;
+    reg [1:0] sel;
+    clk_divider #(10) clkd( //26
         .clk(clk),
-        .rst(reset),
+        .rst(resetClk),
+        .led(clkLed)
+    );
+    clk_divider #(26) clkdarm( //26
+        .clk(clk),
+        .rst(resetClk),
         .led(clkDiv)
     );
+    
+    
+	wire [479:0] rf;
+    wire [31:0] PCF;
+    top tp(
+        .clkDiv(clkDiv),
+        .reset(reset),
+        .PCF(PCF),
+        .rf(rf)
+    );
+    
+    reg [7:0] re;
+        
+    always @(*) begin
+        case (sw)  // El valor de sw determina qué registro seleccionar
+            15'b000000000000001: re = rf[31:0];    // Selecciona rf[0]
+            15'b000000000000010: re = rf[63:32];   // Selecciona rf[1]
+            15'b000000000000100: re = rf[95:64];   // Selecciona rf[2]
+            15'b000000000001000: re = rf[127:96];  // Selecciona rf[3]
+            15'b000000000010000: re = rf[159:128]; // Selecciona rf[4]
+            15'b000000000100000: re = rf[191:160]; // Selecciona rf[5]
+            15'b000000001000000: re = rf[223:192]; // Selecciona rf[6]
+            15'b000000010000000: re = rf[255:224]; // Selecciona rf[7]
+            15'b000000100000000: re = rf[287:256]; // Selecciona rf[8]
+            15'b000001000000000: re = rf[319:288]; // Selecciona rf[9]
+            15'b000010000000000: re = rf[351:320]; // Selecciona rf[10]
+            15'b000100000000000: re = rf[383:352]; // Selecciona rf[11]
+            15'b001000000000000: re = rf[415:384]; // Selecciona rf[12]
+            15'b010000000000000: re = rf[447:416]; // Selecciona rf[13]
+            15'b100000000000000: re = rf[479:448]; // Selecciona rf[14]
+            default: re = 32'b0;  // Si sw no es válido, asignamos 0
+        endcase
+    end
 
-    decode de(
+    wire [3:0] w1, w2, w3, w4;
+    assign w1 = PCF[7:4];
+    assign w2 = PCF[3:0];
+    assign w3 = re[7:4];
+    assign w4 = re[3:0];
+    
+    parameter a1 = 4'b1110;
+    parameter a2 = 4'b1101;
+    parameter a3 = 4'b1011;
+    parameter a4 = 4'b0111;
+    
+    assign num = sel[1]?(sel[0]?w4:w3):(sel[0]?w2:w1);
+    assign an = sel[1]?(sel[0]?a4:a3):(sel[0]?a2:a1);
+
+    always @ (posedge clkLed) begin
+        if (reset) begin
+            sel <= 2'b00;
+        end
+        else begin
+            sel <= sel + 1;
+        end
+    end
+    
+    basys_decode de(
         num,
-        enable,
         seg
     );
 
-    always @ (posedge clkDiv) begin
-        if(reset) begin
-        num <= 0;
-        an <= 0;
-         end;
-        if(an == 4'b0011) begin
-            an <= 0;
-            if(num == 9) begin
-                num <= 0;
-            end
-            else
-                num <= num + 1;
-        end
-        else an <= an + 1'b1;
-    end
-
-
-endmodule
-
-
-         
-
-
-module decode(
-    input wire [3:0] in,
-    output wire [3:0] enable,
-    output reg [0:6] out
-);
-   
-        always@(in)            //Procedural block: in order to describe the decoder we'll use the case construct. The sensivity list is composed only by in signal cause is the only one to generate a variation to the output
-        begin
-       
-            case(in)       //We will display all possible combination of the input word, 0 to F.
-               
-                4'b0000 : out<=7'b0000001;    //Display 0
-                4'b0001 : out<=7'b1001111;    //Display 1
-                4'b0010 : out<=7'b0010010;    //Display 2
-                4'b0011 : out<=7'b0000110;    //Display 3
-                4'b0100 : out<=7'b1001100;    //Display 4
-                4'b0101 : out<=7'b0100100;    //Display 5
-                4'b0110 : out<=7'b0100000;    //Display 6
-                4'b0111 : out<=7'b0001111;    //Display 7
-                4'b1000 : out<=7'b0000000;    //Display 8
-                4'b1001 : out<=7'b0001100;    //Display 9
-                4'b1010 : out<=7'b0001000;    //Display A
-                4'b1011 : out<=7'b1100000;    //Display b
-                4'b1100 : out<=7'b0110001;    //Display C
-                4'b1101 : out<=7'b1000010;    //Display d
-                4'b1110 : out<=7'b0110000;    //Display E
-                4'b1111 : out<=7'b0111000;    //Display F
-                                                     
-           
-            endcase    
-        end
-endmodule
-
-module dff(
-    input D,
-    input clk,
-    input rst,
-    output reg Q
-    );
- 
-always @ (posedge(clk), posedge(rst))
-begin
-    if (rst)
-        Q <= 1'b0;
-    else
-            Q <= D;
-end
-endmodule
-
-
-
-module clk_divider #(parameter X = 32) (
-    input clk,
-    input rst,
-    output led
-    );
- 
-wire [X:0] din;
-wire [X:0] clkdiv;
- 
-dff dff_inst0 (
-    .clk(clk),
-    .rst(rst),
-    .D(din[0]),
-    .Q(clkdiv[0])
-);
-
-genvar i;
-generate
-for (i = 1; i < X+1; i=i+1)
-begin : dff_gen_label
-    dff dff_inst (
-        .clk(clkdiv[i-1]),
-        .rst(rst),
-        .D(din[i]),
-        .Q(clkdiv[i])
-    );
-    end
-endgenerate
-
-assign din = ~clkdiv;
- 
-assign led = clkdiv[X];
- 
 endmodule
