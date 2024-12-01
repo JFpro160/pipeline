@@ -372,11 +372,10 @@ module datapath (
 	);
 
 
-    mux3 #(32) resultmux(    
+    mux2 #(32) resultmux(    
 	   .d0(ALUResultE),       
-	   .d1(SrcBEWire),
-	   .d2(SrcAE), 
-	   .s({PostIndexE,PreIndexE}),            
+	   .d1(SrcAE),
+	   .s(PostIndexE),            
 	   .y(ResultE)         
 	);   	
 	

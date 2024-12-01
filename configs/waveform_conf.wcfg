@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="130.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="156.701 ns"></ZoomEndTime>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="76.979 ns"></ZoomEndTime>
       <Cursor1Time time="145.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="152"></NameColumnWidth>
+      <NameColumnWidth column_width="148"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="194" />
+   <WVObjectSize size="195" />
    <wvobject fp_name="/testbench/dut/arm/c/Cond/Flags" type="array">
       <obj_property name="ElementShortName">Flags[4:0]</obj_property>
       <obj_property name="ObjectShortName">Flags[4:0]</obj_property>
@@ -27,7 +27,6 @@
    <wvobject fp_name="/testbench/dut/arm/dp/rf/rf" type="array">
       <obj_property name="ElementShortName">rf[14:0][31:0]</obj_property>
       <obj_property name="ObjectShortName">rf[14:0][31:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/dut/arm/InstrF" type="array">
       <obj_property name="ElementShortName">InstrF[31:0]</obj_property>
@@ -796,5 +795,9 @@
    <wvobject fp_name="/testbench/dut/arm/c/PCSrcGatedE" type="logic">
       <obj_property name="ElementShortName">PCSrcGatedE</obj_property>
       <obj_property name="ObjectShortName">PCSrcGatedE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/dut/dmem/RAM" type="array">
+      <obj_property name="ElementShortName">RAM[63:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">RAM[63:0][31:0]</obj_property>
    </wvobject>
 </wave_config>
