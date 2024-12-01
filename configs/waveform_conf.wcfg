@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="90.637 ns"></ZoomStartTime>
-      <ZoomEndTime time="313.638 ns"></ZoomEndTime>
-      <Cursor1Time time="230.000 ns"></Cursor1Time>
+      <ZoomStartTime time="36.083 ns"></ZoomStartTime>
+      <ZoomEndTime time="94.784 ns"></ZoomEndTime>
+      <Cursor1Time time="40.483 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="121"></NameColumnWidth>
-      <ValueColumnWidth column_width="114"></ValueColumnWidth>
+      <NameColumnWidth column_width="146"></NameColumnWidth>
+      <ValueColumnWidth column_width="136"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="216" />
+   <WVObjectSize size="215" />
    <wvobject type="logic" fp_name="/testbench/dut/arm/dp/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -489,10 +489,6 @@
       <obj_property name="ElementShortName">FlushE</obj_property>
       <obj_property name="ObjectShortName">FlushE</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/Cond/Flags">
-      <obj_property name="ElementShortName">Flags[4:0]</obj_property>
-      <obj_property name="ObjectShortName">Flags[4:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/c/ALUFlagsE">
       <obj_property name="ElementShortName">ALUFlagsE[4:0]</obj_property>
       <obj_property name="ObjectShortName">ALUFlagsE[4:0]</obj_property>
@@ -620,10 +616,6 @@
    <wvobject type="array" fp_name="/testbench/dut/arm/c/CondE">
       <obj_property name="ElementShortName">CondE[3:0]</obj_property>
       <obj_property name="ObjectShortName">CondE[3:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/FlagsNextE">
-      <obj_property name="ElementShortName">FlagsNextE[4:0]</obj_property>
-      <obj_property name="ObjectShortName">FlagsNextE[4:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/c/FlagWriteE">
       <obj_property name="ElementShortName">FlagWriteE[2:0]</obj_property>
@@ -818,13 +810,17 @@
       <obj_property name="ObjectShortName">rf[14:0][31:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/testbench/dut/arm/c/FlagsE">
-      <obj_property name="ElementShortName">FlagsE[4:0]</obj_property>
-      <obj_property name="ObjectShortName">FlagsE[4:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/testbench/dut/arm/dp/alu/ALUFlags">
       <obj_property name="ElementShortName">ALUFlags[4:0]</obj_property>
       <obj_property name="ObjectShortName">ALUFlags[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/FlagsNextE">
+      <obj_property name="ElementShortName">FlagsNextE[4:0]</obj_property>
+      <obj_property name="ObjectShortName">FlagsNextE[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/dut/arm/c/Cond/Flags">
+      <obj_property name="ElementShortName">Flags[4:0]</obj_property>
+      <obj_property name="ObjectShortName">Flags[4:0]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/testbench/dut/arm/dp/btb/clk">
       <obj_property name="ElementShortName">clk</obj_property>
