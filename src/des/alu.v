@@ -9,24 +9,13 @@
     
         // Intermediate signals
         wire neg, zero, carry, overflow, q;
-        wire [31:0] condinvb, condinva;
-        wire [32:0] sum, sumq;
-        wire [31:0] qadd, qsub;
+        wire [31:0] condinvb;
+        reg [32:0] qsum;
+        wire [32:0] sum;
     
       assign condinvb = ALUControl[0] ? ~b : b;
       assign sum = a + condinvb + ALUControl[0];
         
-      assign condinva = ALUControl[0] ? ~a : a;
-      assign sumq = b + condinva + ALUControl[0]; //operators inverted when qinstr
-      assign qadd = (b[31] == a[31]) ? // Same sign
-               ((b[31] == 1'b0 && sumq[31]) ? 32'h7FFFFFFF :  // Positive overflow
-                (b[31] == 1'b1 && ~sumq[31]) ? 32'h80000000 : sumq[31:0]) : sumq[31:0];
-
-      assign qsub = (b[31] == a[31]) ? // Same sign, no overflow
-                sumq[31:0] :
-                ((b[31] == 1'b0 && a[31] == 1'b1 && sumq[31]) ? 32'h7FFFFFFF :  // Positive overflow
-                 (b[31] == 1'b1 && a[31] == 1'b0 && ~sumq[31]) ? 32'h80000000 : sumq[31:0]);
-
     always @(*) begin
             casex (ALUControl[3:0])
                 4'b000?: Result = sum; // Add/Sub
@@ -37,8 +26,26 @@
                 4'b0110: Result = a ^ b; // EOR
                 4'b111?: Result = condinvb; //MOV MVN all shift and rot 10000iq
                 4'b1010: Result = a & ~b; // BIC
-                4'b1000: Result = qadd; // QADD
-                4'b1001: Result = qsub; // QSUB
+                4'b1000: begin // QADD (Saturating Addition)
+                    qsum = {1'b0, a} + {1'b0, b};
+                    
+                    // Detect overflow with precise conditions
+                    if ((a[31] == b[31]) && (qsum[31] != a[31]))
+                        // Saturate based on input sign
+                        Result = a[31] ? 32'h80000000 : 32'h7FFFFFFF;
+                    else
+                        Result = qsum[31:0];
+                end
+                4'b1001: begin // QSUB (Saturating Subtraction)
+                    qsum = {1'b0, b} - {1'b0, a};
+                    
+                    // Detect overflow with precise conditions
+                    if ((b[31] != a[31]) && (qsum[31] != b[31]))
+                        // Saturate based on first input's sign
+                        Result = b[31] ? 32'h80000000 : 32'h7FFFFFFF;
+                    else
+                        Result = qsum[31:0];
+                end
             endcase
         end
     
@@ -46,9 +53,7 @@
         assign zero = (Result == 32'b0);
         assign carry = (ALUControl[2:1] == 2'b00 & ALUControl[3] == 1'b0 & sum[32]);
         assign overflow = (ALUControl[1] == 1'b0) & ~(a[31] ^ b[31] ^ ALUControl[0]) & (a[31] ^ sum[31]);
-        assign q = ((ALUControl == 4'b1000) && (Result != sum)) || // QADD saturation
-                   ((ALUControl == 4'b1001) && (Result != sum));  // QSUB saturation
-    
-        assign ALUFlags = {neg, zero, carry, overflow, q};
+    assign q = ((ALUControl == 4'b1000) && (qsum[32] != qsum[31])) || 
+               ((ALUControl == 4'b1001) && (qsum[32] != qsum[31]));        assign ALUFlags = {neg, zero, carry, overflow, q};
     
     endmodule
