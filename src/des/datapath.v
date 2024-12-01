@@ -12,7 +12,8 @@ module datapath (
 	output wire [4:0] ALUFlagsE,
 	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E,
 	Match_3E_M, Match_3E_W,Match_1E_M_Index,Match_1E_W_Index,
-	Match_2E_M_Index,Match_2E_W_Index, Match_3E_M_Index, Match_3E_W_Index, BranchMissed 
+	Match_2E_M_Index,Match_2E_W_Index, Match_3E_M_Index, Match_3E_W_Index, BranchMissed,
+	output wire [479:0] rf 
 ); 
 	// Internal wires 
   wire [31:0] PCnext1F, PCnext2F, PCnextF, PCPlus4F, PCPlus8D, RD1D, RD2D, ExtImmD, PCBranchD,
@@ -142,7 +143,7 @@ module datapath (
 	);
 	
 	
-	regfile rf(
+	regfile ref(
 		.clk(clk),
 		.we3(RegWriteW),
 		.we1(WriteBackW),
@@ -157,7 +158,8 @@ module datapath (
 		.r15(PCPlus8D),
 		.rd1(RD1D),
 		.rd2(RD2D),
-		.rd3(RD3D)
+		.rd3(RD3D),
+		.rf_out(rf)	
 	);
 	extend ext(
 		.Instr(InstrD[23:0]),
