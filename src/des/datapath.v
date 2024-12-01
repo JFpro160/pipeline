@@ -7,7 +7,7 @@ module datapath (
 	input wire WriteBackW,SaturatedOpE,CarryE,RegShiftE,
 	input wire ShiftE,PreIndexE,PostIndexE,
 	input wire [31:0] InstrF, ReadDataM,
-	input wire MulOpD,MulOpE,
+	input wire MulOpD,MulOpE,FlushE,
 	output wire [31:0] PCF, InstrD, ALUOutM, WriteDataM, 
 	output wire [4:0] ALUFlagsE,
 	output wire Match_1E_M, Match_1E_W, Match_2E_M, Match_2E_W, Match_12D_E,
@@ -173,74 +173,91 @@ module datapath (
 	assign BranchMissed = (BranchTakenD ^ PredictionD) & (PCnext2F != PCF); // a donde voy tiene que ser diferente a donde estoy sino para que voy xd
 
 	// Execute Stage
-	flopr #(32) rd1reg(
+
+	floprc #(32) rd1reg(
 		.clk(clk),
+		.clear(FlushE),
 		.reset(reset),
 		.d(RD1D),
 		.q(RD1E)
 	);
 	
-	flopr #(1) mulopreg(
+	floprc #(1) mulopreg(
 	   .clk(clk),
+	   .clear(FlushE),
 	   .reset(reset),
 	   .d(MulOpD),
 	   .q(MulOpE)
 	);
 
-	flopr #(32) rd2reg(
+	floprc #(32) rd2reg(
 		.clk(clk),
+		.clear(FlushE),
 		.reset(reset),
 		.d(RD2D),
 		.q(RD2E)
 	);
 	
-    flopr #(32) rd3reg(
+    floprc #(32) rd3reg(
         .clk(clk),
+        .clear(FlushE),
         .reset(reset),
         .d(RD3D),
         .q(RD3E)
     ); 
-	flopr #(32) immreg(
+    
+	floprc #(32) immreg(
 		.clk(clk),
+		.clear(FlushE),
 		.reset(reset),
 		.d(ExtImmD),
 		.q(ExtImmE)
 	);
-	flopr #(4) wa3ereg(
+	
+	floprc #(4) wa3ereg(
 		.clk(clk),
+		.clear(FlushE),
 		.reset(reset),
 		.d(WA3E_),
 		.q(WA3E)
 	);
-	flopr #(4) ra1ereg(
+	
+	floprc #(4) ra1ereg(
 		.clk(clk),
+		.clear(FlushE),
 		.reset(reset),
 		.d(RA1D),
 		.q(RA1E)
 	);
-	flopr #(4) ra2ereg(
+	
+	floprc #(4) ra2ereg(
 		.clk(clk),
+		.clear(FlushE),
 		.reset(reset),
 		.d(RA2D),
 		.q(RA2E)
 	);
 	
-	flopr #(4) ra3reg(
+	floprc #(4) ra3reg(
 	   .clk(clk),
+	   .clear(FlushE),
 	   .reset(reset),
 	   .d(RA3D),
 	   .q(RA3E)
 	);
-	flopr #(4) rotreg(
+	
+	floprc #(4) rotreg(
 	   .clk(clk),
+	   .clear(FlushE),
 	   .reset(reset),
 	   .d(InstrD[11:8]),
 	   .q(rot_immE)
 	);
 	
-	flopr #(5) shamnt5reg(
+	floprc #(5) shamnt5reg(
 	   .clk(clk),
 	   .reset(reset),
+	   .clear(FlushE),
 	   .d(InstrD[11:7]),
 	   .q(shamnt5)
 	);
@@ -353,15 +370,25 @@ module datapath (
 		.Result(ALUResultE),
 		.ALUFlags(ALUFlagsE)
 	);
-	
-	mux4h #(32) resultmux(    
+
+
+    mux3 #(32) resultmux(    
 	   .d0(ALUResultE),       
 	   .d1(SrcBEWire),
-	   .d2(ALUResultE), 
-	   .d3(SrcAE),    
-	   .s({PostIndexE,PreIndexE,ShiftE}),            
+	   .d2(SrcAE), 
+	   .s({PostIndexE,PreIndexE}),            
 	   .y(ResultE)         
-	);        
+	);   	
+	
+	
+//	mux4h #(32) resultmux(    
+//	   .d0(ALUResultE),       
+//	   .d1(SrcBEWire),
+//	   .d2(ALUResultE), 
+//	   .d3(SrcAE),    
+//	   .s({PostIndexE,PreIndexE,ShiftE}),            
+//	   .y(ResultE)         
+//	);        
 	
 
 	// Memory Stage
